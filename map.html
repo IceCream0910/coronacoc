@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="코로나19 국내 발생현황 및 관련정보를 한눈에 알아보세요!">
+    <meta name="author" content="Ice Cream">
+    <meta name="keywords" content="코로나19">
+    <title>코로나콕</title>
+    <!-- Favicon -->
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <!-- Icons -->
+    <link rel="stylesheet" href="assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+
+    <!-- Page plugins -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.css" rel="stylesheet" type="text/css">
+    <!-- Argon CSS -->
+    <link rel="stylesheet" href="assets/css/argon.css?v=1.2.0" type="text/css">
+</head>
+
+<body>
+
+    <div class="main-content" id="panel">
+        <div class="header bg-primary pb-6" style="height:100px;">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <div class="row align-items-center py-4">
+                        <div class="col-lg-6 col-7">
+                            <a href="index.html">
+                                <h6 class="h2 text-white d-inline-block mb-0"><img src="http://coronacoc.dothome.co.kr/icon.png" width="50px"></h6>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="routes_wrap">
+            <select id="regionFirst-select" onchange="updateOptions();" style="margin-right:10px;">
+            <option value="hide" disabeld selected>광역시/도</option>
+            <option value="서울">서울</option>
+            <option value="부산">부산</option>
+            <option value="대구">대구</option>
+            <option value="인천">인천</option>
+            <option value="광주">광주</option>
+            <option value="울산">울산</option>
+            <option value="세종">세종</option>
+            <option value="경기">경기</option>
+            <option value="강원">강원</option>
+            <option value="충북">충북</option>
+            <option value="충남">충남</option>
+            <option value="전북">전북</option>
+            <option value="전남">전남</option>
+            <option value="경북">경북</option>
+            <option value="경남">경남</option>
+            <option value="제주">제주</option>
+            </select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="seoul" style="display:none;">
+<option value="hide" disabled selected>시/군/구</option>
+<option value="광진구">광진구</option>
+<option value="성동구">성동구</option>
+<option value="동대문구">동대문구</option>
+<option value="영등포구">영등포구</option>
+<option value="종로구">종로구</option>
+<option value="관악구">관악구</option>
+<option value="강남구">강남구</option>
+<option value="금천구">금천구</option>
+<option value="강북구">강북구</option>
+<option value="노원구">노원구</option>
+<option value="성북구">성북구</option>
+<option value="도봉구">도봉구</option>
+<option value="강동구">강동구</option>
+<option value="송파구">송파구</option>
+<option value="용산구">용산구</option>
+<option value="중랑구">중랑구</option>
+<option value="서초구">서초구</option>
+<option value="중구">중구</option>
+<option value="마포구">마포구</option>
+<option value="강서구">강서구</option>
+<option value="양천구">양천구</option>
+<option value="동작구">동작구</option>
+
+</select>
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="busan" style="display:none;">
+<option value="hide" disabled selected>시/군/구</option>
+<option value="사하구">사하구</option>
+<option value="동래구">동래구</option>
+<option value="사상구">사상구</option>
+<option value="동구">동구</option>
+<option value="해운대구">해운대구</option>
+<option value="수영구">수영구</option>
+<option value="서구">서구</option>
+<option value="남구">남구</option>
+<option value="부산진구">부산진구</option>
+<option value="중구">중구</option>
+<option value="연제구">연제구</option>
+
+</select>
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="daegu" style="display:none;">
+<option value="hide" disabled selected>시/군/구</option>
+<option value="달성군">달성군</option>
+<option value="북구">북구</option>
+<option value="남구">남구</option>
+<option value="중구">중구</option>
+<option value="동구">동구</option>
+<option value="수성구">수성구</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="daejeon" style="display:none;">
+<option value="hide" disabled selected>시/군/구</option>
+<option value="서구">서구</option>
+<option value="중구">중구</option>
+<option value="동구">동구</option>
+<option value="유성구">유성구</option>
+<option value="대덕구">대덕구</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="incheon" style="display:none;">
+<option value="hide" disabled selected>시/군/구</option>
+<option value="남동구">남동구</option>
+<option value="계양구">계양구</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gwangju" style="display:none;">
+<option value="hide" disabled selected>시/군/구</option>
+<option value="북구">북구</option>
+<option value="서구">서구</option>
+<option value="광산구">광산구</option>
+<option value="남구">남구</option>
+<option value="동구">동구</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="ulsan" style="display:none;">
+<option value="hide" disabled selected>시/군/구</option>
+<option value="중구">중구</option>
+<option value="북구">북구</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="sejong" style="display:none;">
+<option value="hide" disabled selected>시/군/구</option>
+<option value="아름동">아름동</option>
+<option value="나성동">나성동</option>
+<option value="어진동">어진동</option>
+<option value="종촌동">종촌동</option>
+<option value="대평동">대평동</option>
+<option value="보람동">보람동</option>
+<option value="부강면">부강면</option>
+<option value="도담동">도담동</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gyeonggi" style="display:none;">
+<option value="hide" disabled selected>시/군/구</option>
+<option value="남양주시">남양주시</option>
+<option value="수원시">수원시</option>
+<option value="시흥시">시흥시</option>
+<option value="구리시">구리시</option>
+<option value="고양시">고양시</option>
+<option value="김포시">김포시</option>
+<option value="안산시">안산시</option>
+<option value="성남시">성남시</option>
+<option value="오산시">오산시</option>
+<option value="파주시">파주시</option>
+<option value="양평군">양평군</option>
+<option value="부천시">부천시</option>
+<option value="여주시">여주시</option>
+<option value="광명시">광명시</option>
+<option value="화성시">화성시</option>
+<option value="용인시">용인시</option>
+<option value="안양시">안양시</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gangwon" style=" display:none; ">
+<option value="hide ">시/군/구</option>
+<option value="춘천시">춘천시</option>
+<option value="평창군">평창군</option>
+<option value="홍천군">홍천군</option>
+<option value="원주시">원주시</option>
+<option value="동해시">동해시</option>
+<option value="횡성군">횡성군</option>
+<option value="강릉시">강릉시</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="jeonbuk" style=" display:none; ">
+<option value="hide ">시/군/구</option>
+<option value="">선택할 지역이 없어요(이 옵션을 눌러주세요)</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="jeonnam" style=" display:none; ">
+<option value="hide ">시/군/구</option>
+<option value="">선택할 지역이 없어요(이 옵션을 눌러주세요)</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="chungbuk" style=" display:none; ">
+<option value="hide ">시/군/구</option>
+<option value="춘천시 ">괴산군</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="chungnam" style=" display:none; ">
+<option value="hide ">시/군/구</option>
+<option value="금산군">금산군</option>
+<option value="천안시">천안시</option>
+<option value="논산시">논산시</option>
+<option value="서산시">서산시</option>
+<option value="예산군">예산군</option>
+<option value="태안군">태안군</option>
+<option value="당진시">당진시</option>
+<option value="보령시">보령시</option>
+<option value="아산시">아산시</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gyeongbuk" style=" display:none; ">
+<option value="hide ">시/군/구</option>
+<option value="구미시">구미시</option>
+<option value="포항시">포항시</option>
+<option value="경산시">경산시</option>
+<option value="영주시">영주시</option>
+<option value="안동시">안동시</option>
+<option value="경주시">경주시</option>
+<option value="청송군">청송군</option>
+<option value="김천시">김천시</option>
+<option value="영천시">영천시</option>
+<option value="의성군">의성군</option>
+<option value="고령군">고령군</option>
+<option value="성주군">성주군</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gyeongnam" style=" display:none; ">
+<option value="hide ">시/군/구</option>
+<option value="밀양시">밀양시</option>
+<option value="창원시">창원시</option>
+<option value="거제시">거제시</option>
+<option value="사천시">사천시</option>
+<option value="합천군">합천군</option>
+<option value="창녕군">창녕군</option>
+<option value="김해시">김해시</option>
+<option value="진주시">진주시</option>
+<option value="하동군">하동군</option>
+</select>
+
+            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="jeju" style=" display:none; ">
+<option value="hide ">시/군/구</option>
+<option value="서귀포시">서귀포시</option>
+<option value="제주시">제주시</option>
+</select>
+            <br><br>
+            <span style="color:#a9a9a9; font-size:15px;margin-left:10px; text-align:left;">최근 14일 동안의 공개된 확진자 방문 장소를 제공합니다.<br>리스트 목록을 누르면 지도에서 확인할 수 있습니다.</span><br>
+            <br><br>
+            <div class='routes_container'>
+                <!--여기에 장소 리스트-->
+                <img src="https://uploads-ssl.webflow.com/5e3ce2ec7f6e53c045fe7cfa/5e422c57403b1e23a48a27b9_time-managment-p-800.png" style="width:100%;"><br> <span style="position:relative;left:30%;">지역을 선택해주세요</span>
+            </div>
+            <br>
+            <br>
+            <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-WmHiDQvtU4lxHgQx" data-ad-width="320" data-ad-height="100"></ins>
+            <script type="text/javascript" src="https://t1.daumcdn.net/kas/static/ba.min.js" async></script><br>
+            <div class="copyright" style="font-size:13px;">
+                <p>Copyright ©2020 All rights reserved. <br>데이터 참고 : <a href="https://coronamap.site" target="_blank">코로나맵</a></p>
+
+
+            </div>
+        </div>
+
+        <style>
+            .routes_container {
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .box {
+                flex-direction: column;
+                width: 100%;
+                height: auto;
+                padding: 20px;
+                margin-bottom: 20px;
+                background: var(--default);
+                border-radius: 20px;
+                box-shadow: 5px 5px 10px #142541, -5px -5px 0 transparent;
+                color: #fff;
+            }
+            
+            select {
+                width: 45%;
+                padding: 15px 20px;
+                font-family: Noto Sans KR, sans-serif;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                border-radius: 20px;
+                border: none;
+                background-color: #172b4d;
+                box-shadow: 5px 5px 10px #142541, -5px -5px 0 transparent
+            }
+            
+            select::-ms-expand {
+                display: none
+            }
+            
+            .routes_wrap {
+                margin: 15px;
+            }
+        </style>
+
+        <!-- 동선 탭-->
+        <div id="pool">
+            <div class="button-wrapper">
+                <div class="layer"></div>
+                <button class="main-button" onclick="javascript:location.href='index.html';">
+                  <i class="ni ni-chart-bar-32" style="font-size:25px;"></i>
+          <div class="ripple"></div>
+          </button>
+            </div>
+        </div>
+        <!-- 동선 탭-->
+
+
+        <!-- Argon Scripts -->
+        <!-- Core -->
+        <script src="assets/vendor/jquery/dist/jquery.min.js "></script>
+        <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js "></script>
+        <script src="assets/vendor/js-cookie/js.cookie.js "></script>
+        <script src="assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js "></script>
+        <script src="assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js "></script>
+        <!-- Optional JS -->
+        <script src="assets/vendor/chart.js/dist/Chart.min.js "></script>
+        <script src="assets/vendor/chart.js/dist/Chart.extension.js "></script>
+        <!-- Argon JS -->
+        <script src="assets/js/argon.js?v=1.2.0 "></script>
+        <!--코로나 현황-->
+        <script src="assets/js/corona_realtime.js "></script>
+</body>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-159921858-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-159921858-1');
+</script>
+
+<script>
+    //동선 가져오기
+    var regionCode;
+    $.ajax({
+        type: "GET",
+        url: "https://coroname.me/getdata", // Using myjson.com to store the JSN
+        success: function(routesData) {
+            console.log(routesData);
+            dataset = routesData.data;
+
+            var loadedRegion1 = localStorage.getItem("region1");
+            var loadedRegion2 = localStorage.getItem("region2");
+            if (loadedRegion1 != null) {
+                $('#regionFirst-select').val(loadedRegion1).trigger('change');
+
+                region1 = loadedRegion1;
+
+            }
+            if (loadedRegion2 != null) {
+                //  document.getElementsById('regionSecond-select')[7].value = loadedRegion2;
+                document.getElementsByTagName('select')[regionCode].value = loadedRegion2;
+
+                updateOptions();
+                region2 = loadedRegion2;
+                console.log(region1, region2);
+                getRoutesByRegion();
+            }
+
+        }
+    });
+
+    /// 광역시/도 -> 시/군/구 매핑
+    function updateOptions() { 
+        var selector = document.getElementById("regionFirst-select");
+
+        var selectValue = selector.options[selector.selectedIndex].value;
+        region1 = selectValue; //광역시/도 저장
+        region2 = '';
+        localStorage.setItem("region1", region1);
+
+        switch (selectValue) {
+            case '서울':
+                regionCode = 1;
+                $('.seoul').show();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '부산':
+                regionCode = 2;
+                $('.seoul').hide();
+                $('.busan').show();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '대구':
+                regionCode = 3;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').show();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '대전':
+                regionCode = 4;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').show();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '인천':
+                regionCode = 5;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').show();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '광주':
+                regionCode = 6;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').show();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '울산':
+                regionCode = 7;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').show();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '세종':
+                regionCode = 8;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').show();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '경기':
+                regionCode = 9;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').show();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '강원':
+                regionCode = 10;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').show();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '충북':
+                regionCode = 11;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').show();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '충남':
+                regionCode = 12;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').show();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '전북':
+                regionCode = 13;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                region2 = '';
+                getRoutesByRegion();
+                break;
+            case '전남':
+                regionCode = 14;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                region2 = '';
+                getRoutesByRegion();
+                break;
+            case '경북':
+                regionCode = 15;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').show();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+            case '경남':
+                regionCode = 16;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').show();
+                $('.jeju').hide();
+                break;
+            case '제주':
+                regionCode = 17;
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').show();
+                break;
+            default:
+                $('.seoul').hide();
+                $('.busan').hide();
+                $('.daegu').hide();
+                $('.daejeon').hide();
+                $('.incheon').hide();
+                $('.gwangju').hide();
+                $('.ulsan').hide();
+                $('.sejong').hide();
+                $('.gyeonggi').hide();
+                $('.gangwon').hide();
+                $('.chungbuk').hide();
+                $('.chungnam').hide();
+                $('.jeonbuk').hide();
+                $('.jeonnam').hide();
+                $('.gyeongbuk').hide();
+                $('.gyeongnam').hide();
+                $('.jeju').hide();
+                break;
+
+        }
+    }
+    ///
+
+    function completeRegionSelect(value) {
+        region2 = value; //시/군/구 저장
+
+        // 키에 데이터 쓰기
+        localStorage.setItem("region2", region2);
+        getRoutesByRegion();
+    }
+
+    var dataset;
+    var countRoutesByFilter = 0;
+
+    function getRoutesByRegion() {
+        $('.routes_container').html('');
+        countRoutesByFilter = 0;
+        $.each(dataset, function(idx, row) {
+            if (dataset[idx].address.indexOf(region1 + " " + region2) != -1) {
+                countRoutesByFilter++;
+                updateRoutesList(dataset[idx]);
+            }
+
+            return "";
+        })
+        if (region1 == 'hide' || countRoutesByFilter == 0) {
+            $('.routes_container').html('<img src="https://uploads-ssl.webflow.com/5e3ce2ec7f6e53c045fe7cfa/5e422b697e27946184ae51f1_location-p-800.png" style="width:100%;"><br> <span style="position:relative;left:35%;">동선이 없습니다.</span>');
+
+        }
+    }
+
+
+    function updateRoutesList(data) {
+        $('.routes_container').append('<div class="box"  onclick="window.open(\'https://map.kakao.com/link/map/' + data.place + ',' + data.latlng + '\'' + ');"><div class="text"><h2 style="margin-bottom:10px;color:#fff;">' + data.place + '</h2><p><i class="fa fa-clock" style="margin-right:10px;"></i>' + data.visitedDate.toString().replace("T00:00:00.000Z", " 방문").replace("T", " ").replace(".000Z", " 방문") + '</p><p><i class="fa fa-map" style="margin-right:10px;"></i>' + data.address + '</p></div></div>');
+    }
+</script>
+
+</html>
