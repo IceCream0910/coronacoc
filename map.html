@@ -20,6 +20,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.css" rel="stylesheet" type="text/css">
     <!-- Argon CSS -->
     <link rel="stylesheet" href="assets/css/argon.css?v=1.2.0" type="text/css">
+    <!-- mapbox -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
 </head>
 
 <body>
@@ -38,6 +41,29 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="placeTitleLabel">지도로 보기</h5>
+                        <div class="col text-right">
+                            <a class="btn btn-sm btn-primary" id="openExternalMap" target="_blank">카카오맵으로 열기</a>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id='map' style='width: 100%; height: 300px;' style="border-radius: 15px;"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
 
         <div class="routes_wrap">
@@ -332,8 +358,6 @@
         <script src="assets/vendor/chart.js/dist/Chart.extension.js "></script>
         <!-- Argon JS -->
         <script src="assets/js/argon.js?v=1.2.0 "></script>
-        <!--코로나 현황-->
-        <script src="assets/js/corona_realtime.js "></script>
 </body>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -788,8 +812,62 @@
 
 
     function updateRoutesList(data) {
-        $('.routes_container').append('<div class="box"  onclick="window.open(\'https://map.kakao.com/link/map/' + data.place + ',' + data.latlng + '\'' + ');"><div class="text"><h2 style="margin-bottom:10px;color:#fff;">' + data.place + '</h2><p><i class="fa fa-clock" style="margin-right:10px;"></i>' + data.visitedDate.toString().replace("T00:00:00.000Z", " 방문").replace("T", " ").replace(".000Z", " 방문") + '</p><p><i class="fa fa-map" style="margin-right:10px;"></i>' + data.address + '</p></div></div>');
+        $('.routes_container').append('<div class="box"  data-toggle="modal" data-target="#mapModal" onclick="javascript:mapupdate(\'' + data.place + '\',[' + data.latlng + ']);"><div class="text"><h2 style="margin-bottom:10px;color:#fff;">' + data.place + '</h2><p><i class="fa fa-clock" style="margin-right:10px;"></i>' + data.visitedDate.toString().replace("T00:00:00.000Z", " 방문").replace("T", " ").replace(".000Z", " 방문") + '</p><p><i class="fa fa-map" style="margin-right:10px;"></i>' + data.address + '</p></div></div>');
+    }
+
+
+    function mapupdate(title, latlng) {
+
+        $('#placeTitleLabel').html(title);
+        $("#openExternalMap").attr("href", 'https://map.kakao.com/link/map/' + title.replaceAll("/", ".").replaceAll(",", "/") + ',' + latlng[0] + ',' + latlng[1]);
+
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaWNlY3JlYW0wOTEwIiwiYSI6ImNrNmFkNjV5bjBjZm8zcHJ6MTV0OW0wamIifQ.ihNhyKaC6K6yO09WyU7LjQ';
+        var targetPosition = [latlng[1], latlng[0]];
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/icecream0910/ckqmitm230v6p18m7wmiolxiu',
+            center: targetPosition,
+            zoom: 15
+        });
+
+
+        // create the popup
+        var popup = new mapboxgl.Popup({
+            offset: 25
+        }).setText(title);
+
+        // create DOM element for the marker
+        var el = document.createElement('div');
+        el.id = 'marker';
+
+        // create the marker
+        new mapboxgl.Marker(el)
+            .setLngLat(targetPosition)
+            .setPopup(popup) // sets a popup on this marker
+            .addTo(map);
     }
 </script>
+
+<style>
+    #marker {
+        background-image: url('https://homemadebuffetcompany.co.uk/wp-content/uploads/2015/01/map-marker-icon.png');
+        background-size: cover;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    
+    .mapboxgl-popup {
+        max-width: 200px;
+        color: #000;
+    }
+    
+    .mapboxgl-popup button,
+    a {
+        display: none;
+    }
+</style>
 
 </html>

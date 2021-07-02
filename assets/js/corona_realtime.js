@@ -1,7 +1,7 @@
 //프록시 서버 분산
 var e = new Array("https://cors-coronacoc.herokuapp.com/", "https://cors-coronacoc-v2.herokuapp.com/", "https://cors-coronacoc-v3.herokuapp.com/", "https://cors-coronacoc-v4.herokuapp.com/"),
-    //var e = new Array("https://cors-coronacoc-v4.herokuapp.com/"),
-    proxyServer = randomItem(e);
+    proxyServer_raw = new Array("https://api.allorigins.win/raw?url="),
+    proxyServer_json = randomItem(e);
 
 
 function welcome() {
@@ -176,7 +176,7 @@ function rtTodayGet() {
     //숫자가져오기
     $.ajax({
         type: "GET",
-        url: proxyServer + "https://apiv2.corona-live.com/stats.json", // Using myjson.com to store the JSON
+        url: proxyServer_raw + "https://apiv2.corona-live.com/stats.json", // Using myjson.com to store the JSON
         success: function(result) {
             document.getElementById('rtToday').innerHTML = result.overview.current[0] + "명";
             var rtpm = String(result.overview.current[1]);
@@ -200,10 +200,9 @@ function rtTodayGet() {
     //상세내용
     $.ajax({
         type: "GET",
-        url: proxyServer + "https://apiv2.corona-live.com/updates.json", // Using myjson.com to store the JSON
+        url: proxyServer_raw + "https://apiv2.corona-live.com/updates.json", // Using myjson.com to store the JSON
         success: function(result) {
             var length = result.length;
-            document.getElementById('rtModalBtn').innerHTML = result[length - 1].cases + "명 추가 확진 >";
 
             for (var i = 0; i < result.length; i++) {
                 if (result[i].total != '') {
@@ -220,7 +219,7 @@ function rtTodayGet() {
 
 $.ajax({
     type: "GET",
-    url: proxyServer + "https://apiv2.corona-live.com/vaccine.json", // Using myjson.com to store the JSON
+    url: proxyServer_raw + "https://apiv2.corona-live.com/vaccine.json", // Using myjson.com to store the JSON
     success: function(result) {
         var length = result.length;
         $('#vacTotal').html(result.stats.first[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
@@ -267,7 +266,7 @@ var today = year + "" + month + "" + day;
 //연령/성별 현황
 $.ajax({
     type: "GET",
-    url: proxyServer + "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?serviceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&ServiceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&pageNo=1&numOfRows=10&startCreateDt=" + today + "&endCreateDt=" + today, // Using myjson.com to store the JSON
+    url: proxyServer_json + "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?serviceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&ServiceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&pageNo=1&numOfRows=10&startCreateDt=" + today + "&endCreateDt=" + today, // Using myjson.com to store the JSON
     success: function(result) {
 
         var theJson = xmlToJson(result);
@@ -349,7 +348,7 @@ function yesterdayData() {
     var yesterday = new Date(Date.now() - 864e5);
     $.ajax({
         type: "GET",
-        url: proxyServer + "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?serviceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&ServiceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&pageNo=1&numOfRows=10&startCreateDt=" + getFormatDate(yesterday) + "&endCreateDt=" + getFormatDate(yesterday), // Using myjson.com to store the JSON
+        url: proxyServer_json + "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?serviceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&ServiceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&pageNo=1&numOfRows=10&startCreateDt=" + getFormatDate(yesterday) + "&endCreateDt=" + getFormatDate(yesterday), // Using myjson.com to store the JSON
         success: function(result) {
 
             var theJson = xmlToJson(result);
@@ -661,7 +660,7 @@ function progressbar_death() {
 //질병청 보도자료 크롤링
 $.ajax({
     type: "GET",
-    url: proxyServer + "http://ncov.mohw.go.kr/tcmBoardList.do?brdId=3&brdGubun=", // Using myjson.com to store the JSN
+    url: proxyServer_json + "http://ncov.mohw.go.kr/tcmBoardList.do?brdId=3&brdGubun=", // Using myjson.com to store the JSN
     success: function(newsreleaseData) {
         var result = newsreleaseData.substring(newsreleaseData.indexOf('<div class="board_list">'), newsreleaseData.indexOf('<!--페이징-->'));
 
@@ -695,8 +694,10 @@ $.ajax({
             }
 
 
+
             $('.newsfeed').append('<div class="newsfeed_item ripple-effect" onclick="window.open(\'' + res.articles[i].url + '\', \'_blank\');"> <h4 class="title">' + res.articles[i].title + '</h4><span class="description">' + description + '</span></div>');
         }
+
 
     }
 });

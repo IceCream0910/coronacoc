@@ -32,7 +32,7 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                        <a href="index.html">
+                        <a href="index.html" data-transition="flip">
                             <h6 class="h2 text-white d-inline-block mb-0"><img src="http://coronacoc.dothome.co.kr/icon.png" width="50px"></h6>
                         </a>
                     </div>
@@ -42,8 +42,20 @@
     </div>
 
 
+
     <section class="statistic statistic2">
         <div class="container">
+
+            <br>
+            <Br>
+
+            <div class="alert alert-default" role="alert">
+                <span class="alert-icon"><i class="ni ni-bell-55"></i></span>
+                <span class="alert-text"><strong>코로나콕의 디자인이 새로워졌습니다!</strong> 정보를 더 직관적으로 제공할 수 있도록 디자인 개편을 진행했습니다.</span>
+            </div>
+            <div class="alert alert-warning" role="alert">
+                <span class="alert-text"><strong>게시판 이용 안내 | </strong>코로나19에 관련된 게시글이 아닌 정치/상대 비방/유언 비어 등 취지와 맞지 않는 글은 예고 없이 삭제될 수 있습니다.</span>
+            </div>
 
             <div class="dap_ins">
 
@@ -72,7 +84,7 @@
     <!-- 동선 탭-->
     <div id="pool">
         <div class="button-wrapper">
-            <button class="main-button" onclick="javascript:location.href='index.html';">
+            <button class="main-button" onclick="javascript:location.href='index.html';" data-transition="flip">
                   <i class="ni ni-chart-bar-32" style="font-size:25px;"></i>
           <div class="ripple"></div>
           </button>
@@ -173,7 +185,7 @@
         width: 75%;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12);
         padding: 10px 20px;
-        border-radius: 30px 0 0 30px;
+        border-radius: 10px 0 0 10px;
         border: 1px solid #e74c3c;
     }
     
@@ -200,7 +212,7 @@
         color: white;
         margin-left: 0px;
         height: 80px;
-        border-radius: 0 30px 30px 0;
+        border-radius: 0 10px 10px 0;
     }
     
     .modal.modal-fullscreen .modal-dialog,
