@@ -38,36 +38,42 @@
                             </a>
                         </div>
                     </div>
+
+
+                    <h5 class="h2 text-white mb-0" id="welcome_t" style="margin-left:10px;padding-bottom:10px;font-family: 'NEXON Lv2 Gothic Bold';" onclick="javascript:welcome();"></h5>
+
+                    <span class="text-right mr-2" id="whenUpdate" style="padding-bottom:10px;color:#a9a9a9;margin-left:10px;"></span>
+
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="placeTitleLabel">지도로 보기</h5>
-                        <div class="col text-right">
-                            <a class="btn btn-sm btn-primary" id="openExternalMap" target="_blank">카카오맵으로 열기</a>
-                        </div>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <!-- Modal -->
+    <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="placeTitleLabel">지도로 보기</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id='map' style='width: 100%; height: 300px;' style="border-radius: 15px;"></div>
+                </div>
 
-                    </div>
+                <div class="modal-body">
+
+                    <div id='map' style='width: 100%; height: 300px;' style="border-radius: 15px;"></div>
+                    <a class="btn btn-sm btn-primary" id="openExternalMap" target="_blank" style="width:100%;border-radius:0 0 10px 10px;">카카오맵으로 열기</a>
                 </div>
             </div>
         </div>
+    </div>
 
 
 
 
-        <div class="routes_wrap">
-            <select id="regionFirst-select" onchange="updateOptions();" style="margin-right:10px;">
+    <div class="routes_wrap">
+        <select id="regionFirst-select" onchange="updateOptions();" style="margin-right:10px;">
             <option value="hide" disabeld selected>광역시/도</option>
             <option value="서울">서울</option>
             <option value="부산">부산</option>
@@ -87,7 +93,7 @@
             <option value="제주">제주</option>
             </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="seoul" style="display:none;">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="seoul" style="display:none;">
 <option value="hide" disabled selected>시/군/구</option>
 <option value="광진구">광진구</option>
 <option value="성동구">성동구</option>
@@ -113,7 +119,7 @@
 <option value="동작구">동작구</option>
 
 </select>
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="busan" style="display:none;">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="busan" style="display:none;">
 <option value="hide" disabled selected>시/군/구</option>
 <option value="사하구">사하구</option>
 <option value="동래구">동래구</option>
@@ -128,7 +134,7 @@
 <option value="연제구">연제구</option>
 
 </select>
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="daegu" style="display:none;">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="daegu" style="display:none;">
 <option value="hide" disabled selected>시/군/구</option>
 <option value="달성군">달성군</option>
 <option value="북구">북구</option>
@@ -138,7 +144,7 @@
 <option value="수성구">수성구</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="daejeon" style="display:none;">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="daejeon" style="display:none;">
 <option value="hide" disabled selected>시/군/구</option>
 <option value="서구">서구</option>
 <option value="중구">중구</option>
@@ -147,13 +153,13 @@
 <option value="대덕구">대덕구</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="incheon" style="display:none;">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="incheon" style="display:none;">
 <option value="hide" disabled selected>시/군/구</option>
 <option value="남동구">남동구</option>
 <option value="계양구">계양구</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gwangju" style="display:none;">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gwangju" style="display:none;">
 <option value="hide" disabled selected>시/군/구</option>
 <option value="북구">북구</option>
 <option value="서구">서구</option>
@@ -162,13 +168,13 @@
 <option value="동구">동구</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="ulsan" style="display:none;">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="ulsan" style="display:none;">
 <option value="hide" disabled selected>시/군/구</option>
 <option value="중구">중구</option>
 <option value="북구">북구</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="sejong" style="display:none;">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="sejong" style="display:none;">
 <option value="hide" disabled selected>시/군/구</option>
 <option value="아름동">아름동</option>
 <option value="나성동">나성동</option>
@@ -180,7 +186,7 @@
 <option value="도담동">도담동</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gyeonggi" style="display:none;">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gyeonggi" style="display:none;">
 <option value="hide" disabled selected>시/군/구</option>
 <option value="남양주시">남양주시</option>
 <option value="수원시">수원시</option>
@@ -201,7 +207,7 @@
 <option value="안양시">안양시</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gangwon" style=" display:none; ">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gangwon" style=" display:none; ">
 <option value="hide ">시/군/구</option>
 <option value="춘천시">춘천시</option>
 <option value="평창군">평창군</option>
@@ -212,22 +218,22 @@
 <option value="강릉시">강릉시</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="jeonbuk" style=" display:none; ">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="jeonbuk" style=" display:none; ">
 <option value="hide ">시/군/구</option>
 <option value="">선택할 지역이 없어요(이 옵션을 눌러주세요)</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="jeonnam" style=" display:none; ">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="jeonnam" style=" display:none; ">
 <option value="hide ">시/군/구</option>
 <option value="">선택할 지역이 없어요(이 옵션을 눌러주세요)</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="chungbuk" style=" display:none; ">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="chungbuk" style=" display:none; ">
 <option value="hide ">시/군/구</option>
 <option value="춘천시 ">괴산군</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="chungnam" style=" display:none; ">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="chungnam" style=" display:none; ">
 <option value="hide ">시/군/구</option>
 <option value="금산군">금산군</option>
 <option value="천안시">천안시</option>
@@ -240,7 +246,7 @@
 <option value="아산시">아산시</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gyeongbuk" style=" display:none; ">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gyeongbuk" style=" display:none; ">
 <option value="hide ">시/군/구</option>
 <option value="구미시">구미시</option>
 <option value="포항시">포항시</option>
@@ -256,7 +262,7 @@
 <option value="성주군">성주군</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gyeongnam" style=" display:none; ">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="gyeongnam" style=" display:none; ">
 <option value="hide ">시/군/구</option>
 <option value="밀양시">밀양시</option>
 <option value="창원시">창원시</option>
@@ -269,95 +275,94 @@
 <option value="하동군">하동군</option>
 </select>
 
-            <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="jeju" style=" display:none; ">
+        <select id="regionSecond-select" onchange="javascript:completeRegionSelect(this.options[this.selectedIndex].value);" class="jeju" style=" display:none; ">
 <option value="hide ">시/군/구</option>
 <option value="서귀포시">서귀포시</option>
 <option value="제주시">제주시</option>
 </select>
-            <br><br>
-            <span style="color:#a9a9a9; font-size:15px;margin-left:10px; text-align:left;">최근 14일 동안의 공개된 확진자 방문 장소를 제공합니다.<br>리스트 목록을 누르면 지도에서 확인할 수 있습니다.</span><br>
-            <br><br>
-            <div class='routes_container'>
-                <!--여기에 장소 리스트-->
-                <img src="https://uploads-ssl.webflow.com/5e3ce2ec7f6e53c045fe7cfa/5e422c57403b1e23a48a27b9_time-managment-p-800.png" style="width:100%;"><br> <span style="position:relative;left:30%;">지역을 선택해주세요</span>
-            </div>
-            <br>
-            <br>
-            <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-WmHiDQvtU4lxHgQx" data-ad-width="320" data-ad-height="100"></ins>
-            <script type="text/javascript" src="https://t1.daumcdn.net/kas/static/ba.min.js" async></script><br>
-            <div class="copyright" style="font-size:13px;">
-                <p>Copyright ©2020 All rights reserved. <br>데이터 참고 : <a href="https://coronamap.site" target="_blank">코로나맵</a></p>
-
-
-            </div>
+        <br><br>
+        <span class="text-light text-uppercase ls-1 mb-1">목록을 누르면 지도로 확인하실 수 있어요.</span><br><br>
+        <div class='routes_container'>
+            <!--여기에 장소 리스트-->
+            <img src="https://uploads-ssl.webflow.com/5e3ce2ec7f6e53c045fe7cfa/5e422c57403b1e23a48a27b9_time-managment-p-800.png" style="width:100%;"><br> <span style="position:relative;left:30%;">지역을 선택해주세요</span>
         </div>
+        <br>
+        <br>
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-WmHiDQvtU4lxHgQx" data-ad-width="320" data-ad-height="100"></ins>
+        <script type="text/javascript" src="https://t1.daumcdn.net/kas/static/ba.min.js" async></script><br>
+        <div class="copyright" style="font-size:13px;">
+            <p>Copyright ©2020 All rights reserved. <br>데이터 참고 : <a href="https://coronamap.site" target="_blank">코로나맵</a></p>
 
-        <style>
-            .routes_container {
-                width: 100%;
-                justify-content: center;
-                align-items: center;
-            }
-            
-            .box {
-                flex-direction: column;
-                width: 100%;
-                height: auto;
-                padding: 20px;
-                margin-bottom: 20px;
-                background: var(--default);
-                border-radius: 20px;
-                box-shadow: 5px 5px 10px #142541, -5px -5px 0 transparent;
-                color: #fff;
-            }
-            
-            select {
-                width: 45%;
-                padding: 15px 20px;
-                font-family: Noto Sans KR, sans-serif;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                border-radius: 20px;
-                border: none;
-                background-color: #172b4d;
-                box-shadow: 5px 5px 10px #142541, -5px -5px 0 transparent
-            }
-            
-            select::-ms-expand {
-                display: none
-            }
-            
-            .routes_wrap {
-                margin: 15px;
-            }
-        </style>
 
-        <!-- 동선 탭-->
-        <div id="pool">
-            <div class="button-wrapper">
-                <div class="layer"></div>
-                <button class="main-button" onclick="javascript:location.href='index.html';">
+        </div>
+    </div>
+
+    <style>
+        .routes_container {
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .box {
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: var(--default);
+            border-radius: 20px;
+            box-shadow: 5px 5px 10px #142541, -5px -5px 0 transparent;
+            color: #fff;
+        }
+        
+        select {
+            width: 45%;
+            padding: 15px 20px;
+            font-family: Noto Sans KR, sans-serif;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 20px;
+            border: none;
+            background-color: #172b4d;
+            box-shadow: 5px 5px 10px #142541, -5px -5px 0 transparent
+        }
+        
+        select::-ms-expand {
+            display: none
+        }
+        
+        .routes_wrap {
+            margin: 15px;
+        }
+    </style>
+
+    <!-- 동선 탭-->
+    <div id="pool">
+        <div class="button-wrapper">
+            <div class="layer"></div>
+            <button class="main-button" onclick="javascript:location.href='index.html';">
                   <i class="ni ni-chart-bar-32" style="font-size:25px;"></i>
           <div class="ripple"></div>
           </button>
-            </div>
         </div>
-        <!-- 동선 탭-->
+    </div>
+    <!-- 동선 탭-->
 
 
-        <!-- Argon Scripts -->
-        <!-- Core -->
-        <script src="assets/vendor/jquery/dist/jquery.min.js "></script>
-        <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js "></script>
-        <script src="assets/vendor/js-cookie/js.cookie.js "></script>
-        <script src="assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js "></script>
-        <script src="assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js "></script>
-        <!-- Optional JS -->
-        <script src="assets/vendor/chart.js/dist/Chart.min.js "></script>
-        <script src="assets/vendor/chart.js/dist/Chart.extension.js "></script>
-        <!-- Argon JS -->
-        <script src="assets/js/argon.js?v=1.2.0 "></script>
+    <!-- Argon Scripts -->
+    <!-- Core -->
+    <script src="assets/vendor/jquery/dist/jquery.min.js "></script>
+    <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js "></script>
+    <script src="assets/vendor/js-cookie/js.cookie.js "></script>
+    <script src="assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js "></script>
+    <script src="assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js "></script>
+    <!-- Optional JS -->
+    <script src="assets/vendor/chart.js/dist/Chart.min.js "></script>
+    <script src="assets/vendor/chart.js/dist/Chart.extension.js "></script>
+    <!-- Argon JS -->
+    <script src="assets/js/argon.js?v=1.2.0 "></script>
 </body>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -864,8 +869,7 @@
         color: #000;
     }
     
-    .mapboxgl-popup button,
-    a {
+    .mapboxgl-popup button {
         display: none;
     }
 </style>
