@@ -817,13 +817,27 @@
 
 
     function updateRoutesList(data) {
-        $('.routes_container').append('<div class="box"  data-toggle="modal" data-target="#mapModal" onclick="javascript:mapupdate(\'' + data.place + '\',[' + data.latlng + ']);"><div class="text"><h2 style="margin-bottom:10px;color:#fff;">' + data.place + '</h2><p><i class="fa fa-clock" style="margin-right:10px;"></i>' + data.visitedDate.toString().replace("T00:00:00.000Z", " 방문").replace("T", " ").replace(".000Z", " 방문") + '</p><p><i class="fa fa-map" style="margin-right:10px;"></i>' + data.address + '</p></div></div>');
+        var visitedDate_fake = new Date(data.visitedDate.toString().replace("T00:00:00.000Z", "").replace("T15:00:00", "").replace(".000Z", ""));
+
+        //let date = new Date(2019, 0, 31);
+        console.log('기준일자 : ' + visitedDate_fake.toLocaleString());
+
+        visitedDate_fake.setDate(visitedDate_fake.getDate() + 1);
+        var newDateOptions = {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }
+        var visitedDate = visitedDate_fake.toLocaleString("ko-KR", newDateOptions);
+
+        $('.routes_container').append('<div class="box"  data-toggle="modal" data-target="#mapModal" onclick="javascript:mapupdate(\'' + data.place + '\',[' + data.latlng + ']);"><div class="text"><h2 style="margin-bottom:10px;color:#fff;">' + data.place + '</h2><p><i class="fa fa-clock" style="margin-right:10px;"></i>' + visitedDate + ' 방문</p><p><i class="fa fa-map" style="margin-right:10px;"></i>' + data.address + '</p></div></div>');
     }
 
 
     function mapupdate(title, latlng) {
 
         $('#placeTitleLabel').html(title);
+
         $("#openExternalMap").attr("href", 'https://map.kakao.com/link/map/' + title.replaceAll("/", ".").replaceAll(",", "/") + ',' + latlng[0] + ',' + latlng[1]);
 
 
