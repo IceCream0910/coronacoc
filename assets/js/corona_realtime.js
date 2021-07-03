@@ -1,8 +1,8 @@
-/*프록시 서버 분산
+//프록시 서버 분산
 var e = new Array("https://cors-coronacoc.herokuapp.com/", "https://cors-coronacoc-v2.herokuapp.com/", "https://cors-coronacoc-v3.herokuapp.com/", "https://cors-coronacoc-v4.herokuapp.com/"),
     proxyServer_raw = new Array("https://api.allorigins.win/raw?url="),
     proxyServer_json = randomItem(e);
-*/
+
 
 function welcome() {
     //var special = new Array("수험생 여러분들을<br>응원합니다!", "늘 응원하는 사람이 있다는 것,<br>잊지 말고 당신을 믿어요!", "수험생 여러분들의<br>빛나는 열정을 응원합니다.", "잘했고, 잘하고 있고,<br>잘 할 거예요", "멈추지 않은 여러분의 노력<br>좋은 결과로 이어질 거예요.", "있는 그대로, 지금 느낌<br>그대로 여러분을 보여주세요", "파란 하늘 끝까지<br>올라가 보자, 높이", "하늘을 바라봐요,<br> 어두워도 괜찮아요.", "하늘 위로 날아오를<br>시간이에요.", "지금이야,<br>하늘로 비상할 시간", "힘을 내세요,<br>여기까지 왔잖아요", "단 한 가지 약속은,<br>틀림없이 끝이 있다는 것.");
