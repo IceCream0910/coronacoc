@@ -348,7 +348,8 @@ function distanceMapUpdate(data) {
 
                 return this.point.name + '<br>거리두기 <b>' + this.point.value +
                     '</b>단계<b><br><br>' + regionDescription.toString().replaceAll(",", "<br>");
-            }
+            },
+            borderRadius: '15'
         },
 
 
