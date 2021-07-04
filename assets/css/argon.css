@@ -19,6 +19,13 @@
 */
 
 @font-face {
+    font-family: 'NEXON Lv1 Gothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'NEXON Lv2 Gothic Bold';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff') format('woff');
     font-weight: normal;
@@ -31,7 +38,7 @@
     --purple: #8965e0;
     --pink: #f3a4b5;
     --red: #f5365c;
-    --orange: #fb6340;
+    --orange: #353434;
     --yellow: #ffd600;
     --green: #2dce89;
     --teal: #11cdef;
@@ -69,7 +76,7 @@
 }
 
 html {
-    font-family: sans-serif;
+    font-family: "NEXON Lv2 Gothic Bold";
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -90,7 +97,7 @@ section {
 }
 
 body {
-    font-family: Open Sans, sans-serif;
+    font-family: "NEXON Lv1 Gothic", sans-serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -5561,7 +5568,7 @@ input[type='button'].btn-block {
 }
 
 .badge {
-    font-size: 66%;
+    font-size: 80%;
     font-weight: 600;
     line-height: 1;
     display: inline-block;
@@ -6590,7 +6597,7 @@ a.close.disabled {
 
 .modal {
     position: fixed;
-    z-index: 1050;
+    z-index: 99999999999999999999999999999999;
     top: 0;
     left: 0;
     display: none;
@@ -6687,7 +6694,7 @@ a.close.disabled {
 
 .modal-backdrop {
     position: fixed;
-    z-index: 1040;
+    z-index: 999999999;
     top: 0;
     left: 0;
     width: 100vw;

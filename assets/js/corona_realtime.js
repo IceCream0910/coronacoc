@@ -1,5 +1,7 @@
 //프록시 서버 분산
 var e = new Array("https://cors-coronacoc.herokuapp.com/", "https://cors-coronacoc-v2.herokuapp.com/", "https://cors-coronacoc-v3.herokuapp.com/", "https://cors-coronacoc-v4.herokuapp.com/"),
+    //var e = new Array("https://api.allorigins.win/raw?url="),
+
     proxyServer_raw = new Array("https://api.allorigins.win/raw?url="),
     proxyServer_json = randomItem(e);
 
@@ -200,22 +202,191 @@ function rtTodayGet() {
     //상세내용
     $.ajax({
         type: "GET",
-        url: proxyServer_raw + "https://apiv2.corona-live.com/updates.json", // Using myjson.com to store the JSON
+        url: proxyServer_raw + "https://media-gw.naver.com/lambda/api/v1/web/media/covid19/covid19_api2.json?type=disaster_sms", // Using myjson.com to store the JSON
         success: function(result) {
-            var length = result.length;
+            var length = result.result.list.length;
 
-            for (var i = 0; i < result.length; i++) {
-                if (result[i].total != '') {
-                    //  $('#rtUpdates').prepend('<div id="pattern"><h5>' + result[i].datetime + '<span style="color:red; margin-left:10px;">' + result[i].total + '명 중 ' + result[i].cases + '명 오늘 발생</span></h5><span style="font-size:15px;">' + result[i].src + '</span><hr></div>');
-                } else {
-                    //  $('#rtUpdates').prepend('<div id="pattern"><h5>' + result[i].datetime + '<span style="color:red; margin-left:10px;">' + result[i].cases + '명 발생</span></h5><span style="font-size:15px;">' + result[i].src + '</span><hr></div>');
-                }
+            for (var i = 0; i < length; i++) {
+                $('#realtimeMsgList').append('<div id="pattern"><h5><span style="color:#fff;">' + result.result.list[i].areaName + '</span><span style="margin-left:10px;color:#8898aa">' + result.result.list[i].time + '</span></h5><span style="font-size:15px;">' + result.result.list[i].message + '</span><hr></div>');
 
             }
         }
     });
 }
 
+//네이버 현황판
+$.ajax({
+    type: "GET",
+    url: proxyServer_raw + "https://m.news.naver.com/covid19/index.nhn#infection-status",
+    success: function(result) {
+        var dataIndex = result.toString().indexOf('regionDistanceLevelData');
+        var dataIndexEnd = result.toString().indexOf('new news.RegionDistanceLevelRolling({');
+        var data = JSON.parse(result.toString().substring(dataIndex, dataIndexEnd).replace("regionDistanceLevelData = {};", "").replace("try {", "").replace("regionDistanceLevelData = ", "").replace(";", "").replaceAll(" ", ""));
+        rollingDistancingLevel(data);
+        distanceMapUpdate(data);
+    }
+});
+
+function rollingDistancingLevel(data) {
+    $('#distanceLevel').html(data.result[0].title + " 거리두기 " + '<span class="badge badge-danger" >' + data.result[0].level + "단계</span>")
+    var cnt = 1;
+    setInterval(function() {
+        switch (data.result[cnt].level) {
+            case "1":
+                $('#distanceLevel').html(data.result[cnt].title + " 거리두기 " + '<span class="badge badge-success">' + data.result[cnt].level + "단계</span>");
+                break;
+            case "2":
+                $('#distanceLevel').html(data.result[cnt].title + " 거리두기 " + '<span class="badge badge-warning">' + data.result[cnt].level + "단계</span>");
+                break;
+            case "3":
+                $('#distanceLevel').html(data.result[cnt].title + " 거리두기 " + '<span class="badge badge-danger">' + data.result[cnt].level + "단계</span>");
+                break;
+            default:
+                $('#distanceLevel').html(data.result[cnt].title + " 거리두기 " + '<span class="badge badge-danger">' + data.result[cnt].level + "단계</span>");
+                break;
+        }
+        if (cnt >= 16) {
+            cnt = 0;
+        } else {
+            cnt++;
+        }
+
+    }, 3500);
+}
+
+function distanceMapUpdate(data) {
+
+    var datasets = [
+        ['kr-kg', parseInt(data.result[8].level)], //경기
+        ['kr-cb', parseInt(data.result[12].level)], //전북
+        ['kr-kn', parseInt(data.result[15].level)], //경남
+        ['kr-2685', parseInt(data.result[13].level)], //전남
+        ['kr-pu', parseInt(data.result[1].level)], //부산
+        ['kr-2688', parseInt(data.result[14].level)], //경북
+        ['kr-sj', parseInt(data.result[7].level)], //세종
+        ['kr-tj', parseInt(data.result[5].level)], //대전
+        ['kr-ul', parseInt(data.result[6].level)], //울산
+        ['kr-in', parseInt(data.result[3].level)], //인천
+        ['kr-kw', parseInt(data.result[9].level)], //강원
+        ['kr-gn', parseInt(data.result[11].level)], //충남
+        ['kr-cj', parseInt(data.result[16].level)], //제주
+        ['kr-gb', parseInt(data.result[10].level)], //충북
+        ['kr-so', parseInt(data.result[0].level)], //서울
+        ['kr-tg', parseInt(data.result[2].level)], //대구
+        ['kr-kj', parseInt(data.result[4].level)] //광주
+    ];
+
+    // Create the chart
+    Highcharts.mapChart('koreamap-container', {
+        chart: {
+            map: 'countries/kr/kr-all',
+            backgroundColor: '#212529',
+            height: '300px'
+        },
+
+        exporting: {
+            enabled: true
+        },
+
+        tooltip: {
+            formatter: function() {
+                //console.log(regionName);
+                var rn = (this.point.name);
+                var regionDescription = "";
+                switch (rn) {
+                    case "경기":
+                        regionDescription = (data.result[8].description);
+                        break;
+                    case "전북":
+                        regionDescription = (data.result[12].description);
+                        break;
+                    case "경남":
+                        regionDescription = (data.result[15].description);
+                        break;
+                    case "전남":
+                        regionDescription = (data.result[13].description);
+                        break;
+                    case "부산":
+                        regionDescription = (data.result[1].description);
+                        break;
+                    case "경북":
+                        regionDescription = (data.result[14].description);
+                        break;
+                    case "세종":
+                        regionDescription = (data.result[7].description);
+                        break;
+                    case "대전":
+                        regionDescription = (data.result[5].description);
+                        break;
+                    case "울산":
+                        regionDescription = (data.result[6].description);
+                        break;
+                    case "인천":
+                        regionDescription = (data.result[3].description);
+                        break;
+                    case "강원":
+                        regionDescription = (data.result[9].description);
+                        break;
+                    case "충남":
+                        regionDescription = (data.result[1].description);
+                        break;
+                    case "제주":
+                        regionDescription = (data.result[16].description);
+                        break;
+                    case "충북":
+                        regionDescription = (data.result[10].description);
+                        break;
+                    case "서울":
+                        regionDescription = (data.result[0].description);
+                        break;
+                    case "광주":
+                        regionDescription = (data.result[4].description);
+                        break;
+                    default:
+                        regionDescription = "";
+                        break;
+                }
+
+                return this.point.name + '<br>거리두기 <b>' + this.point.value +
+                    '</b>단계<b><br><br>' + regionDescription.toString().replaceAll(",", "<br>");
+            }
+        },
+
+
+        title: {
+            text: null
+        },
+
+        mapNavigation: {
+            enabled: false,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        colorAxis: {
+            visible: false,
+            min: 1,
+            max: 4,
+            minColor: '#2dce89',
+            maxColor: '#00361e',
+        },
+
+        series: [{
+            data: datasets,
+            name: '거리두기 단계',
+            states: {
+                hover: {
+                    color: '#32325d'
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}',
+            },
+        }]
+    });
+}
 
 $.ajax({
     type: "GET",
@@ -663,9 +834,6 @@ $.ajax({
     url: proxyServer_json + "http://ncov.mohw.go.kr/tcmBoardList.do?brdId=3&brdGubun=", // Using myjson.com to store the JSN
     success: function(newsreleaseData) {
         var result = newsreleaseData.substring(newsreleaseData.indexOf('<div class="board_list">'), newsreleaseData.indexOf('<!--페이징-->'));
-
-        console.log(result);
-
         $('.newsrelease').html(result.replace("새글", "").replace("전체 목록 : 번호, 제목, 담당, 작성일, 첨부 구성 제목 클릭시 게시물 상세 내용으로 이동", "").substring(0, result.indexOf('첨부파일')) + "<style>.m_dp_n{display:none;}.hdn{display:none;}</style>");
     }
 });

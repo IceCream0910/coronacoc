@@ -74,7 +74,7 @@
     <div class="alert alert-primary" role="alert" style="margin:0;position:fixed;bottom:20px;left:15px;right:15px;padding:15px;width:70%;display:inline-block;z-index:999999;
 box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
         <i class="ni ni-bell-55 mb-0" style="margin-right:10px;color:#fff;"></i>
-        <span id="notice-news" onclick="javascript:$('#notice-news').html(randomItem(e));">코로나콕의 디자인이 새로워졌습니다!</span>
+        <span id="notice-news" onclick="javascript:$('#notice-news').html(randomItem(e));"></span>
     </div>
 
 
@@ -116,7 +116,7 @@ box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
                                                         <small>07-04</small>
                                                     </div>
                                                 </div>
-                                                <p class="text-sm mb-0">동선 목록에서 방문 일자 오차가 수정되었어요. 동선 지도로 보기 기능이 추가되었어요.</p>
+                                                <p class="text-sm mb-0">폰트 가독성이 개선되었어요. 지역별 거리두기 단계 기능이 추가되었어요.동선 목록에서 방문 일자 오차가 수정되었어요. 동선 지도로 보기 기능이 추가되었어요.</p>
                                             </div>
                                         </div>
                                     </a>
@@ -145,8 +145,11 @@ box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
 
 
                     <h5 class="h2 text-white mb-0" id="welcome_t" style="margin-left:10px;padding-bottom:10px;font-family: 'NEXON Lv2 Gothic Bold';" onclick="javascript:welcome();"></h5>
-
                     <span class="text-right mr-2" id="whenUpdate" style="padding-bottom:10px;color:#a9a9a9;margin-left:10px;"></span>
+
+                    <div type="button" style="position:absolute;top:170px;right:15px;font-size:16px;" id="distanceLevel" data-toggle="modal" data-target="#distanceLevelModal">
+                    </div>
+
 
                     <!-- 모바일 현황 카드 -->
                     <div class="row" id="mb-situ-card">
@@ -344,6 +347,8 @@ box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
                         <h1 class="text-light text-uppercase ls-1 mb-1" id="rtToday" style="display:inline-block;"></h1>
                         <div id="rtpmBox" style="padding:5px 10px; border-radius:10px; background:rgba(255, 105, 97, 0.3); display:inline-block; margin-left:10px;">전일대비 <span id="rtPM"></span></div>
                         </h3><br>
+                        <button type="button" class="btn btn-primary btn-sm" style="margin-top:10px;width: 100%;height:30px;" data-toggle="modal" data-target="#realtimeMsgModal">상세 내용 보기</button>
+                        <br>
                         <h6 class="text-light text-uppercase ls-1 mb-1" style="margin-top:5px;">실제 상황과 오차가 발생할 수 있습니다.</h6>
                     </div>
                 </div>
@@ -659,7 +664,49 @@ box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
         </div>
         <!-- 동선 탭-->
 
+        <!-- 실시간 확진자 상세 정보Modal -->
+        <div class="modal fade" id="realtimeMsgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999999999999999999999999999999999;;">
+            <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">실시간 확진자</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    </div>
+                    <div class="modal-body" id="realtimeMsgList" style="height:40vh; overflow:scroll;">
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" style="width: auto;height:40px">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+        <script src="assets/js/mapchart-kr-all.js"></script>
+
+        <!-- 거리두기 단계 Modal -->
+        <div class="modal fade" id="distanceLevelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999999999999999999999999999999999;;">
+            <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">거리두기</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    </div>
+                    <div class="modal-body" style="height:40vh; overflow:scroll;">
+                        <div id="koreamap-container"></div>
+                    </div>
+                    <div class="modal-footer" style="text-align:left;">
+                        <a href="http://ncov.mohw.go.kr/socdisBoardView.do?brdId=6&brdGubun=1" target="_blank"><button type="button" class="btn btn-primary" style="width:auto;">단계별 방역수칙</button></a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:auto;">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Footer -->
         <footer class=" pt-0">
