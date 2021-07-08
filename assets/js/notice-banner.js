@@ -1,7 +1,7 @@
 function randomItem(e) {
     return e[Math.floor(Math.random() * e.length)]
 }
-var e = new Array("수도권 4단계 격상, 12일부터 2주");
+var e = new Array("수도권 4단계 격상, 12일부터 2주", "수도권, 백신 접종자 방역 완화 유보", "수도권 유흥시설 집합금지");
 $('#notice-news').html(randomItem(e));
 
 function welcome() {
