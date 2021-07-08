@@ -1086,8 +1086,35 @@ var Scrollbar = (function() {
 
 })();
 
+let removeToast;
 
+function toast(string) {
+    const toast = document.getElementById("toast");
 
+    toast.classList.contains("reveal") ?
+        (clearTimeout(removeToast), removeToast = setTimeout(function() {
+            document.getElementById("toast").classList.remove("reveal")
+        }, 1000)) :
+        removeToast = setTimeout(function() {
+            document.getElementById("toast").classList.remove("reveal")
+        }, 1000)
+    toast.classList.add("reveal"),
+        toast.innerText = string
+}
+
+function copyToClipboard(val) {
+    const t = document.createElement("textarea");
+    document.body.appendChild(t);
+    t.value = val;
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+}
+
+function shareBtn() {
+    copyToClipboard('코로나19 현황을 한눈에 확인해보세요. http://corona.coc.kr/ \n 네이버 웨일 브라우저 확장앱으로도 만나보세요. https://bit.ly/3hlAN1Z');
+    toast("클립보드에 공유 메시지를  복사했어요.")
+}
 
 
 $(document).ready(function() {

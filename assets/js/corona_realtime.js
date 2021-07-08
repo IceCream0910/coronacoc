@@ -183,7 +183,7 @@ function rtTodayGet() {
             var rtpm = String(result.overview.current[1]);
             if (rtpm.includes("-")) {
                 document.getElementById('rtpmBox').style.backgroundColor = "rgba(119, 158, 203, 0.3)";
-                rtpm = "↓ " + rtpm;
+                rtpm = "↓ " + rtpm.replace("-", "");
             } else {
                 document.getElementById('rtpmBox').style.backgroundColor = "rgba(255, 105, 97, 0.3)";
                 rtpm = "↑ " + rtpm;
@@ -195,20 +195,6 @@ function rtTodayGet() {
                 $('#refreshRT').removeClass('lotation');
             }, 1000);
 
-        }
-    });
-
-    //상세내용
-    $.ajax({
-        type: "GET",
-        url: proxyServer_raw + "https://media-gw.naver.com/lambda/api/v1/web/media/covid19/covid19_api2.json?type=disaster_sms", // Using myjson.com to store the JSON
-        success: function(result) {
-            var length = result.result.list.length;
-
-            for (var i = 0; i < length; i++) {
-                $('#realtimeMsgList').append('<div id="pattern"><h5><span style="color:#fff;">' + result.result.list[i].areaName + '</span><span style="margin-left:10px;color:#8898aa">' + result.result.list[i].time + '</span></h5><span style="font-size:15px;">' + result.result.list[i].message + '</span><hr></div>');
-
-            }
         }
     });
 }
