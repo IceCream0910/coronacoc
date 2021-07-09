@@ -4,6 +4,10 @@ var e = new Array("https://cors-coronacoc.herokuapp.com/", "https://cors-coronac
     proxyServer_raw = randomItem(e),
     proxyServer_json = randomItem(e);
 
+function randomItem(e) {
+    return e[Math.floor(Math.random() * e.length)]
+}
+
 $.ajax({
     type: "GET",
     url: "https://api.corona-19.kr/korea/?serviceKey=5d4143bd958c16e18abe1acef5386c12d", // Using myjson.com to store the JSN
