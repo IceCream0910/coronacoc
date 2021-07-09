@@ -187,7 +187,7 @@ function rtTodayGet() {
     });
 }
 
-//네이버 현황판
+//네이버 현황판(거리두기 단계)
 $.ajax({
     type: "GET",
     url: proxyServer_raw + "https://m.news.naver.com/covid19/index.nhn#infection-status",
@@ -197,6 +197,20 @@ $.ajax({
         var data = JSON.parse(result.toString().substring(dataIndex, dataIndexEnd).replace("regionDistanceLevelData = {};", "").replace("try {", "").replace("regionDistanceLevelData = ", "").replace(";", "").replaceAll(" ", ""));
         rollingDistancingLevel(data);
         distanceMapUpdate(data);
+    }
+});
+
+var summaryData;
+//카카오 현황판(누적 데이터)
+$.ajax({
+    type: "GET",
+    url: proxyServer_raw + "https://news.daum.net/covid19",
+    success: function(result) {
+        var dataIndex = result.toString().indexOf('window.summaryList');
+        var dataIndexEnd = result.toString().indexOf('window.distanceList');
+        var data = JSON.parse(result.toString().substring(dataIndex, dataIndexEnd).replace("window.summaryList = ", "").replace(";", ""));
+        summaryData = data;
+        accumulateChart();
     }
 });
 
@@ -843,3 +857,155 @@ $.ajax({
 
     }
 });
+
+function accumulateChart() {
+    // console.log(data);
+    var data = summaryData;
+    var dateArr = [];
+    var casesArr = [];
+    var cnt = 0;
+    for (var i = data.length - 1; i >= 0; i--) {
+        dateArr[cnt] = data[i].date;
+        if (i != data.length - 1) {
+            casesArr[cnt] = (data[i].confirmed) - (data[i + 1].confirmed);
+        }
+
+        cnt++;
+    }
+
+    console.log(data, casesArr);
+
+
+
+    try {
+        // 연령별 사망자 분포
+        var ctx = document.getElementById("chart-confirmed");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dateArr,
+                    datasets: [{
+                        label: "신규 확진자 수",
+                        data: casesArr,
+                        borderColor: "rgba(251, 99, 64, 0.7)",
+                        borderWidth: "0",
+                        backgroundColor: "rgba(251, 99, 64, 0.5)"
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontFamily: "Poppins"
+
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontFamily: "Poppins"
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+    $('#chart-confirmed').show();
+    $('#chart-confirmed-week').hide();
+}
+
+function accumulateChart_week() {
+    var data = summaryData;
+    var dateArr = [];
+    var casesArr = [];
+    var cnt = 0;
+    for (var i = data.length - (data.length - 7); i >= 0; i--) {
+        dateArr[cnt] = data[i].date;
+        if (i != data.length - 1) {
+            casesArr[cnt] = (data[i].confirmed) - (data[i + 1].confirmed);
+        }
+        cnt++;
+    }
+
+    console.log(data, casesArr);
+
+
+
+    try {
+        // 연령별 사망자 분포
+        var ctx = document.getElementById("chart-confirmed-week");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dateArr,
+                    datasets: [{
+                        label: "신규 확진자 수",
+                        data: casesArr,
+                        borderColor: "rgba(251, 99, 64, 0.7)",
+                        borderWidth: "0",
+                        backgroundColor: "rgba(251, 99, 64, 0.5)"
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontFamily: "Poppins"
+
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontFamily: "Poppins"
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+    $('#chart-confirmed').hide();
+    $('#chart-confirmed-week').show();
+}
