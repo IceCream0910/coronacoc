@@ -157,6 +157,7 @@ $.ajax({
 
 rtTodayGet();
 
+var liveConfirmedCases;
 
 function rtTodayGet() {
     $('#refreshRT').addClass('lotation');
@@ -167,6 +168,7 @@ function rtTodayGet() {
         type: "GET",
         url: proxyServer_raw + "https://apiv2.corona-live.com/stats.json", // Using myjson.com to store the JSON
         success: function(result) {
+            liveConfirmedCases = result.overview.current[0];
             document.getElementById('rtToday').innerHTML = result.overview.current[0] + "명";
             var rtpm = String(result.overview.current[1]);
             if (rtpm.includes("-")) {
@@ -210,7 +212,7 @@ $.ajax({
         var dataIndexEnd = result.toString().indexOf('window.distanceList');
         var data = JSON.parse(result.toString().substring(dataIndex, dataIndexEnd).replace("window.summaryList = ", "").replace(";", ""));
         summaryData = data;
-        accumulateChart();
+        accumulateChart_week();
     }
 });
 
@@ -935,18 +937,37 @@ function accumulateChart() {
     $('#chart-confirmed-week').hide();
 }
 
+
+
+function stringToDate(str) {
+    var m = str.split(/\D/);
+    return new Date(+m[0], +m[1] - 1, +m[2], +m[3], +m[4], +m[5]);
+}
+
+
 function accumulateChart_week() {
     var data = summaryData;
     var dateArr = [];
     var casesArr = [];
     var cnt = 0;
-    for (var i = data.length - (data.length - 7); i >= 0; i--) {
+    for (var i = data.length - (data.length - 6); i >= 0; i--) {
         dateArr[cnt] = data[i].date;
         if (i != data.length - 1) {
             casesArr[cnt] = (data[i].confirmed) - (data[i + 1].confirmed);
         }
         cnt++;
     }
+
+    var tommorowyear = dateArr[6].substring(0, 4);
+    var tommorowmonth = dateArr[6].substring(4, 6);
+    var tommorowday = dateArr[6].substring(6, 8);
+    console.log(dateArr[6]);
+
+    var tommorowDate = new Date(tommorowyear, tommorowmonth, tommorowday);
+    tommorowDate.setDate(tommorowDate.getDate() + 1);
+    tommorowDate = tommorowDate.getFullYear() + "." + tommorowDate.getMonth() + "." + tommorowDate.getDate();
+    dateArr[7] = tommorowDate + "(실시간 집계중)";
+    casesArr[7] = liveConfirmedCases;
 
     console.log(data, casesArr);
 
@@ -963,12 +984,13 @@ function accumulateChart_week() {
                     datasets: [{
                         label: "신규 확진자 수",
                         data: casesArr,
-                        borderColor: "rgba(251, 99, 64, 0.7)",
+                        borderColor: ["rgba(251, 99, 64, 0.7)", "rgba(251, 99, 64, 0.7)", "rgba(251, 99, 64, 0.7)", "rgba(251, 99, 64, 0.7)", "rgba(251, 99, 64, 0.7)", "rgba(251, 99, 64, 0.7)", "rgba(251, 99, 64, 0.7)", "rgba(255, 255, 255, 0.5)"],
                         borderWidth: "0",
-                        backgroundColor: "rgba(251, 99, 64, 0.5)"
+                        backgroundColor: ["rgba(251, 99, 64, 0.5)", "rgba(251, 99, 64, 0.5)", "rgba(251, 99, 64, 0.5)", "rgba(251, 99, 64, 0.5)", "rgba(251, 99, 64, 0.5)", "rgba(251, 99, 64, 0.5)", "rgba(251, 99, 64, 0.5)", "rgba(255, 255, 255, 0.3)"]
                     }]
                 },
                 options: {
+                    visible: false,
                     legend: {
                         position: 'center',
                         labels: {
@@ -978,15 +1000,15 @@ function accumulateChart_week() {
                     },
                     scales: {
                         xAxes: [{
-                            ticks: {
-                                fontFamily: "Poppins"
-
-                            }
+                            display: false
                         }],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
                                 fontFamily: "Poppins"
+                            },
+                            gridLines: {
+                                display: false
                             }
                         }]
                     },
