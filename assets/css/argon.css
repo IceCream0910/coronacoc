@@ -6804,7 +6804,7 @@ a.close.disabled {
     font-style: normal;
     line-height: 1.5;
     position: absolute;
-    z-index: 1070;
+    z-index: 99999999999999999;
     display: block;
     margin: 0;
     text-align: left;
@@ -24934,3 +24934,5 @@ button {
     visibility: visible;
     transform: translate(-50%, 0)
 }
+
+;
