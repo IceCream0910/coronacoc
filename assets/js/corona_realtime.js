@@ -866,8 +866,8 @@ function accumulateChart() {
     var dateArr = [];
     var casesArr = [];
     var cnt = 0;
-    for (var i = data.length - 1; i > 0; i--) {
-        dateArr[cnt] = data[i].date;
+    for (var i = data.length - 2; i >= 0; i--) {
+        dateArr[cnt] = data[i + 1].date;
         if (i != data.length - 1) {
             casesArr[cnt] = (data[i].confirmed) - (data[i + 1].confirmed);
         }
@@ -950,8 +950,8 @@ function accumulateChart_week() {
     var dateArr = [];
     var casesArr = [];
     var cnt = 0;
-    for (var i = data.length - (data.length - 7); i > 0; i--) {
-        dateArr[cnt] = data[i].date;
+    for (var i = data.length - (data.length - 6); i >= 0; i--) {
+        dateArr[cnt] = data[i + 1].date;
         if (i != data.length - 1) {
             casesArr[cnt] = (data[i].confirmed) - (data[i + 1].confirmed);
         }
