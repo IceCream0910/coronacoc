@@ -157,11 +157,13 @@ $.ajax({
 
 rtTodayGet();
 
+setInterval(function() { //1분마다 실시간 확진자 새로고침
+    rtTodayUpdate();
+}, 60000);
+
 var liveConfirmedCases;
 
 function rtTodayGet() {
-    $('#refreshRT').addClass('lotation');
-    // &nbsp;3초 후 함수가 실행됨
 
     //숫자가져오기
     $.ajax({
@@ -187,6 +189,41 @@ function rtTodayGet() {
 
         }
     });
+}
+
+function rtTodayUpdate() {
+
+    //숫자가져오기
+    $.ajax({
+        type: "GET",
+        url: proxyServer_raw + "https://apiv2.corona-live.com/stats.json", // Using myjson.com to store the JSON
+        success: function(result) {
+            if (liveConfirmedCases != result.overview.current[0]) {
+                toast("실시간 확진자 + " + result.overview.current[0] - liveConfirmedCases);
+                accumulateChart_week();
+            } else { console.log('실시간 확진자 변동 없음') }
+
+            liveConfirmedCases = result.overview.current[0];
+            document.getElementById('rtToday').innerHTML = result.overview.current[0] + "명";
+            var rtpm = String(result.overview.current[1]);
+            if (rtpm.includes("-")) {
+                document.getElementById('rtpmBox').style.backgroundColor = "rgba(119, 158, 203, 0.3)";
+                rtpm = "↓ " + rtpm.replace("-", "");
+            } else {
+                document.getElementById('rtpmBox').style.backgroundColor = "rgba(255, 105, 97, 0.3)";
+                rtpm = "↑ " + rtpm;
+            }
+            document.getElementById('rtPM').innerHTML = rtpm;
+            //document.getElementById('rtDec').innerHTML = result.casesSummary.totalCases + "명 중 " + result.casesSummary.yesterdayCases + "명은 어제 집계";
+
+            setTimeout(function() {
+                $('#refreshRT').removeClass('lotation');
+            }, 1000);
+
+
+        }
+    });
+
 }
 
 //네이버 현황판(거리두기 단계)
