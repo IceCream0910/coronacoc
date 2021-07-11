@@ -199,7 +199,7 @@ function rtTodayUpdate() {
         url: proxyServer_raw + "https://apiv2.corona-live.com/stats.json", // Using myjson.com to store the JSON
         success: function(result) {
             if (liveConfirmedCases != result.overview.current[0]) {
-                toast("실시간 확진자 + " + parseInt(result.overview.current[0]) - parseInt(liveConfirmedCases));
+                toast("실시간 확진자 + " + (parseInt(result.overview.current[0]) - parseInt(liveConfirmedCases)));
                 accumulateChart_week();
             } else { console.log('실시간 확진자 변동 없음') }
 
