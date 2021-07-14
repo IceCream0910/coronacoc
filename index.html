@@ -77,6 +77,7 @@
 box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
         <i class="ni ni-bell-55 mb-0" style="margin-right:10px;color:#fff;"></i>
         <span id="notice-news" onclick="javascript:$('#notice-news').html(randomItem(e));"></span>
+        <span id="notice-app-promote" type="button" style="display:none;" data-toggle="modal" data-target="#appPromoteModal">안드로이드 앱이 출시되었어요!</span>
     </div>
 
 
@@ -745,6 +746,29 @@ box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
             </div>
         </div>
 
+        <!-- 앱 홍보 Modal -->
+        <div class="modal fade" id="appPromoteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999999999999999999999999999999999;;">
+            <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">안드로이드 앱 다운로드</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+                    </div>
+                    <div class="modal-body" style="height:40vh; overflow:scroll;text-align: center;">
+                        <h5 class="h5 text-white mb-0">스마트폰의 QR코드를 스캔해 앱을 다운로드하세요.</h5><br>
+                        <img src="assets/img/onestore_qr.png" style="width:70%;">
+                    </div>
+                    <div class="modal-footer" style="text-align:left;">
+                        <a href="https://onesto.re/0000756996" target="_blank"><button type="button" class="btn btn-primary" style="width:auto;height:40px;">원스토어에서 설치</button></a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:auto;height:40px;">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer -->
         <footer class=" pt-0">
 
@@ -854,8 +878,16 @@ box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
         return navigator.userAgent.indexOf('android_app') > -1;
     }
 
-    if (isMobile() == true) {
+    if (isMobile() != true) {
         $('#android_settings_btn').show();
+        $('#notice-app-promote').show();
+        $('#notice-news').hide();
+
+    } else {
+        $('#notice-app-promote').hide();
+        $('#notice-news').show();
+
+
     }
 </script>
 
