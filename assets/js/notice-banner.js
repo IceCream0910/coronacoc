@@ -1,7 +1,7 @@
 function randomItem(e) {
     return e[Math.floor(Math.random() * e.length)]
 }
-var e = new Array("수도권 거리두기 4단계 시행중", "비수도권 모임인원 제한 추진", "비수도권도 모임 4∼8명 제한", "제주, 19일부터 3단계 시행", "강릉, 17일부터 3단계 시행",  "이번 주말 방역 중대 기로");
+var e = new Array("수도권 거리두기 4단계 시행중", "비수도권 모임인원 제한 추진", "비수도권도 모임 4∼8명 제한", "제주, 19일부터 3단계 시행", "강릉, 17일부터 3단계 시행", "이번 주말 방역 중대 기로");
 $('#notice-news').html(randomItem(e));
 
 function welcome() {
@@ -11,3 +11,20 @@ function welcome() {
 window.onload = function() {
     welcome();
 };
+
+
+function isApp() {
+    return navigator.userAgent.indexOf('android_app') > 0;
+}
+
+var latest_version_name = "1.1";
+
+function isAppLatestVersion() {
+    return navigator.userAgent.indexOf("android_app" + latest_version_name) > 0;
+}
+
+if (isApp() == true) {
+    var e = new Array("홈화면에 위젯을 추가해보세요", "위젯 기능이 추가되었어요");
+    $('#notice-news').html(randomItem(e));
+
+}
