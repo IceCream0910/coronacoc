@@ -24,7 +24,9 @@ function isAppLatestVersion() {
 }
 
 if (isApp() == true) {
-    var e = new Array("홈화면에 위젯을 추가해보세요", "위젯 기능이 추가되었어요");
-    $('#notice-news').html(randomItem(e));
+    if (isAppLatestVersion() == true) {
 
+        var e = new Array("홈화면에 위젯을 추가해보세요", "위젯 기능이 추가되었어요");
+        $('#notice-news').html(randomItem(e));
+    }
 }
