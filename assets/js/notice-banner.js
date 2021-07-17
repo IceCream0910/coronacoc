@@ -20,7 +20,7 @@ function isApp() {
 var latest_version_name = "1.1";
 
 function isAppLatestVersion() {
-    return navigator.userAgent.indexOf("android_app" + latest_version_name) > 0;
+    return navigator.userAgent.indexOf("android_app_" + latest_version_name) > 0;
 }
 
 if (isApp() == true) {
