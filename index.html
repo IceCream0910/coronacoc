@@ -881,7 +881,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
         return navigator.userAgent.indexOf('android_app') > 0;
     }
 
-    /* 원스토어에 1.1 버전 게시되면 주석 해제
+   
 
         var latest_version_name = "1.1";
 
@@ -889,14 +889,11 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
             return navigator.userAgent.indexOf("android_app_" + latest_version_name) > 0;
         }
 
-    */
-
     if (isApp() == true) {
         $('#android_settings_btn').show();
         $('#notice-app-promote').hide();
         $('#notice-news').show();
 
-        /* 원스토어에 1.1 버전 게시되면 주석 해제
 
         if (isAppLatestVersion() != true) { //앱 최신버전인지 체크
             $('#notice-app-update').show();
@@ -905,7 +902,6 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
             $('#notice-app-update').hide();
             $('#default-notice').show();
         }
-        */
 
     } else {
         $('#notice-app-promote').show();
