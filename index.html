@@ -162,6 +162,9 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
                     <h5 class="h2 text-white mb-0" id="welcome_t" style="margin-left:10px;padding-bottom:10px;font-family: 'NEXON Lv2 Gothic Bold';" onclick="javascript:welcome();"></h5>
                     <span class="text-right mr-2" id="whenUpdate" style="padding-bottom:10px;color:#a9a9a9;margin-left:10px;"></span>
+                    <button style="background:none;color:#a9a9a9;margin-left:-30px;height:10px;" type="button" data-container="body" data-html="true" data-toggle="popover" data-color="default" data-placement="right" data-content="중앙재난안전대책본부 코로나바이러스감염증-19(COVID-19) 00시 기준 발생 동향 자료를 기준으로 합니다. (2020.02.26. 데이터 부터 제공합니다.)<br><br>확진자 발생현황은 추후 역학조사 과정에서 변경될 수 있습니다.<br><br>특정 시점에 지방자치단체에서 집계, 발표한 숫자와 일치하지 않을 수 있습니다.<br><br>백신접종률은 전국 및 시도별 기준 인구 대비 접종자 비율로 제공합니다. (2020.12. 총인구수 기준)<br><br>코로나19 발생 현황 데이터 집계 수치는 굿바이코로나 API(질병관리청 공식 홈페이지의 집계 수치를 수집)를 이용하며, 중앙방역대책본부의 일일 현황 발표보다 지연이 될 수 있습니다.">
+                        <ion-icon name="information-circle-outline"></ion-icon>
+                      </button>
 
                     <div class="col text-right">
                         <div type="button" style="font-size:16px;" id="distanceLevel" data-toggle="modal" data-target="#distanceLevelModal">
@@ -350,6 +353,13 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
     <div class="container-fluid mt--6">
 
         <div class="row">
+
+            <div class="col-xl-8">
+                <div class="alert alert-warning" role="alert">
+                    <span class="alert-text"><strong><ion-icon name="warning-outline"></ion-icon> </strong>청해부대 확진자 270명은 7월 22일 0시 기준 집계에 포함됩니다.</span>
+                </div>
+            </div>
+
 
 
             <div class="col-xl-8">
@@ -712,8 +722,8 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                 <a href="chat.html" class="menu-item" style="padding-top:3px;" data-toggle="tooltip" data-placement="top" title="게시판">
                     <ion-icon name="chatbubbles-outline"></ion-icon>
                 </a>
-                <a href="javascript:shareBtn();" class="menu-item" style="padding-top:3px;" data-toggle="tooltip" data-placement="top" title="공유">
-                    <ion-icon name="share-social-outline"></ion-icon>
+                <a class="menu-item" type="button" data-toggle="modal" data-target="#congestionModal" style="padding-top:3px;">
+                    <ion-icon name="walk-outline"></ion-icon>
                 </a>
             </menu>
 
@@ -762,10 +772,37 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                     <div class="modal-body" style="height:40vh; overflow:scroll;text-align: center;">
                         <h5 class="h5 text-white mb-0">스마트폰의 QR코드를 스캔해 앱을 다운로드하세요.</h5><br>
-                        <img src="assets/img/onestore_qr.png" style="width:70%;">
+                        <img src="assets/img/onestore_qr.png" style="width:70%;"><br><br>
+                        <div class="alert alert-default" role="alert" style="text-align: left;">
+                            <span class="alert-text"><strong>Play 스토어에서는 다운로드 할 수 없나요? | </strong>Play 스토어에서는 구글 정책에 따라 정부나 인증된 기관의 앱을 제외한 코로나19 관련 앱을 삭제 조치하고 있습니다.</span>
+                        </div>
                     </div>
                     <div class="modal-footer" style="text-align:left;">
                         <a href="https://onesto.re/0000756996" target="_blank"><button type="button" class="btn btn-primary" style="width:auto;height:40px;">원스토어에서 설치</button></a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:auto;height:40px;">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 혼잡도 Modal -->
+        <div class="modal fade" id="congestionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999999999999999999999999999999999;;">
+            <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">선별진료소 혼잡 현황</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <a href="https://map.seoul.go.kr/smgis2/short/6NjT7" target="_blank"><button type="button" class="btn btn-primary" style="width:45%;margin-right:10px">서울시</button></a>
+                        <a href="https://icloud.incheon.go.kr/arcgis/apps/webappviewer/index.html?id=c4c6e4b040ec460b9ad4879fcb63f20f" target="_blank"><button type="button" class="btn btn-primary" style="width:45%;">인천시</button></a>
+
+
+                    </div>
+                    <div class="modal-footer" style="text-align:left;">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:auto;height:40px;">닫기</button>
                     </div>
                 </div>
@@ -881,13 +918,18 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
         return navigator.userAgent.indexOf('android_app') > 0;
     }
 
-   
 
-        var latest_version_name = "1.1";
 
-        function isAppLatestVersion() {
-            return navigator.userAgent.indexOf("android_app_" + latest_version_name) > 0;
+    var latest_version_name = "1.1";
+
+    function isAppLatestVersion() {
+        if (!navigator.userAgent.indexOf("android_app_") > 0) {
+            var result = false;
+        } else {
+            var result = navigator.userAgent.indexOf("android_app_" + latest_version_name) > 0;
         }
+        return result;
+    }
 
     if (isApp() == true) {
         $('#android_settings_btn').show();

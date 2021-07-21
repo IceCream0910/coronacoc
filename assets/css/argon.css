@@ -6927,7 +6927,7 @@ a.close.disabled {
     font-style: normal;
     line-height: 1.5;
     position: absolute;
-    z-index: 1060;
+    z-index: 99999999999999999999999999999999999999;
     top: 0;
     left: 0;
     display: block;
