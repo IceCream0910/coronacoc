@@ -1,7 +1,7 @@
 function randomItem(e) {
     return e[Math.floor(Math.random() * e.length)]
 }
-var e = new Array("수도권 거리두기 4단계 시행중", "비수도권도 모임 4명 제한");
+var e = new Array("수도권 거리두기 4단계 시행중", "비수도권 일괄 3단계 검토중", "수도권 4단계 2주 연장", "여행지 방역수칙 강화 필요");
 $('#notice-news').html(randomItem(e));
 
 function welcome() {

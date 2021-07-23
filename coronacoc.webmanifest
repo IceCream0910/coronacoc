@@ -1,0 +1,19 @@
+{
+    "name": "코로나콕 : 코로나19 국내 현황을 한눈에",
+    "short_name": "코로나콕",
+    "description": "코로나19 국내 현황과 다양한 정보를 한눈에 확인해보세요.",
+    "icons": [{
+            "src": "assets/img/icons/icon-32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/img/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "index.html",
+    "theme_color": "#172b4d",
+    "background_color": "#172b4d"
+}
