@@ -17,7 +17,7 @@ function isApp() {
     return navigator.userAgent.indexOf('android_app') > 0;
 }
 
-var latest_version_name = "1.1";
+var latest_version_name = "1.2";
 
 function isAppLatestVersion() {
     return navigator.userAgent.indexOf("android_app_" + latest_version_name) > 0;
@@ -26,7 +26,7 @@ function isAppLatestVersion() {
 if (isApp() == true) {
     if (isAppLatestVersion() == true) {
 
-        var e = new Array("홈화면에 위젯을 추가해보세요", "위젯 기능이 추가되었어요");
+        var e = new Array("홈화면에 위젯을 추가해보세요", "위젯 기능이 추가되었어요", "+ 메뉴에서 검사소 혼잡도를 확인하세요");
         $('#notice-news').html(randomItem(e));
     }
 }
