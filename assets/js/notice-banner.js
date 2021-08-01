@@ -16,7 +16,7 @@ function isApp() {
     return navigator.userAgent.indexOf('android_app') > 0;
 }
 
-var latest_version_name = "1.2";
+var latest_version_name = "1.3";
 
 function isAppLatestVersion() {
     return navigator.userAgent.indexOf("android_app_" + latest_version_name) > 0;
