@@ -1164,3 +1164,46 @@ function disableSelection(target) {
         target.onmousedown = function() { return false }
     target.style.cursor = "default";
 }
+
+function numberCounter(target_frame, target_number) {
+    this.count = 0;
+    this.diff = 0;
+    this.target_count = parseInt(target_number);
+    this.target_frame = document.getElementById(target_frame);
+    this.timer = null;
+    this.counter();
+};
+numberCounter.prototype.counter = function() {
+    var self = this;
+    this.diff = this.target_count - this.count;
+    if (this.diff > 0) { self.count += Math.ceil(this.diff / 5); }
+    this.target_frame.innerHTML = this.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    if (this.count < this.target_count) { this.timer = setTimeout(function() { self.counter(); }, 20); } else { clearTimeout(this.timer); }
+};
+
+// ScrollReveal (https://github.com/jlmakes/scrollreveal)
+
+(function scrollReveal() {
+    window.sr = ScrollReveal();
+
+    sr.reveal('.card', {
+        duration: 400,
+        distance: '20px',
+        easing: 'ease-out',
+        origin: 'bottom',
+        reset: true,
+        scale: 1,
+    }, 150);
+})();
+
+setTimeout(function() {
+
+    $('.loading').fadeOut(10);
+
+}, 200);
+
+setTimeout(function() {
+
+    $('.loader').fadeOut(500);
+
+}, 800);

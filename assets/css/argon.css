@@ -3707,7 +3707,7 @@ input[type='button'].btn-block {
 .dropdown-menu {
     font-size: 1rem;
     position: absolute;
-    z-index: 1000;
+    z-index: 99999;
     top: 100%;
     left: 0;
     display: none;
@@ -5238,6 +5238,30 @@ input[type='button'].btn-block {
     background-clip: border-box;
 }
 
+.card_news {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    border: 1px solid rgba(0, 0, 0, .05);
+    border-radius: .375rem;
+    background-color: #fff;
+    background-clip: border-box;
+}
+
+.card_dash {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    border: 1px solid rgba(0, 0, 0, .05);
+    border-radius: .375rem;
+    background-color: #fff;
+    background-clip: border-box;
+}
+
 .card>hr {
     margin-right: 0;
     margin-left: 0;
@@ -6597,7 +6621,7 @@ a.close.disabled {
 
 .modal {
     position: fixed;
-    z-index: 99999999999999999999999999999999;
+    z-index: 10000;
     top: 0;
     left: 0;
     display: none;
@@ -6694,7 +6718,7 @@ a.close.disabled {
 
 .modal-backdrop {
     position: fixed;
-    z-index: 999999999;
+    z-index: 9999;
     top: 0;
     left: 0;
     width: 100vw;
@@ -6804,7 +6828,7 @@ a.close.disabled {
     font-style: normal;
     line-height: 1.5;
     position: absolute;
-    z-index: 99999999999999999;
+    z-index: 10000;
     display: block;
     margin: 0;
     text-align: left;
@@ -6927,7 +6951,7 @@ a.close.disabled {
     font-style: normal;
     line-height: 1.5;
     position: absolute;
-    z-index: 99999999999999999999999999999999999999;
+    z-index: 10000;
     top: 0;
     left: 0;
     display: block;
@@ -24617,7 +24641,7 @@ input.datetimepicker[data-color='yellow']+.bootstrap-datetimepicker-widget.dropd
 .button-wrapper {
     width: 54px;
     position: fixed;
-    z-index: 9999999999999999;
+    z-index: 9999;
     bottom: 0;
     right: 0;
     display: -webkit-box;
@@ -24660,7 +24684,7 @@ button {
 
 .button-wrapper2 {
     position: fixed;
-    z-index: 9999999999999999;
+    z-index: 9999;
     bottom: 0;
     right: 0;
     display: -webkit-box;
@@ -24694,7 +24718,7 @@ button {
     width: 54px;
     height: 100%;
     position: fixed;
-    z-index: 9999999999999999;
+    z-index: 9999;
     top: 20px;
     right: 20px;
     transition: 1.25s all ease .9s;
@@ -24729,7 +24753,7 @@ button {
     position: fixed;
     bottom: 150px;
     right: 25px;
-    z-index: 9999999999999999999999;
+    z-index: 9999;
     background: #000;
     background: rgba(0, 0, 0, .7);
     width: 30px;
@@ -24772,7 +24796,7 @@ button {
 
 .circular-menu {
     position: fixed;
-    z-index: 9999999999999999;
+    z-index: 10000;
     bottom: 1em;
     right: 1em;
 }
@@ -24932,7 +24956,63 @@ button {
 #toast.reveal {
     opacity: 1;
     visibility: visible;
-    transform: translate(-50%, 0)
+    transform: translate(-50%, 0);
 }
 
-;
+.loader {
+    z-index: 10002;
+    background-color: #172b4d;
+    display: flex;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+.loader_img {
+    width: 70px;
+    height: 70px;
+    position: relative;
+    left: 45%;
+    top: 50%;
+    opacity: 0;
+    animation-name: loader;
+    animation-delay: 0.2s;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes loader {
+    10% {
+        opacity: 0.8
+    }
+    100% {
+        opacity: 1;
+        left: 10px;
+        top: 10px;
+    }
+}
+
+.loading {
+    height: 0;
+    width: 0;
+    padding: 15px;
+    border: 6px solid #ccc;
+    border-right-color: #888;
+    border-radius: 22px;
+    -webkit-animation: rotate 1s infinite linear;
+    /* left, top and position just for the demo! */
+    position: absolute;
+    left: 45%;
+    top: 50%;
+}
+
+@-webkit-keyframes rotate {
+    /* 100% keyframe for  clockwise. 
+       use 0% instead for anticlockwise */
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}

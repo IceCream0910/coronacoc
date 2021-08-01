@@ -1,6 +1,6 @@
 //프록시 서버 분산
 var e = new Array("https://cors-coronacoc.herokuapp.com/", "https://cors-coronacoc-v2.herokuapp.com/", "https://cors-coronacoc-v3.herokuapp.com/", "https://cors-coronacoc-v4.herokuapp.com/"),
-//var e = new Array("https://cors-coronacoc-v4.herokuapp.com/"),
+    //var e = new Array("https://cors-coronacoc-v4.herokuapp.com/"),
 
     proxyServer_raw = randomItem(e),
     proxyServer_json = randomItem(e);
@@ -14,12 +14,13 @@ $.ajax({
     url: "https://api.corona-19.kr/korea/?serviceKey=5d4143bd958c16e18abe1acef5386c12d", // Using myjson.com to store the JSN
     success: function(result2) {
         document.getElementById("whenUpdate").innerHTML = result2.updateTime.replace("코로나바이러스감염증-19 국내 발생현황 (", "").replace(")", "");
-        document.getElementById("confirmed").innerHTML = result2.TotalCase;
-        document.getElementById("confirmed_mb").innerHTML = result2.TotalCase;
-        document.getElementById("cure").innerHTML = result2.TotalRecovered;
-        document.getElementById("cure_mb").innerHTML = result2.TotalRecovered;
-        document.getElementById("death").innerHTML = result2.TotalDeath;
-        document.getElementById("death_mb").innerHTML = result2.TotalDeath;
+
+        new numberCounter("confirmed", result2.TotalCase.replaceAll(",", ""));
+        new numberCounter("confirmed_mb", result2.TotalCase.replaceAll(",", ""));
+        new numberCounter("cure", result2.TotalRecovered.replaceAll(",", ""));
+        new numberCounter("cure_mb", result2.TotalRecovered.replaceAll(",", ""));
+        new numberCounter("death", result2.TotalDeath.replaceAll(",", ""));
+        new numberCounter("death_mb", result2.TotalDeath.replaceAll(",", ""));
         nowcase = result2.NowCase;
         nownewcase = result2.TotalCaseBefore;
         document.getElementById("curePM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -41,8 +42,10 @@ $.ajax({
             url: "https://api.corona-19.kr/korea/country/new/?serviceKey=5d4143bd958c16e18abe1acef5386c12d", // Using myjson.com to store the JSON
             success: function(result) {
                 document.getElementById("confirmedPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result.korea.newCase;
-                document.getElementById("newConfirmed_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result.korea.newCase;
-                document.getElementById("nowcases").innerHTML = nowcase;
+                document.getElementById("newConfirmed_mb").innerHTML = result.korea.newCase;
+
+                new numberCounter("newConfirmed_mb", result.korea.newCase.replaceAll(",", ""));
+                new numberCounter("nowcases", nowcase.replaceAll(",", ""));
 
                 if (nownewcase.toString().indexOf('-') != -1) {
                     document.getElementById("nowPM").innerHTML = '<i class="fa fa-arrow-down"></i> ' + nownewcase;
@@ -132,27 +135,11 @@ $.ajax({
         });
 
     }
+
 });
 
-/*
-$.ajax({
-    type: "GET",
-    url: proxyServer + "https://api.covid19api.com/summary", 
-    success: function(result3) {
-
-        document.getElementById("globeConfirmed").innerHTML = result3.Global.TotalConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "명";
-        document.getElementById("globeDeath").innerHTML = result3.Global.TotalDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "명";
-        document.getElementById("globeCure").innerHTML = result3.Global.TotalRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "명";
-
-        document.getElementById("globeConfirmedPM").innerHTML = "확진자 (+ " + result3.Global.NewConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ")";
-        document.getElementById("globeCurePM").innerHTML = "격리해제자 (+ " + result3.Global.NewRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ")";
-        document.getElementById("globeDeathPM").innerHTML = "사망자 (+ " + result3.Global.NewDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ")";
 
 
-
-    }
-});
-*/
 
 
 
@@ -172,7 +159,7 @@ function rtTodayGet() {
         url: proxyServer_raw + "https://apiv2.corona-live.com/stats.json", // Using myjson.com to store the JSON
         success: function(result) {
             liveConfirmedCases = result.overview.current[0];
-            document.getElementById('rtToday').innerHTML = result.overview.current[0] + "명";
+            new numberCounter("rtToday", result.overview.current[0]);
             var rtpm = String(result.overview.current[1]);
             if (rtpm.includes("-")) {
                 document.getElementById('rtpmBox').style.backgroundColor = "rgba(119, 158, 203, 0.3)";
