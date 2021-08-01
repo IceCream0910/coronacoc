@@ -192,7 +192,7 @@ function rtTodayUpdate() {
             } else { console.log('실시간 확진자 변동 없음') }
 
             liveConfirmedCases = result.overview.current[0];
-            document.getElementById('rtToday').innerHTML = result.overview.current[0] + "명";
+            new numberCounter("rtToday", result.overview.current[0]);
             var rtpm = String(result.overview.current[1]);
             if (rtpm.includes("-")) {
                 document.getElementById('rtpmBox').style.backgroundColor = "rgba(119, 158, 203, 0.3)";
