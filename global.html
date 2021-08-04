@@ -14,14 +14,6 @@
       </template>
     </alert>
 
-    <ul v-if="statsLoaded" class="sm:grid sm:grid-cols-3 sm:gap-4 mb-4">
-        <li v-for="(value, label, idx) in stats">
-            <card>
-                <stat-title>{{ getKoreanLabel(label) }}</stat-title>
-                <stat-num :stat="value" />
-            </card>
-        </li>
-    </ul>
 
     <alert v-if="errorCountries">
         <template v-slot:title>
@@ -36,7 +28,7 @@
         <li v-for="(item, idx) in paginatedData" :key="idx">
             <card>
                 <h3 class="text-md mb-3 pb-2 border-b border-gray-300" style="display: inline-block;">
-                    <img :src="getFlagEmoji(getCountryCode(item.country))" style="width:30px;display:inline-block;margin-right: 5px;"> {{ item.country }}
+                    <img :src="getFlagEmoji(getCountryCode(item.country))" style="width:30px;display:inline-block;margin-right: 5px;"> {{ getKoreanLabel(item.country) }}
                 </h3>
                 <div class="grid grid-cols-2 gap-4">
                     <p>
@@ -538,15 +530,11 @@
             getKoreanLabel(origin) {
                 console.log(origin);
                 switch (origin) {
-                    case "cases":
-                        return "누적 확진환자";
+                    case "World":
+                        return "세계 현황";
                         break;
-                    case "deaths":
-                        return "사망자";
-                        break;
-                    case "recovered":
-                        return "격리해제자";
-                        break;
+                    default:
+                        return origin;
                 }
             }
 
