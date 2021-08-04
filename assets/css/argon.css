@@ -25016,3 +25016,42 @@ button {
         -webkit-transform: rotate(360deg);
     }
 }
+
+
+/* (Just ignore)top banner style */
+
+.top-banner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 15px;
+    text-align: center;
+    background-color: #ea4c4c;
+}
+
+.top-banner a,
+.top-banner span {
+    display: inline-block;
+}
+
+.top-banner a {
+    width: 100%;
+    padding: 15px 0;
+    text-decoration: none;
+    color: #fff;
+    color: rgba(255, 255, 255, .8);
+}
+
+.top-banner span {
+    width: 50px;
+    heigth: 28px;
+    line-height: 28px;
+    background-color: #a1c45a;
+    border-radius: 20px;
+}
+
+.top-banner a:hover {
+    color: #fff9e0;
+}
