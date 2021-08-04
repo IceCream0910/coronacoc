@@ -1183,18 +1183,23 @@ numberCounter.prototype.counter = function() {
 
 // ScrollReveal (https://github.com/jlmakes/scrollreveal)
 
-(function scrollReveal() {
-    window.sr = ScrollReveal();
+resetReveal();
 
-    sr.reveal('.card', {
-        duration: 400,
-        distance: '20px',
-        easing: 'ease-out',
-        origin: 'bottom',
-        reset: true,
-        scale: 1,
-    }, 150);
-})();
+function resetReveal() {
+    (function scrollReveal() {
+        window.sr = ScrollReveal();
+
+        sr.reveal('.card', {
+            duration: 400,
+            distance: '20px',
+            easing: 'ease-out',
+            origin: 'bottom',
+            reset: false,
+            scale: 1,
+        }, 150);
+    })();
+
+}
 
 setTimeout(function() {
 

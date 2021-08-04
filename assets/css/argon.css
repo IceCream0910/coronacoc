@@ -33,6 +33,7 @@
 }
 
 :root {
+    /* 상단 wrap : #304361 */
     --blue: #5e72e4;
     --indigo: #5603ad;
     --purple: #8965e0;
@@ -104,6 +105,7 @@ body {
     margin: 0;
     text-align: left;
     color: #f8f9fe;
+    -webkit-tap-highlight-color: transparent;
 }
 
 [tabindex='-1']:focus:not(:focus-visible) {
@@ -24712,6 +24714,7 @@ button {
     -webkit-align-self: flex-end;
     -ms-flex-item-align: end;
     align-self: flex-end;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .button-wrapper3 {

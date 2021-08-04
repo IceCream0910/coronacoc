@@ -140,7 +140,8 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                                         <small>08-02</small>
                                                     </div>
                                                 </div>
-                                                <p class="text-sm mb-0">애니메이션 효과를 추가했어요.</p>
+                                                <p class="text-sm mb-0">애니메이션 효과 추가<br>세계 현황 추가
+                                                </p>
                                             </div>
                                         </div>
                                     </a>
@@ -186,53 +187,73 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     <!-- 모바일 현황 카드 -->
                     <div class="row" id="mb-situ-card">
 
-                        <div class="card_dash card-stats" style="margin:15px;display:flex;border-radius: 10px 10px 0 0;border:none;">
-                            <!-- Card body -->
+                        <div class="nav-wrapper" style="padding-left:15px; padding-right:15px;margin-bottom:-40px;margin-top:15px;">
+                            <ul class="nav nav-pills nav-fill" id="tabs-icons-text" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true" style="margin-right:5px;">국내</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false" onclick="javascript:resetReveal()">세계</a>
+                                </li>
+                            </ul>
+                        </div>
 
-                            <div class="row" style="z-index:9998;display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 10px;
-                            background: #fff;
-                            box-shadow: 2px 2px 10px #a9a9a9, -2px -2px 0px transparent;">
-                                <div class="col">
-                                    <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;"><i class="fa fa-arrow-up"></i>
-                                        <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;" id="newConfirmed_mb">로딩중</h1>
-                                    </h1>
-                                    <h5 class="card-title text-uppercase text-muted mb-0">금일 신규 확진</h5>
+                        <div class="tab-content" id="myTabContent" style="background:transparent;">
+                            <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                                <div class="card_dash card-stats" style="margin:15px;display:flex;border-radius: 10px 10px 0 0;border:none;">
+                                    <!-- Card body -->
+
+                                    <div class="row" style="z-index:9998;display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 10px;
+                                            background: #fff;
+                                            box-shadow: 2px 2px 10px #a9a9a9, -2px -2px 0px transparent;">
+                                        <div class="col">
+                                            <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;"><i class="fa fa-arrow-up"></i>
+                                                <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;" id="newConfirmed_mb">로딩중</h1>
+                                            </h1>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">금일 신규 확진</h5>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
+                                        <div class="col">
+
+                                            <span class="h2 font-weight-bold mb-0" style="display: inline-block;" id="confirmed_mb">로딩중</span>
+
+                                            <h5 class="card-title text-uppercase text-muted mb-0">누적 확진환자</h5>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card_dash card-stats" style="margin:15px;margin-top:-17px;display:flex;border-radius: 0 0 10px 10px;">
+                                    <!-- Card body -->
+
+                                    <div class="row" style="display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 0 10px 10px 10px; ">
+                                        <div class="col">
+                                            <span class="h2 font-weight-bold mb-0" id="cure_mb">로딩중</span><br>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">격리해제</h5>
+                                            <span class="text-success mr-2" id="curePM_mb"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
+                                        <div class="col">
+                                            <span class="h2 font-weight-bold mb-0" id="death_mb">로딩중</span><br>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">사망자</h5>
+                                            <span class="text-danger mr-2" id="deathPM_mb"></span>
+
+                                        </div>
+                                    </div>
+
 
                                 </div>
+
                             </div>
-
-                            <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
-                                <div class="col">
-
-                                    <span class="h2 font-weight-bold mb-0" style="display: inline-block;" id="confirmed_mb">로딩중</span>
-
-                                    <h5 class="card-title text-uppercase text-muted mb-0">누적 확진환자</h5>
-
-                                </div>
+                            <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                                <iframe id="myframe" src="global.html" frameborder="0" scrolling="no" style="width:100vw;height:780px;overflow:hidden;border:none;margin-top:20px"></iframe>
                             </div>
                         </div>
-                        <div class="card_dash card-stats" style="margin:15px;margin-top:-17px;display:flex;border-radius: 0 0 10px 10px;">
-                            <!-- Card body -->
 
-                            <div class="row" style="display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 0 10px 10px 10px; ">
-                                <div class="col">
-                                    <span class="h2 font-weight-bold mb-0" id="cure_mb">로딩중</span><br>
-                                    <h5 class="card-title text-uppercase text-muted mb-0">격리해제</h5>
-                                    <span class="text-success mr-2" id="curePM_mb"></span>
-                                </div>
-                            </div>
-
-                            <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
-                                <div class="col">
-                                    <span class="h2 font-weight-bold mb-0" id="death_mb">로딩중</span><br>
-                                    <h5 class="card-title text-uppercase text-muted mb-0">사망자</h5>
-                                    <span class="text-danger mr-2" id="deathPM_mb"></span>
-
-                                </div>
-                            </div>
-
-
-                        </div>
                     </div>
 
                 </div>
