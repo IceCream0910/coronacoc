@@ -1212,3 +1212,60 @@ setTimeout(function() {
     $('.loader').fadeOut(500);
 
 }, 800);
+
+//백신 
+$("#birthCode").on("change keyup paste", function() {
+    var currentVal = $(this).val();
+    console.log(currentVal.length);
+    if (currentVal.length == 6) {
+        var currentCode = currentVal.charAt(currentVal.length - 1);
+        var ageCode = parseInt(currentVal.substring(0, 2));
+        console.log(currentCode);
+        if (ageCode >= 72 || ageCode <= 3) {
+
+            switch (currentCode) {
+                case "9":
+                    $('#vaccine_time').html('<strong>9일(월) 20시 ~ 10일 18시</strong>에 예약이 가능해요.');
+                    break;
+                case "0":
+                    $('#vaccine_time').html('<strong>10일(화) 20시 ~ 11일 18시</strong>에 예약이 가능해요.');
+                    break;
+                case "1":
+                    $('#vaccine_time').html('<strong>11일(수) 20시 ~ 12일 18시</strong>에 예약이 가능해요.');
+                    break;
+                case "2":
+                    $('#vaccine_time').html('<strong>12일(목) 20시 ~ 13일 18시</strong>에 예약이 가능해요.');
+                    break;
+                case "3":
+                    $('#vaccine_time').html('<strong>13일(금) 20시 ~ 14일 18시</strong>에 예약이 가능해요.');
+                    break;
+                case "4":
+                    $('#vaccine_time').html('<strong>14일(토) 20시 ~ 15일 18시</strong>에 예약이 가능해요.');
+                    break;
+                case "5":
+                    $('#vaccine_time').html('<strong>15일(일) 20시 ~ 16일 18시</strong>에 예약이 가능해요.');
+                    break;
+                case "6":
+                    $('#vaccine_time').html('<strong>16일(월) 20시 ~ 17일 18시</strong>에 예약이 가능해요.');
+                    break;
+                case "7":
+                    $('#vaccine_time').html('<strong>17일(화) 20시 ~ 18일 18시</strong>에 예약이 가능해요.');
+                    break;
+                case "8":
+                    $('#vaccine_time').html('<strong>19일(수) 20시 ~ 20일 18시</strong>에 예약이 가능해요.');
+                    break;
+
+
+            }
+        } else { //대상자 아님
+            $('#vaccine_time').html('<strong>18~49세 대상자가 아니네요.<br></strong><br><60~74세 고령층 중 미접종자*(1947.1.1. ~ 1961.12.31.)><br> *시스템상 예약이력이 없거나, 접종이력이 없는 분(대상확대) <br> ○(예약기간 및 접종백신) 8.2.(월) 20 시~8.18.(수) 18 시, 아스트라제네카 <br> ○(접종기간 및 접종장소) 8.9.(월) ~8.25.(수), 위탁의료기관<br> <br><발달장애인· 장애인 직업재활시설 이용자 등 > <br> ○(예약기간) 8.5.(목) 20 시~8.21.(토) 18 시 <br></br>○ (접종기간 / 백신) 8.26.(목) ~9.30.(목) / 화이자 또는 모더나 ');
+
+        }
+
+
+
+    } else {
+        $('#vaccine_time').html('<strong>18~49세 대상자라면</strong> 생년월일을 입력하면 예약가능 기간을 알려드려요.');
+    }
+
+});
