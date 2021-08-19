@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="코로나19 국내 발생현황 및 관련정보를 한눈에 알아보세요!">
+    <meta name="author" content="Ice Cream">
+    <meta name="keywords" content="코로나19">
+    <title>코로나콕</title>
+    <!-- Favicon -->
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <!-- Icons -->
+    <link rel="stylesheet" href="assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+
+    <!-- Page plugins -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.css" rel="stylesheet" type="text/css">
+    <!-- Argon CSS -->
+    <link rel="stylesheet" href="assets/css/argon.css?v=1.2.0" type="text/css">
+
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script src="https://unpkg.com/scrollreveal@4.0.0-beta.6"></script>
+
+</head>
+
+<body>
+    <div class="header bg-primary pb-6" style="height:100px;">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <a href="index.html" data-transition="flip">
+                            <h6 class="h2 text-white d-inline-block mb-0"><img src="assets/img/icons/coronacoc_icon_new.png" width="50px"></h6>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="statistic statistic2">
+        <div class="container">
+            <br><br>
+            <a href="http://coronacoc.channel.io/" target="_blank"><button type="button" class="btn btn-outline-danger" style="width:auto;height:40px;position:absolute;right:30px;">개발자와 채팅</button></a>
+
+
+            <div class="dap_ins">
+                <div style="margin-top:0px; ">
+                    <textarea name="content" class="message" type="text" id="re_content" placeholder="응원 메시지를 남겨주세요"></textarea>
+                    <button onClick="javascript:sendBtn();" id="rep_bt" class="re_bt ripple-effect"><i class="fas fa-paper-plane"></i></button>
+                </div>
+                <div class="wrapper-chat" style="height:100%;">
+
+
+                </div>
+            </div>
+    </section>
+
+
+    <!-- 동선 탭-->
+    <div id="pool">
+        <div class="button-wrapper">
+            <button class="main-button" onclick="javascript:location.href='index.html';" data-transition="flip">
+                  <i class="ni ni-chart-bar-32" style="font-size:25px;"></i>
+          <div class="ripple"></div>
+          </button>
+        </div>
+    </div>
+    <!-- 동선 탭-->
+
+    <!-- Argon Scripts -->
+    <!-- Core -->
+    <script src="assets/vendor/jquery/dist/jquery.min.js "></script>
+    <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js "></script>
+    <script src="assets/vendor/js-cookie/js.cookie.js "></script>
+    <script src="assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js "></script>
+    <script src="assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js "></script>
+    <!-- Optional JS -->
+    <script src="assets/vendor/chart.js/dist/Chart.min.js "></script>
+    <script src="assets/vendor/chart.js/dist/Chart.extension.js "></script>
+    <!-- Argon JS -->
+    <script src="assets/js/argon.js?v=1.2.0 "></script>
+    <!--코로나 현황-->
+    <script src="assets/js/firebase-chat.js "></script>
+</body>
+
+</html>
+<style>
+    .dap_ins {
+        margin-top: 50px;
+        color: #000;
+    }
+    
+    .re_bt {
+        position: absolute;
+        width: 100px;
+        height: 56px;
+        font-size: 16px;
+        margin-left: 10px;
+    }
+    
+    #foot_box {
+        height: 50px;
+    }
+    
+    li {
+        opacity: 0;
+        animation: fadeIn 0.4s ease-in-out forwards;
+        list-style: none;
+        font-family: FontAwesome;
+        content: "\f00c";
+    }
+    
+    @keyframes fadeIn {
+        100% {
+            opacity: 1;
+        }
+    }
+    
+    .wrapper-chat {
+        width: 100%;
+        margin: 0 auto;
+        padding-bottom: 70px;
+        overflow-x: hidden;
+        word-break: break-all;
+    }
+    
+    .wrapper_spring {
+        width: 100%;
+        margin: 0 auto;
+        padding-bottom: 70px;
+        overflow-x: hidden;
+        word-break: break-all;
+    }
+    
+    .wrapper-chat li {
+        padding: 10px 20px;
+        color: #34495e;
+        word-break: break-all;
+    }
+    
+    .wrapper_spring li {
+        padding: 10px 20px;
+        color: #34495e;
+        word-break: break-all;
+    }
+    
+    .wrapper-chat li span {
+        color: #e74c3c;
+        font-weight: 700;
+    }
+    
+    .wrapper_spring li span {
+        color: #e74c3c;
+        font-weight: 700;
+    }
+    
+    .message {
+        height: 80px;
+        width: 75%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12);
+        padding: 10px 20px;
+        border-radius: 10px 0 0 10px;
+        border: 1px solid #e74c3c;
+    }
+    
+    .messageSpring {
+        margin-bottom: 30px;
+        height: 80px;
+        width: 75%;
+        background-color: #c5c7c4;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12);
+        padding: 10px 20px;
+    }
+    
+    .message:focus {
+        outline: none;
+    }
+    
+    .messageSpring:focus {
+        outline: none;
+    }
+    
+    .re_bt {
+        width: 20%;
+        background: #fa4251;
+        color: white;
+        margin-left: 0px;
+        height: 80px;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    .modal.modal-fullscreen .modal-dialog,
+    .modal.modal-fullscreen .modal-content {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 20px;
+    }
+    
+    @media (min-width: 1024px) {
+        .modal.modal-fullscreen .modal-dialog,
+        .modal.modal-fullscreen .modal-content {
+            bottom: 0;
+            left: 5%;
+            position: fixed;
+            top: 10%;
+        }
+    }
+    
+    .modal.modal-fullscreen .modal-dialog {
+        margin: 0;
+        width: 100%;
+        animation-duration: 0.6s;
+    }
+    
+    .modal.modal-fullscreen .modal-content {
+        border: none;
+        -moz-border-radius: 20px;
+        border-radius: 20px 20px 0 0;
+        -webkit-box-shadow: inherit;
+        -moz-box-shadow: inherit;
+        -o-box-shadow: inherit;
+        box-shadow: inherit;
+    }
+    
+    .modal.modal-fullscreen.force-fullscreen .modal-body {
+        padding: 0;
+    }
+    
+    .modal.modal-fullscreen.force-fullscreen .modal-header,
+    .modal.modal-fullscreen.force-fullscreen .modal-footer {
+        left: 0;
+        position: absolute;
+        right: 0;
+    }
+    
+    .modal.modal-fullscreen.force-fullscreen .modal-header {
+        top: 0;
+    }
+    
+    .modal.modal-fullscreen.force-fullscreen .modal-footer {
+        bottom: 0;
+    }
+    
+    .CaptchaWrap {
+        position: relative;
+    }
+    
+    .CaptchaTxtField {
+        border-radius: 5px 5px 0 0;
+        border: 1px solid #ccc;
+        display: block;
+        box-sizing: border-box;
+    }
+    
+    #UserCaptchaCode {
+        height: 40px;
+        width: 97%;
+        background-color: #c5c7c4;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12);
+        padding: 10px 20px;
+    }
+    
+    #CaptchaImageCode {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 0px 0;
+        width: 97%;
+        height: 80px;
+        overflow: hidden;
+        border-radius: 0 0 5px 5px;
+    }
+    
+    .capcode {
+        width: 100%;
+        display: block;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: default;
+        letter-spacing: 0.6px;
+        color: #ccc;
+        font-family: 'Roboto Slab', serif;
+        font-style: italic;
+        padding-left: -20px;
+    }
+    
+    .ReloadBtn {
+        background: url('https://cdn3.iconfinder.com/data/icons/basic-interface/100/update-64.png') left top no-repeat;
+        background-size: 100%;
+        width: 25px;
+        height: 25px;
+        border: 0px;
+        outline: none;
+        position: relative;
+        outline: none;
+        cursor: pointer;
+        /**/
+    }
+    
+    .error {
+        color: red;
+        font-size: 12px;
+        display: none;
+    }
+    
+    .success {
+        color: green;
+        font-size: 18px;
+        margin-bottom: 15px;
+        display: none;
+    }
+    
+    .decrease {
+        width: 60px;
+        height: 60px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: #000;
+        background-color: #fff;
+        border: none;
+        border-radius: 50%;
+        box-shadow: 0px 8px 15px rgba(255, 40, 0, 0.3);
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+        outline: none;
+    }
+    
+    .decrease:hover {
+        background-color: #dff2800;
+        box-shadow: 0px 15px 20px rgba(255, 40, 0, 0.5);
+        color: #fff;
+        transform: translateY(-7px);
+    }
+    
+    .grid__item {
+        width: 50%;
+        height: 200px;
+        margin: 10px;
+        background-color: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 3rem 6rem rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    
+    .grid__item:hover {
+        transform: translateY(-0.5%);
+        box-shadow: 0 4rem 8rem rgba(0, 0, 0, 0.2);
+    }
+    
+    .card__img {
+        display: block;
+        width: 100%;
+        height: 40%;
+        object-fit: cover;
+    }
+    
+    .card__content {
+        padding: 20px;
+        white-space: normal;
+    }
+    
+    .card__header {
+        font-size: 18px;
+        font-weight: 800;
+        color: #0d0d0d;
+        margin-bottom: 10px;
+    }
+    
+    .card__text {
+        font-size: 20px;
+        color: #3d3d3d;
+    }
+    
+    .card__btn {
+        display: block;
+        width: 100%;
+        padding: 20px 10px;
+        font-size: 20px;
+        text-align: center;
+        color: #3363ff;
+        background-color: #e6ecff;
+        border: none;
+        border-radius: 20px;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+    
+    .card__btn span {
+        margin-left: 1rem;
+        transition: 0.2s;
+    }
+    
+    .card__btn:hover,
+    .card__btn:active {
+        background-color: #dce4ff;
+    }
+    
+    .card__btn:hover span,
+    .card__btn:active span {
+        margin-left: 1.5rem;
+    }
+</style>
+</style>

@@ -1,0 +1,549 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.2.0/tailwind.min.css" type="text/css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+
+<div id="app" class="antialiased" oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+
+    <alert v-if="errorStats">
+        <template v-slot:title>
+            데이터 로딩에 실패했어요
+      </template>
+        <template v-slot:content>
+        <p>데이터 로딩에 실패했어요</p>
+      </template>
+    </alert>
+
+
+    <alert v-if="errorCountries">
+        <template v-slot:title>
+        데이터 로딩에 실패했어요
+      </template>
+        <template v-slot:content>
+        <p>데이터 로딩에 실패했어요</p>
+      </template>
+    </alert>
+
+    <ul v-if="countriesLoaded" class="md:grid md:grid-cols-2 md:gap-4">
+        <li v-for="(item, idx) in paginatedData" :key="idx">
+            <card>
+                <h3 class="text-md mb-3 pb-2 border-b border-gray-300" style="display: inline-block;">
+                    <img :src="getFlagEmoji(getCountryCode(item.country))" style="width:30px;display:inline-block;margin-right: 5px;"> {{ getKoreanLabel(item.country) }}
+                </h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <p>
+                        <stat-title>치료 중</stat-title>
+                        <stat-num :stat="item.active" />
+                    </p>
+                    <p>
+                        <stat-title>신규 확진</stat-title>
+                        <stat-num :stat="item.todayCases" />
+                    </p>
+                    <p>
+                        <stat-title>누적 확진</stat-title>
+                        <stat-num :stat="item.cases" />
+                    </p>
+                    <p>
+                        <stat-title>사망</stat-title>
+                        <stat-num :stat="item.deaths" />
+                    </p>
+                    <p>
+                        <stat-title>격리해제</stat-title>
+                        <stat-num :stat="item.recovered" />
+                    </p>
+                    <p>
+                        <stat-title>위중증</stat-title>
+                        <stat-num :stat="item.critical" />
+                    </p>
+                </div>
+            </card>
+        </li>
+    </ul>
+
+    <div v-if="countriesLoaded">
+        <div class="text-center my-4 text-sm text-gray-600">
+            <p>{{ pagePlace }}</p>
+        </div>
+        <pagination :has-prev="pageNumber > 0" :has-next="pageNumber < pageCount -1" @next="nextPage" @prev="prevPage" />
+    </div>
+</div>
+
+<style>
+    @font-face {
+        font-family: 'NEXON Lv1 Gothic';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    
+    body {
+        font-family: "NEXON Lv1 Gothic";
+        background-color: #304361;
+        margin: 0;
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        color: #fff;
+    }
+    
+    #app {
+        font-family: "NEXON Lv1 Gothic";
+        padding: 15px;
+        padding-top: 0;
+        width: 100%;
+        max-width: 60rem;
+    }
+    
+    button {
+        background-color: #5e72e4;
+    }
+    
+    a:hover,
+    a:active {
+        color: #d69e2e;
+    }
+    
+    .card {
+        border-radius: 10px;
+    }
+</style>
+
+<script>
+    Vue.component('stat-title', {
+        template: `
+    <h4 class="text-sm mb-2 uppercase font-medium text-gray-500">
+      <slot/>
+    </h4>`
+    })
+
+    Vue.component('stat-num', {
+        props: {
+            stat: {
+                type: Number,
+                default: 0
+            }
+        },
+        template: `
+    <h4 class="num font-medium bold text-purple-700">
+      {{ stat.toLocaleString() }}
+    </h4>`
+    })
+
+    Vue.component('card', {
+        template: `
+    <div class="card overvlow-hidden shadow-md p-6 border border-gray-300 mb-4 md:mb-0" style="background:#fff;color:#000;">
+      <slot />
+    </div>`
+    })
+
+    Vue.component('alert', {
+        template: `
+    <div role="alert">
+      <div class="bg-red-500 text-white rounded-t px-4 py-2">
+        <slot name="title"/>
+      </div>
+      <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+        <slot name="content"/>
+      </div>
+    </div>`
+    })
+
+    Vue.component('pagination', {
+        props: {
+            hasPrev: {
+                type: Boolean,
+                default: false
+            },
+            hasNext: {
+                type: Boolean,
+                default: false
+            }
+        },
+        template: `
+    <div class="pagination mt-4 flex">
+      <button
+        class=" rounded py-2 px-4 text-white"
+        :disabled="!hasPrev"
+        :class="{ 'cursor-not-allowed opacity-50': !hasPrev }"
+        @click="$emit('prev')">
+          &larr; 이전
+      </button>
+      <button
+        class=" rounded py-2 px-4 text-white  ml-auto"
+        :disabled="!hasNext"
+        :class="{ 'cursor-not-allowed opacity-50': !hasNext }"
+        @click="$emit('next')">
+          다음 &rarr;
+      </button>
+    </div>`
+    })
+
+    const app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                api: 'https://coronavirus-19-api.herokuapp.com',
+                statsLoaded: false,
+                countriesLoaded: false,
+                errorStats: false,
+                errorCountries: false,
+                items: [],
+                stats: [],
+                pageSize: 1,
+                pageNumber: 0
+            }
+        },
+        computed: {
+            pageCount() {
+                const itemCount = Object.entries(this.items).length
+                const pageSize = this.pageSize
+
+                return Math.ceil(itemCount / pageSize)
+            },
+            paginatedData() {
+                const data = this.items
+                const start = this.pageNumber * this.pageSize
+                const end = start + this.pageSize
+                const filtered = data.slice(start, end)
+
+                return filtered
+            },
+            pagePlace() {
+                return `${this.pageNumber + 1} / ${this.pageCount}`
+            }
+        },
+        mounted() {
+            this.fetchCountryData()
+            this.fetchStats()
+        },
+        methods: {
+            // fetch stats by country
+            fetchCountryData() {
+                this.countriesLoaded = false
+                this.errorCountries = false
+
+                fetch(`${this.api}/countries`)
+                    .then(res => res.json())
+                    .then(data => this.items = data)
+                    .finally(() => this.countriesLoaded = true)
+                    .catch(error => {
+                        this.countriesLoaded = false
+                        this.errorCountries = true
+                        console.log(error)
+                    })
+            },
+            // fetch basic stats
+            fetchStats() {
+                this.statsLoaded = false
+                this.errorStats = false
+
+                fetch(`${this.api}/all`)
+                    .then(res => res.json())
+                    .then(data => this.stats = data)
+                    .finally(() => this.statsLoaded = true)
+                    .catch(error => {
+                        this.statsLoaded = false
+                        this.errorStats = true
+                        console.log(error)
+                    })
+            },
+            prevPage() {
+                this.pageNumber--
+            },
+            nextPage() {
+                this.pageNumber++
+            },
+
+
+
+            ////
+
+            getCountryCode(input) {
+                var country = {
+                    "BD": "Bangladesh",
+                    "BE": "Belgium",
+                    "BF": "Burkina Faso",
+                    "BG": "Bulgaria",
+                    "BA": "Bosnia and Herzegovina",
+                    "BB": "Barbados",
+                    "WF": "Wallis and Futuna",
+                    "BL": "St. Barth",
+                    "BM": "Bermuda",
+                    "BN": "Brunei",
+                    "BO": "Bolivia",
+                    "BH": "Bahrain",
+                    "BI": "Burundi",
+                    "BJ": "Benin",
+                    "BT": "Bhutan",
+                    "JM": "Jamaica",
+                    "BV": "Bouvet Island",
+                    "BW": "Botswana",
+                    "WS": "Samoa",
+                    "BQ": "Bonaire, Saint Eustatius and Saba ",
+                    "BR": "Brazil",
+                    "BS": "Bahamas",
+                    "JE": "Jersey",
+                    "BY": "Belarus",
+                    "BZ": "Belize",
+                    "RU": "Russia",
+                    "RW": "Rwanda",
+                    "RS": "Serbia",
+                    "TL": "East Timor",
+                    "RE": "Réunion",
+                    "TM": "Turkmenistan",
+                    "TJ": "Tajikistan",
+                    "RO": "Romania",
+                    "TK": "Tokelau",
+                    "GW": "Guinea-Bissau",
+                    "GU": "Guam",
+                    "GT": "Guatemala",
+                    "GS": "South Georgia and the South Sandwich Islands",
+                    "GR": "Greece",
+                    "GQ": "Equatorial Guinea",
+                    "GP": "Guadeloupe",
+                    "JP": "Japan",
+                    "GY": "Guyana",
+                    "GG": "Guernsey",
+                    "GG": "Channel Islands",
+                    "GF": "French Guiana",
+                    "GE": "Georgia",
+                    "GD": "Grenada",
+                    "GB": "UK",
+                    "GA": "Gabon",
+                    "SV": "El Salvador",
+                    "GN": "Guinea",
+                    "GM": "Gambia",
+                    "GL": "Greenland",
+                    "GI": "Gibraltar",
+                    "GH": "Ghana",
+                    "OM": "Oman",
+                    "TN": "Tunisia",
+                    "JO": "Jordan",
+                    "HR": "Croatia",
+                    "HT": "Haiti",
+                    "HU": "Hungary",
+                    "HK": "Hong Kong",
+                    "HN": "Honduras",
+                    "HM": "Heard Island and McDonald Islands",
+                    "VE": "Venezuela",
+                    "PR": "Puerto Rico",
+                    "PS": "Palestine",
+                    "PW": "Palau",
+                    "PT": "Portugal",
+                    "SJ": "Svalbard and Jan Mayen",
+                    "PY": "Paraguay",
+                    "IQ": "Iraq",
+                    "PA": "Panama",
+                    "PF": "French Polynesia",
+                    "PG": "Papua New Guinea",
+                    "PE": "Peru",
+                    "PK": "Pakistan",
+                    "PH": "Philippines",
+                    "PN": "Pitcairn",
+                    "PL": "Poland",
+                    "PM": "Saint Pierre Miquelon",
+                    "ZM": "Zambia",
+                    "EH": "Western Sahara",
+                    "EE": "Estonia",
+                    "EG": "Egypt",
+                    "ZA": "South Africa",
+                    "EC": "Ecuador",
+                    "IT": "Italy",
+                    "VN": "Vietnam",
+                    "SB": "Solomon Islands",
+                    "ET": "Ethiopia",
+                    "SO": "Somalia",
+                    "ZW": "Zimbabwe",
+                    "SA": "Saudi Arabia",
+                    "ES": "Spain",
+                    "ER": "Eritrea",
+                    "ME": "Montenegro",
+                    "MD": "Moldova",
+                    "MG": "Madagascar",
+                    "MF": "Saint Martin",
+                    "MA": "Morocco",
+                    "MC": "Monaco",
+                    "UZ": "Uzbekistan",
+                    "MM": "Myanmar",
+                    "ML": "Mali",
+                    "MO": "Macao",
+                    "MN": "Mongolia",
+                    "MH": "Marshall Islands",
+                    "MK": "North Macedonia",
+                    "MU": "Mauritius",
+                    "MT": "Malta",
+                    "MW": "Malawi",
+                    "MV": "Maldives",
+                    "MQ": "Martinique",
+                    "MP": "Northern Mariana Islands",
+                    "MS": "Montserrat",
+                    "MR": "Mauritania",
+                    "IM": "Isle of Man",
+                    "UG": "Uganda",
+                    "TZ": "Tanzania",
+                    "MY": "Malaysia",
+                    "MX": "Mexico",
+                    "IL": "Israel",
+                    "FR": "France",
+                    "IO": "British Indian Ocean Territory",
+                    "SH": "Saint Helena",
+                    "FI": "Finland",
+                    "FJ": "Fiji",
+                    "FK": "Falkland Islands",
+                    "FM": "Micronesia",
+                    "FO": "Faeroe Islands",
+                    "NI": "Nicaragua",
+                    "NL": "Netherlands",
+                    "NO": "Norway",
+                    "NA": "Namibia",
+                    "VU": "Vanuatu",
+                    "NC": "New Caledonia",
+                    "NE": "Niger",
+                    "NF": "Norfolk Island",
+                    "NG": "Nigeria",
+                    "NZ": "New Zealand",
+                    "NP": "Nepal",
+                    "NR": "Nauru",
+                    "NU": "Niue",
+                    "CK": "Cook Islands",
+                    "XK": "Kosovo",
+                    "CI": "Ivory Coast",
+                    "CH": "Switzerland",
+                    "CO": "Colombia",
+                    "CN": "China",
+                    "CM": "Cameroon",
+                    "CL": "Chile",
+                    "CC": "Cocos Islands",
+                    "CA": "Canada",
+                    "CG": "Republic of the Congo",
+                    "CG": "Congo",
+                    "CF": "Central African Republic",
+                    "CF": "CAR",
+                    "CD": "DRC",
+                    "CZ": "Czechia",
+                    "CY": "Cyprus",
+                    "CX": "Christmas Island",
+                    "CR": "Costa Rica",
+                    "CW": "Curacao",
+                    "CV": "Cape Verde",
+                    "CU": "Cuba",
+                    "SZ": "Eswatini",
+                    "SY": "Syria",
+                    "SX": "Sint Maarten",
+                    "KG": "Kyrgyzstan",
+                    "KE": "Kenya",
+                    "SS": "South Sudan",
+                    "SR": "Suriname",
+                    "KI": "Kiribati",
+                    "KH": "Cambodia",
+                    "KN": "Saint Kitts and Nevis",
+                    "KM": "Comoros",
+                    "ST": "Sao Tome and Principe",
+                    "SK": "Slovakia",
+                    "KR": "S. Korea",
+                    "SI": "Slovenia",
+                    "KP": "North Korea",
+                    "KW": "Kuwait",
+                    "SN": "Senegal",
+                    "SM": "San Marino",
+                    "SL": "Sierra Leone",
+                    "SC": "Seychelles",
+                    "KZ": "Kazakhstan",
+                    "KY": "Cayman Islands",
+                    "SG": "Singapore",
+                    "SE": "Sweden",
+                    "SD": "Sudan",
+                    "DO": "Dominican Republic",
+                    "DM": "Dominica",
+                    "DJ": "Djibouti",
+                    "DK": "Denmark",
+                    "VG": "British Virgin Islands",
+                    "DE": "Germany",
+                    "YE": "Yemen",
+                    "DZ": "Algeria",
+                    "US": "USA",
+                    "UY": "Uruguay",
+                    "YT": "Mayotte",
+                    "UM": "United States Minor Outlying Islands",
+                    "LB": "Lebanon",
+                    "LC": "Saint Lucia",
+                    "LA": "Laos",
+                    "TV": "Tuvalu",
+                    "TW": "Taiwan",
+                    "TT": "Trinidad and Tobago",
+                    "TR": "Turkey",
+                    "LK": "Sri Lanka",
+                    "LI": "Liechtenstein",
+                    "LV": "Latvia",
+                    "TO": "Tonga",
+                    "LT": "Lithuania",
+                    "LU": "Luxembourg",
+                    "LR": "Liberia",
+                    "LS": "Lesotho",
+                    "TH": "Thailand",
+                    "TF": "French Southern Territories",
+                    "TG": "Togo",
+                    "TD": "Chad",
+                    "TC": "Turks and Caicos",
+                    "LY": "Libya",
+                    "VA": "Vatican City",
+                    "VC": "Saint Vincent and the Grenadines",
+                    "AE": "United Arab Emirates",
+                    "AD": "Andorra",
+                    "AG": "Antigua and Barbuda",
+                    "AF": "Afghanistan",
+                    "AI": "Anguilla",
+                    "VI": "U.S. Virgin Islands",
+                    "IS": "Iceland",
+                    "IR": "Iran",
+                    "AM": "Armenia",
+                    "AL": "Albania",
+                    "AO": "Angola",
+                    "AQ": "Antarctica",
+                    "AS": "American Samoa",
+                    "AR": "Argentina",
+                    "AU": "Australia",
+                    "AT": "Austria",
+                    "AW": "Aruba",
+                    "IN": "India",
+                    "AX": "Aland Islands",
+                    "AZ": "Azerbaijan",
+                    "IE": "Ireland",
+                    "ID": "Indonesia",
+                    "UA": "Ukraine",
+                    "QA": "Qatar",
+                    "MZ": "Mozambique",
+                };
+                return this.getKeyByValue(country, input);
+            },
+
+            getKeyByValue(object, value) {
+                return Object.keys(object).find(key => object[key] === value);
+            },
+
+
+            getFlagEmoji(countryCode) {
+                return (countryCode != undefined) ? 'https://www.countryflags.io/' + countryCode + '/flat/64.png' : 'https://www.pngkey.com/png/full/207-2074754_globe-icon-global-citizen-icon-png.png';
+            },
+
+            getKoreanLabel(origin) {
+                console.log(origin);
+                switch (origin) {
+                    case "World":
+                        return "세계 현황";
+                        break;
+                    default:
+                        return origin;
+                }
+            }
+
+
+
+
+            ////
+        }
+
+
+    })
+</script>

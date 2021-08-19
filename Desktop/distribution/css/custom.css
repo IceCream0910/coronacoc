@@ -1,0 +1,21 @@
+/* your styles go here */
+
+
+.data {
+  font-size:12px;
+}
+
+.main h2 {
+    font-size: 5em;
+  }
+
+.main h3 {
+  font-size:1.3em;
+  }
+
+.news-category {
+	padding:10px;
+	border-radius:30px;
+	border:none;
+	margin-bottom:5px;
+}
