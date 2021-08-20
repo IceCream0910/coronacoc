@@ -421,6 +421,249 @@ $.ajax({
     }
 });
 
+//검사현황 가져오기
+$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/all.json", function(json_data) {
+    console.log(json_data);
+    try {
+        var ctx = document.getElementById("chart-tests");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(json_data),
+                    datasets: [{
+                        label: "일일 검사 건수",
+                        data: Object.values(json_data),
+                        borderColor: "rgba(255, 255, 255, 0.9)",
+                        backgroundColor: "rgba(255, 255, 255, 0.5)"
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontFamily: "Poppins"
+
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontFamily: "Poppins"
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+//검사현황 가져오기
+$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/week.json", function(json_data) {
+    console.log(json_data);
+    try {
+        var ctx = document.getElementById("chart-tests-week");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(json_data),
+                    datasets: [{
+                        label: "일일 검사 건수",
+                        data: Object.values(json_data),
+                        borderColor: "rgba(255, 255, 255, 0.9)",
+                        backgroundColor: "rgba(255, 255, 255, 0.5)"
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontFamily: "Poppins"
+
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontFamily: "Poppins"
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+//검사현황(7일) 가져오기
+$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/rates/week.json", function(rates_data) {
+    $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests-done/week.json", function(test_data) {
+        try {
+            var ctx = document.getElementById("chart-rates-test-week");
+            if (ctx) {
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        datasets: [{
+                            type: 'line',
+                            label: '확진율',
+                            yAxisID: 'B',
+                            data: Object.values(rates_data)
+                        }, {
+                            type: 'bar',
+                            label: '검사완료 건수',
+                            yAxisID: 'A',
+                            data: Object.values(test_data),
+                        }],
+                        labels: Object.keys(rates_data)
+                    },
+                    options: {
+                        legend: {
+                            position: 'center',
+                            labels: {
+                                fontFamily: 'Poppins'
+                            }
+
+                        },
+                        scales: {
+                            yAxes: [{
+                                id: 'A',
+                                type: 'linear',
+                                position: 'left',
+                            }, {
+                                id: 'B',
+                                type: 'linear',
+                                position: 'right',
+                                ticks: {
+                                    display: false,
+                                    max: 20,
+                                    min: 0
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            titleFontFamily: 'Open Sans',
+                            backgroundColor: 'rgba(0,0,0,0.6)',
+                            titleFontColor: 'white',
+                            caretSize: 5,
+                            cornerRadius: 15,
+                            xPadding: 10,
+                            yPadding: 10
+                        }
+                    }
+                });
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    });
+});
+
+//검사현황(전체) 가져오기
+$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/rates/all.json", function(rates_data) {
+    $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests-done/all.json", function(test_data) {
+        try {
+            var ctx = document.getElementById("chart-rates-test");
+            if (ctx) {
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        datasets: [{
+                            type: 'line',
+                            label: '확진율',
+                            yAxisID: 'B',
+                            data: Object.values(rates_data)
+                        }, {
+                            type: 'bar',
+                            label: '검사완료 건수',
+                            yAxisID: 'A',
+                            data: Object.values(test_data),
+                        }],
+                        labels: Object.keys(rates_data)
+                    },
+                    options: {
+                        legend: {
+                            position: 'center',
+                            labels: {
+                                fontFamily: 'Poppins'
+                            }
+
+                        },
+                        scales: {
+                            yAxes: [{
+                                id: 'A',
+                                type: 'linear',
+                                position: 'left',
+                            }, {
+                                id: 'B',
+                                type: 'linear',
+                                position: 'right',
+                                ticks: {
+                                    display: false,
+                                    max: 20,
+                                    min: 0
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            titleFontFamily: 'Open Sans',
+                            backgroundColor: 'rgba(0,0,0,0.6)',
+                            titleFontColor: 'white',
+                            caretSize: 5,
+                            cornerRadius: 15,
+                            xPadding: 10,
+                            yPadding: 10
+                        }
+                    }
+                });
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    });
+});
 
 /**
  *  yyyyMMdd 포맷으로 반환

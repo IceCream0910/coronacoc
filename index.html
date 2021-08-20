@@ -127,7 +127,6 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                 </div>
                                 <!-- List group -->
                                 <div class="list-group list-group-flush">
-
                                     <a class="list-group-item list-group-item-action">
                                         <div class="row align-items-center">
                                             <div class="col-auto">
@@ -138,10 +137,10 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                                         <h4 class="mb-0 text-sm">업데이트 내역</h4>
                                                     </div>
                                                     <div class="text-right text-muted">
-                                                        <small>08-09</small>
+                                                        <small>08-20</small>
                                                     </div>
                                                 </div>
-                                                <p class="text-sm mb-0">18~49세 예방접종 사전예약 10부제 안내 카드 추가
+                                                <p class="text-sm mb-0">검사 현황 그래프 카드 추가
                                                 </p>
                                             </div>
                                         </div>
@@ -157,10 +156,10 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                                         <h4 class="mb-0 text-sm">업데이트 내역</h4>
                                                     </div>
                                                     <div class="text-right text-muted">
-                                                        <small>08-02</small>
+                                                        <small>08-09</small>
                                                     </div>
                                                 </div>
-                                                <p class="text-sm mb-0">애니메이션 효과 추가<br>세계 현황 추가
+                                                <p class="text-sm mb-0">18~49세 예방접종 사전예약 10부제 안내 카드 추가
                                                 </p>
                                             </div>
                                         </div>
@@ -354,7 +353,22 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-3">
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Page content -->
+    <br>
+    <div class="container-fluid mt--6 container-fluid-main">
+
+        <div class="row">
+
+
+            <div class="col-xl-4">
                 <div class="card_dash card-stats localAndBroad" style="border-radius: 10px;">
                     <!-- Card body -->
                     <div class="card-body">
@@ -375,24 +389,8 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-
-    <!-- Page content -->
-    <br>
-    <div class="container-fluid mt--6">
-
-        <div class="row">
-
-
-            <div class="col-xl-4">
-                <div class="alert alert-warning" role="alert" onClick="javascript:window.open('', '_blank');">
+                <br>
+                <div class="alert alert-warning" role="alert">
                     <strong>현행 거리두기 9월 5일까지 연장</strong><br> - 4단계 음식점·카페 영업시간 오후 10시에서 오후 9시로 단축<br> - 오후 6시 이후 식당·카페서 접종완료자 2인 포함 4인 모임 가능
                 </div>
             </div>
@@ -475,6 +473,53 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                         <div class="chart">
                             <canvas id="chart-confirmed" class="chart-canvas" style="display:none;"></canvas>
                             <canvas id="chart-confirmed-week" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4" style="color:#000;">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 mb-0">검사 수 대비 확진율 추이</h5>
+                                <br>
+                                <div class="col text-right">
+                                    <a href="javascript:$('#chart-rates-test').show(100);$('#chart-rates-test-week').hide(100);" class="btn btn-sm btn-primary">전체</a>
+                                    <a href="javascript:$('#chart-rates-test').hide(100);$('#chart-rates-test-week').show(100);" class="btn btn-sm btn-primary">7일</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="chart-rates-test" class="chart-canvas" style="display:none;"></canvas>
+                            <canvas id="chart-rates-test-week" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4" style="color:#000;">
+                <div class="card bg-default">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 text-white mb-0">일일 검사건수 추이<button style="background:none;color:#a9a9a9;height:10px;" type="button" data-container="body" data-html="true" data-toggle="popover" data-color="default" data-content="그래프에 표시되는 일일 검사건수는 의심신고 검사자 수를 나타냅니다. 이 때, 검사 대상자가 아니어도 진행한 임시 선별 검사 건수는 제외됩니다.">
+                                    <ion-icon name="information-circle-outline"></ion-icon>
+                                  </button></h5>
+                                <div class="col text-right">
+                                    <a href="javascript:$('#chart-tests').show(100);$('#chart-tests-week').hide(100);" class="btn btn-sm btn-primary">전체</a>
+                                    <a href="javascript:$('#chart-tests').hide(100);$('#chart-tests-week').show(100);" class="btn btn-sm btn-primary">7일</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="chart-tests" class="chart-canvas" style="display:none;"></canvas>
+                            <canvas id="chart-tests-week" class="chart-canvas"></canvas>
                         </div>
                     </div>
                 </div>

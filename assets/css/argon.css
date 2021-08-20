@@ -692,6 +692,25 @@ pre code {
     padding-left: 15px;
 }
 
+.container-fluid-main {
+    width: 97.5%;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+
+/* 스마트폰 세로 */
+
+@media (max-width: 770px) {
+    .container-fluid-main {
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+
 @media (min-width: 576px) {
     .container,
     .container-sm {
@@ -24526,14 +24545,6 @@ input.datetimepicker[data-color='yellow']+.bootstrap-datetimepicker-widget.dropd
     display: block;
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
-    /* tablet 세로 */
-    .localAndBroad {
-        margin-left: 15px;
-        width: 93vw;
-    }
-}
-
 @media (min-width: 992px) and (max-width: 1199px) {
     /* tablet 가로 */
     #pc-situ-card {
@@ -24541,9 +24552,6 @@ input.datetimepicker[data-color='yellow']+.bootstrap-datetimepicker-widget.dropd
     }
     #mb-situ-card {
         display: none;
-    }
-    .localAndBroad {
-        margin-left: 15px;
     }
 }
 
@@ -24554,9 +24562,6 @@ input.datetimepicker[data-color='yellow']+.bootstrap-datetimepicker-widget.dropd
     }
     #mb-situ-card {
         display: none;
-    }
-    .localAndBroad {
-        margin-left: 15px;
     }
 }
 
