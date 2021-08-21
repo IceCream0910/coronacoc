@@ -9,6 +9,27 @@ function randomItem(e) {
     return e[Math.floor(Math.random() * e.length)]
 }
 
+var cityCode = {
+    "0": "서울",
+    "1": "부산",
+    "2": "인천",
+    "3": "대구",
+    "4": "광주",
+    "5": "대전",
+    "6": "울산",
+    "7": "세종",
+    "8": "경기",
+    "9": "강원",
+    "10": "충북",
+    "11": "충남",
+    "12": "경북",
+    "13": "경남",
+    "14": "전북",
+    "15": "전남",
+    "16": "제주",
+    "17": "검역"
+};
+
 $.ajax({
     type: "GET",
     url: "https://api.corona-19.kr/korea/?serviceKey=5d4143bd958c16e18abe1acef5386c12d", // Using myjson.com to store the JSN
@@ -141,8 +162,6 @@ $.ajax({
 
 
 
-
-
 rtTodayGet();
 
 setInterval(function() { //1분마다 실시간 확진자 새로고침
@@ -153,14 +172,13 @@ var liveConfirmedCases;
 
 function rtTodayGet() {
 
-    //숫자가져오기
     $.ajax({
         type: "GET",
-        url: proxyServer_raw + "https://apiv2.corona-live.com/stats.json", // Using myjson.com to store the JSON
+        url: proxyServer_raw + "https://apiv2.corona-live.com/domestic-init.json", // Using myjson.com to store the JSON
         success: function(result) {
-            liveConfirmedCases = result.overview.current[0];
-            new numberCounter("rtToday", result.overview.current[0]);
-            var rtpm = String(result.overview.current[1]);
+            liveConfirmedCases = result.statsLive.today;
+            new numberCounter("rtToday", result.statsLive.today);
+            var rtpm = String(parseInt(result.statsLive.today) - parseInt(result.statsLive.yesterday));
             if (rtpm.includes("-")) {
                 document.getElementById('rtpmBox').style.backgroundColor = "rgba(119, 158, 203, 0.3)";
                 rtpm = "↓ " + rtpm.replace("-", "");
@@ -169,31 +187,39 @@ function rtTodayGet() {
                 rtpm = "↑ " + rtpm;
             }
             document.getElementById('rtPM').innerHTML = rtpm;
-            //document.getElementById('rtDec').innerHTML = result.casesSummary.totalCases + "명 중 " + result.casesSummary.yesterdayCases + "명은 어제 집계";
+            var cityN = result.updatesPreview[0].city.toString();
+            document.getElementById('realtimeSummary').innerHTML = cityCode[cityN] + " " + result.updatesPreview[0].src + "&nbsp;&nbsp;>";
 
-            setTimeout(function() {
-                $('#refreshRT').removeClass('lotation');
-            }, 1000);
 
+            $.ajax({
+                type: "GET",
+                url: proxyServer_raw + "https://apiv2.corona-live.com/domestic-updates.json",
+                success: function(result2) {
+                    for (var i = 0; i < result2.updates.data.length; i++) {
+
+                        var cityN_ = result2.updates.data[i].city.toString();
+                        $('#realtimeList').append('<tr><td>' + result2.updates.data[i].datetime.substring(11, 16) + '</td><td>' + cityCode[cityN_] + " " + result2.updates.data[i].cases + "명 추가 확진" + '</td></tr>');
+                    }
+                }
+            });
         }
     });
 }
 
 function rtTodayUpdate() {
 
-    //숫자가져오기
     $.ajax({
         type: "GET",
-        url: proxyServer_raw + "https://apiv2.corona-live.com/stats.json", // Using myjson.com to store the JSON
+        url: proxyServer_raw + "https://apiv2.corona-live.com/domestic-init.json",
         success: function(result) {
-            if (liveConfirmedCases != result.overview.current[0]) {
-                toast("실시간 확진자 + " + (parseInt(result.overview.current[0]) - parseInt(liveConfirmedCases)));
+            if (liveConfirmedCases != result.statsLive.today) {
+                toast("실시간 확진자 + " + (parseInt(result.statsLive.today) - parseInt(liveConfirmedCases)));
                 accumulateChart_week();
             } else { console.log('실시간 확진자 변동 없음') }
 
-            liveConfirmedCases = result.overview.current[0];
-            new numberCounter("rtToday", result.overview.current[0]);
-            var rtpm = String(result.overview.current[1]);
+            liveConfirmedCases = result.statsLive.today;
+            new numberCounter("rtToday", result.statsLive.today);
+            var rtpm = String(parseInt(result.statsLive.today) - parseInt(result.statsLive.yesterday));
             if (rtpm.includes("-")) {
                 document.getElementById('rtpmBox').style.backgroundColor = "rgba(119, 158, 203, 0.3)";
                 rtpm = "↓ " + rtpm.replace("-", "");
@@ -202,12 +228,20 @@ function rtTodayUpdate() {
                 rtpm = "↑ " + rtpm;
             }
             document.getElementById('rtPM').innerHTML = rtpm;
-            //document.getElementById('rtDec').innerHTML = result.casesSummary.totalCases + "명 중 " + result.casesSummary.yesterdayCases + "명은 어제 집계";
+            var cityN = result.updatesPreview[0].city.toString();
+            document.getElementById('realtimeSummary').innerHTML = cityCode[cityN] + " " + result.updatesPreview[0].src + "&nbsp;&nbsp;>";
 
-            setTimeout(function() {
-                $('#refreshRT').removeClass('lotation');
-            }, 1000);
+            $.ajax({
+                type: "GET",
+                url: proxyServer_raw + "https://apiv2.corona-live.com/domestic-updates.json",
+                success: function(result2) {
+                    for (var i = 0; i < result2.updates.data.length; i++) {
 
+                        var cityN_ = result2.updates.data[i].city.toString();
+                        $('#realtimeList').append('<tr><td>' + result2.updates.data[i].datetime.substring(11, 16) + '</td><td>' + cityCode[cityN_] + " " + result2.updates.data[i].cases + "명 추가 확진" + '</td></tr>');
+                    }
+                }
+            });
 
         }
     });
@@ -408,13 +442,13 @@ $.ajax({
     url: proxyServer_raw + "https://apiv2.corona-live.com/vaccine.json", // Using myjson.com to store the JSON
     success: function(result) {
         var length = result.length;
-        $('#vacTotal').html(result.stats.first[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
-        $('#vacPM').html('↑ ' + result.stats.first[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        $('#vacTotal2').html(result.stats.second[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
-        $('#vacPM2').html('↑ ' + result.stats.second[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $('#vacTotal').html(result.stats.partiallyVaccinated.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
+        $('#vacPM').html('↑ ' + result.stats.partiallyVaccinated.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $('#vacTotal2').html(result.stats.fullyVaccinated.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
+        $('#vacPM2').html('↑ ' + result.stats.fullyVaccinated.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
-        var first_percent = (((result.stats.first[0]) / 51821669) * 100).toFixed(2);
-        var second_percent = (((result.stats.second[0]) / 51821669) * 100).toFixed(2);
+        var first_percent = result.stats.partiallyVaccinated.percentage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        var second_percent = result.stats.fullyVaccinated.percentage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         $('#first_vaccinePercent').html(first_percent + "%");
         $('#second_vaccinePercent').html(second_percent + "%");
 
