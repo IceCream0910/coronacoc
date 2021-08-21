@@ -1,6 +1,6 @@
 //프록시 서버 분산
-var e = new Array("https://cors-coronacoc.herokuapp.com/", "https://cors-coronacoc-v2.herokuapp.com/", "https://cors-coronacoc-v3.herokuapp.com/", "https://cors-coronacoc-v4.herokuapp.com/"),
-    //var e = new Array("https://cors-coronacoc-v4.herokuapp.com/"),
+//var e = new Array("https://cors-coronacoc.herokuapp.com/", "https://cors-coronacoc-v2.herokuapp.com/", "https://cors-coronacoc-v3.herokuapp.com/", "https://cors-coronacoc-v4.herokuapp.com/"),
+var e = new Array("https://cors.bridged.cc/"),
 
     proxyServer_raw = randomItem(e),
     proxyServer_json = randomItem(e);
@@ -1104,7 +1104,7 @@ function fn_tcm_boardView(schema, blank, blank2, id, blank3, all) {
 //뉴스
 $.ajax({
     type: "GET",
-    url: "https://coronacoc-news.herokuapp.com/covid19",
+    url: proxyServer_raw + "https://coronacoc-news.herokuapp.com/covid19",
     success: function(result) {
         var res = JSON.parse(result);
         var length_article = res.totalResults;
