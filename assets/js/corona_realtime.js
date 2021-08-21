@@ -235,6 +235,7 @@ function rtTodayUpdate() {
                 type: "GET",
                 url: proxyServer_raw + "https://apiv2.corona-live.com/domestic-updates.json",
                 success: function(result2) {
+                    $('#realtimeList').html('');
                     for (var i = 0; i < result2.updates.data.length; i++) {
 
                         var cityN_ = result2.updates.data[i].city.toString();
