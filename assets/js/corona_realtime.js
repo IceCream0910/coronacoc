@@ -170,6 +170,39 @@ setInterval(function() { //1분마다 실시간 확진자 새로고침
 
 var liveConfirmedCases;
 
+function rollingRealtimeByRegion(data) {
+    $('#rtRegionName').html(cityCode[0]);
+    $('#rtTodayByRegion').html(data[0][0] + "명");
+
+    if (data[0][1].toString().includes("-")) {
+        document.getElementById('rtpmBox_byRegion').style.backgroundColor = "rgba(119, 158, 203, 0.9)";
+        $('#rtPMByRegion').html("↓ " + data[0][1].toString().replace("-", ""));
+    } else {
+        document.getElementById('rtpmBox_byRegion').style.backgroundColor = "rgba(255, 105, 97, 0.7)";
+        $('#rtPMByRegion').html("↑ " + data[0][1].toString());
+    }
+
+    var cnt = 1;
+    setInterval(function() {
+        $('#rtRegionName').html(cityCode[cnt]);
+        $('#rtTodayByRegion').html(data[cnt][0] + "명");
+
+        if (data[cnt][1].toString().includes("-")) {
+            document.getElementById('rtpmBox_byRegion').style.backgroundColor = "rgba(119, 158, 203, 0.9)";
+            $('#rtPMByRegion').html("↓ " + data[cnt][1].toString().replace("-", ""));
+        } else {
+            document.getElementById('rtpmBox_byRegion').style.backgroundColor = "rgba(255, 105, 97, 0.7)";
+            $('#rtPMByRegion').html("↑ " + data[cnt][1].toString());
+        }
+        if (cnt >= 16) {
+            cnt = 0;
+        } else {
+            cnt++;
+        }
+
+    }, 3500);
+}
+
 function rtTodayGet() {
 
     $.ajax({
@@ -189,6 +222,7 @@ function rtTodayGet() {
             document.getElementById('rtPM').innerHTML = rtpm;
             var cityN = result.updatesPreview[0].city.toString();
             document.getElementById('realtimeSummary').innerHTML = cityCode[cityN] + " " + result.updatesPreview[0].src + "&nbsp;&nbsp;>";
+            rollingRealtimeByRegion(result.citiesLive);
 
 
             $.ajax({
@@ -230,6 +264,8 @@ function rtTodayUpdate() {
             document.getElementById('rtPM').innerHTML = rtpm;
             var cityN = result.updatesPreview[0].city.toString();
             document.getElementById('realtimeSummary').innerHTML = cityCode[cityN] + " " + result.updatesPreview[0].src + "&nbsp;&nbsp;>";
+
+            rollingRealtimeByRegion(result.citiesLive);
 
             $.ajax({
                 type: "GET",
@@ -438,6 +474,22 @@ function distanceMapUpdate(data) {
     });
 }
 
+//전세계 현황
+$.ajax({
+    type: "GET",
+    url: proxyServer_raw + "https://apiv2.corona-live.com/world-init.json", // Using myjson.com to store the JSON
+    success: function(result) {
+        var result2 = result.countries.WORLD;
+
+        new numberCounter("newConfirmedWorld_mb", result2.casesDelta.toString().replaceAll(",", ""));
+        new numberCounter("confirmedWorld_mb", result2.cases.toString().replaceAll(",", ""));
+        new numberCounter("permilWorld_mb", result2.casesPerMil.toString().replaceAll(",", ""));
+        new numberCounter("deathWorld_mb", result2.deaths.toString().replaceAll(",", ""));
+        document.getElementById("deathPMWorld_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.deathsDelta.toString();
+    }
+});
+
+//백신접종 현황
 $.ajax({
     type: "GET",
     url: proxyServer_raw + "https://apiv2.corona-live.com/vaccine.json", // Using myjson.com to store the JSON
@@ -611,7 +663,7 @@ $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/rates/week.json", fun
                                 position: 'right',
                                 ticks: {
                                     display: false,
-                                    max: 100,
+                                    max: 30,
                                     min: 0
                                 }
                             }]

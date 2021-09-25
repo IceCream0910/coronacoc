@@ -86,7 +86,7 @@
 box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
         <i class="ni ni-bell-55 mb-0" style="margin-right:10px;color:#fff;"></i>
         <span id="notice-news" onclick="javascript:$('#notice-news').html(randomItem(e));"></span>
-        <span id="notice-app-promote" type="button" style="display:none;" data-toggle="modal" data-target="#appPromoteModal">안드로이드 앱이 출시되었어요!</span>
+        <span id="notice-app-promote" type="button" style="display:none;" data-toggle="modal" data-target="#appPromoteModal">안드로이드 앱을 다운로드해보세요</span>
     </div>
 
     <div id="notice-app-update" class="alert alert-danger" role="alert" style="margin:0;position:fixed;bottom:20px;left:15px;right:15px;padding:15px;width:70%;display:inline-block;z-index:9998;
@@ -166,7 +166,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                             <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;"><i class="fa fa-arrow-up"></i>
                                                 <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;" id="newConfirmed_mb">로딩중</h1>
                                             </h1>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">신규 확진</h5>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">전일 신규 확진</h5>
 
                                         </div>
                                     </div>
@@ -206,7 +206,52 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
                             </div>
                             <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
-                                <iframe id="myframe" src="global.html" frameborder="0" scrolling="no" style="width:100vw;height:400px;overflow:hidden;border:none;margin-top:20px"></iframe>
+                                <div class="card_dash card-stats" style="margin:15px;display:flex;border-radius: 10px 10px 0 0;border:none;">
+                                    <!-- Card body -->
+
+                                    <div class="row" style="z-index:9998;display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 10px;
+                                            background: #fff;
+                                            box-shadow: 2px 2px 10px #a9a9a9, -2px -2px 0px transparent;">
+                                        <div class="col">
+                                            <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;"><i class="fa fa-arrow-up"></i>
+                                                <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;" id="newConfirmedWorld_mb">로딩중</h1>
+                                            </h1>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">신규 확진</h5>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
+                                        <div class="col">
+
+                                            <span class="h2 font-weight-bold mb-0" style="display: inline-block;" id="confirmedWorld_mb">로딩중</span>
+
+                                            <h5 class="card-title text-uppercase text-muted mb-0">누적 확진환자</h5>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card_dash card-stats" style="margin:15px;margin-top:-17px;display:flex;border-radius: 0 0 10px 10px;">
+                                    <!-- Card body -->
+
+                                    <div class="row" style="display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 0 10px 10px 10px; ">
+                                        <div class="col">
+                                            <span class="h2 font-weight-bold mb-0" id="permilWorld_mb">로딩중</span><br>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">100만 명당<br>확진자</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
+                                        <div class="col">
+                                            <span class="h2 font-weight-bold mb-0" id="deathWorld_mb">로딩중</span><br>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">사망자</h5>
+                                            <span class="text-danger mr-2" id="deathPMWorld_mb"></span>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
                             </div>
                         </div>
 
@@ -344,7 +389,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                 </div>
                 <br>
-<!--
+                <!--
                 <div class="alert alert-warning" role="alert">
                     <strong>사회적 거리두기 4주 연장(수도권 4단계, 비수도권 3단계)</strong><br> - 예방접종 완료자에 대한 사적모임 예외 적용 확대(4단계 6인, 3단계 8인까지 가능) -<br> - 추석 연휴기간(9.17∼9.23) 4단계 지역의 가정 내 가족 모임은 접종 완료자 포함 8인까지 허용 -
                 </div>
@@ -354,7 +399,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
 
             <div class="col-xl-4">
-                <div class="card_dash bg-default">
+                <div class="card_dash bg-default" draggable="true">
                     <div class="card-header bg-transparent">
                         <div class="row align-items-center">
                             <div class="col">
@@ -833,6 +878,30 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
                     </div>
                     <div class="modal-body" style="height:40vh; overflow:scroll;">
+
+                        <div class="card_dash card-stats" style="margin:15px;display:flex;border-radius: 10px;">
+                            <!-- Card body -->
+
+                            <div class="row" style="z-index:9998;display:float;float:left;margin:0px;padding:10px;width:40%;display:inline-block;border-radius: 10px;
+                                    background: rgb(11, 31, 70);
+                                    box-shadow: 2px 2px 10px #091a3c, -2px -2px 0px transparent;">
+                                <div class="col">
+                                    <h2 class="h3 font-weight-bold mb-0 text-white" style="display: inline-block;font-size:2fr" id="rtRegionName">00</h2>
+
+                                </div>
+                            </div>
+                            <div class="row" style="position:absolute;right:0;margin:0px;padding:10px;width:60%;display:inline-block;text-align: left;">
+                                <div class="col">
+                                    <h3 class="text-uppercase ls-1 mb-1" id="rtTodayByRegion" style="display:inline-block;">000명</h3>
+                                    </span>
+                                    </h1>
+                                    <div id="rtpmBox_byRegion" style="position:absolute;right:0;top:-5px;font-size:15px;padding:5px 10px; border-radius:10px; background:rgba(255, 105, 97, 0.8); display:inline-block;"><span id="rtPMByRegion">↑ 00</span></div><br>
+
+
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="table-responsive">
                             <!-- Projects table -->
                             <table class="table align-items-center table-flush">
@@ -940,7 +1009,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                         <a href="license.html" target="_blank">오픈소스 라이선스</a>
                         <br> &copy; 2021 <a href="https://icecream0910.github.io " class="font-weight-bold ml-1 " target="_blank ">Ice Cream</a>
 
-                        <br> <br>정보 제공 : <a href="https://api.corona-19.kr/" target="_blank">굿바이코로나</a>, <a href="http://www.cdc.go.kr/" target="_blank">질병관리청</a>, <a href="https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15043377"
+                        <br> <br>정보 제공 : <a href="https://api.corona-19.kr/" target="_blank">굿바이코로나API</a>, <a href="http://www.cdc.go.kr/" target="_blank">질병관리청</a>, <a href="https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15043377"
                             target="_blank">보건복지부</a>,
                         <a href="https://www.worldometers.info/coronavirus/" target="_blank">worldmeters</a>, <a href="https://corona-live.com/" target="_blank">코로나 라이브</a>, <a href="https://newsapi.org" target="_blank">newsapi</a>
                         <br><br><br><br><br><br>
