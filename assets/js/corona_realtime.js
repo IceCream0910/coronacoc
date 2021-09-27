@@ -663,7 +663,7 @@ $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/rates/week.json", fun
                                 position: 'right',
                                 ticks: {
                                     display: false,
-                                    max: 30,
+                                    max: 40,
                                     min: 0
                                 }
                             }]
