@@ -85,7 +85,7 @@
     <div id="default-notice" class="alert alert-primary" role="alert" style="margin:0;position:fixed;bottom:20px;left:15px;right:15px;padding:15px;width:70%;display:inline-block;z-index:9998;
 box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
         <i class="ni ni-bell-55 mb-0" style="margin-right:10px;color:#fff;"></i>
-        <span id="notice-news" onclick="javascript:$('#notice-news').html(randomItem(e));"></span>
+        <span id="notice-news" onclick="javascript:window.open('https://creative-ping-eff.notion.site/29db40bbcf3741188d3d8a99a8776d62', '_blank');">코로나콕 향후 방향성 의견 조사</span>
         <span id="notice-app-promote" type="button" style="display:none;" data-toggle="modal" data-target="#appPromoteModal">안드로이드 앱을 다운로드해보세요</span>
     </div>
 
@@ -1133,18 +1133,19 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
     if (isApp() == true) {
         $('#android_settings_btn').show();
         $('#notice-app-promote').hide();
-        $('#default-notice').hide();
+        //$('#default-notice').hide();
 
         if (isAppLatestVersion() != true) { //앱 최신버전인지 체크
             $('#notice-app-update').show();
         } else {
             $('#notice-app-update').hide();
+            $('#notice-news').show();
 
         }
 
     } else {
-        $('#notice-app-promote').show();
-        $('#notice-news').hide();
+        $('#notice-app-promote').hide();
+        $('#notice-news').show();
     }
 </script>
 
