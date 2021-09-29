@@ -304,8 +304,9 @@ $.ajax({
     type: "GET",
     url: proxyServer_raw + "https://news.daum.net/covid19",
     success: function(result) {
+        console.clear();
         var dataIndex = result.toString().indexOf('window.summaryList');
-        var dataIndexEnd = result.toString().indexOf('window.distanceList');
+        var dataIndexEnd = result.toString().indexOf('window.vaccinationList');
         var data = JSON.parse(result.toString().substring(dataIndex, dataIndexEnd).replace("window.summaryList = ", "").replace(";", ""));
         summaryData = data;
         accumulateChart_week();
@@ -1306,7 +1307,7 @@ function accumulateChart_week() {
     var casesArr = [];
     var cnt = 0;
     for (var i = data.length - (data.length - 6); i >= 0; i--) {
-        dateArr[cnt] = data[i + 1].date;
+        dateArr[cnt] = data[i + 1].stdDate;
         if (i != data.length - 1) {
             casesArr[cnt] = (data[i].confirmed) - (data[i + 1].confirmed);
         }
