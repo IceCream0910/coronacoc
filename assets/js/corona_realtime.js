@@ -1223,7 +1223,7 @@ function accumulateChart() {
     var casesArr = [];
     var cnt = 0;
     for (var i = data.length - 2; i >= 0; i--) {
-        dateArr[cnt] = data[i + 1].date;
+        dateArr[cnt] = data[i + 1].stdDate;
         if (i != data.length - 1) {
             casesArr[cnt] = (data[i].confirmed) - (data[i + 1].confirmed);
         }
