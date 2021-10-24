@@ -1,6 +1,6 @@
 //프록시 서버 분산
-var e = new Array("https://cors-coronacoc-v2.herokuapp.com/", "https://cors-coronacoc-v3.herokuapp.com/", "https://cors-coronacoc-v4.herokuapp.com/"),
-//var e = new Array("https://proxy.hoppscotch.io/"),
+//var e = new Array("https://cors-coronacoc-v2.herokuapp.com/", "https://cors-coronacoc-v3.herokuapp.com/", "https://cors-coronacoc-v4.herokuapp.com/"),
+var e = new Array("https://api.codetabs.com/v1/proxy/?quest="),
 
     proxyServer_raw = randomItem(e),
     proxyServer_json = randomItem(e);
