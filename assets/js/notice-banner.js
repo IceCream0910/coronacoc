@@ -31,7 +31,7 @@ function isAppLatestVersion() {
 }
 
 if (isApp() == true) {
-    
+    $('.loader').hide();
     $('#android_settings_btn').show();
     $('#notice-app-promote').hide();
     $('#default-notice').hide();
@@ -45,6 +45,7 @@ if (isApp() == true) {
     }
 
 } else {
+    
     $('#notice-app-promote').hide();
     $('#notice-news').show();
     $('#default-notice').hide();

@@ -1201,13 +1201,6 @@ function resetReveal() {
 
 }
 
-
-function isApp() {
-    return navigator.userAgent.indexOf('android_app') > 0;
-}
-
-
-if(!isApp()) {
     setTimeout(function() {
 
         $('.loading').fadeOut(10);
@@ -1219,4 +1212,3 @@ if(!isApp()) {
         $('.loader').fadeOut(500);
     
     }, 800);
-}
