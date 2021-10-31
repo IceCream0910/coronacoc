@@ -106,6 +106,12 @@ body {
     text-align: left;
     color: #f8f9fe;
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 [tabindex='-1']:focus:not(:focus-visible) {

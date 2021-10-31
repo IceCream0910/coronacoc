@@ -50,8 +50,6 @@
     <div class="loader">
         <div class="loading"></div>
         <img class="loader_img" src="assets/img/icons/splash_icon.png">
-
-
     </div>
 
     <div id="pool" class="top" style="display:none;">
@@ -213,10 +211,10 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                             background: #fff;
                                             box-shadow: 2px 2px 10px #a9a9a9, -2px -2px 0px transparent;">
                                         <div class="col">
-                                            <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;"><i class="fa fa-arrow-up"></i>
-                                                <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;" id="newConfirmedWorld_mb">로딩중</h1>
-                                            </h1>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">신규 확진</h5>
+                                            <h2 class="h4 font-weight-bold mb-0 text-warning" style="display: inline-block;"><i class="fa fa-arrow-up"></i>
+                                                <h2 class="h4 font-weight-bold mb-0 text-warning" style="display: inline-block;" id="newConfirmedWorld_mb">로딩중</h1>
+                                                    </h1>
+                                                    <h5 class="card-title text-uppercase text-muted mb-0">신규 확진</h5>
 
                                         </div>
                                     </div>
@@ -224,7 +222,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                     <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
                                         <div class="col">
 
-                                            <span class="h2 font-weight-bold mb-0" style="display: inline-block;" id="confirmedWorld_mb">로딩중</span>
+                                            <span class="h4 font-weight-bold mb-0" style="display: inline-block;" id="confirmedWorld_mb">로딩중</span>
 
                                             <h5 class="card-title text-uppercase text-muted mb-0">누적 확진환자</h5>
 
@@ -243,7 +241,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
                                     <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
                                         <div class="col">
-                                            <span class="h2 font-weight-bold mb-0" id="deathWorld_mb">로딩중</span><br>
+                                            <span class="h4 font-weight-bold mb-0" id="deathWorld_mb">로딩중</span><br>
                                             <h5 class="card-title text-uppercase text-muted mb-0">사망자</h5>
                                             <span class="text-danger mr-2" id="deathPMWorld_mb"></span>
 
@@ -390,15 +388,10 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                 </div>
                 <br>
 
-                <div class="alert alert-info" role="alert" onClick="javascript:window.open('http://www.mohw.go.kr/upload/viewer/skin/doc.html?fn=1635136316997_20211025133157.pdf&rs=/upload/viewer/result/202110/', '_blank');">
-                    <strong>코로나19 단계적 일상회복 이행계획 초안 ><br></strong>
-                    - 6주씩 세 차례 걸쳐 단계적 완화…11월1일 시행<br>
-- 식당·카페·독서실·실내체육시설 등 24시간 운영<br>
-- 유흥시설·실내체육시설 등 접종증명·음성확인제<br>
-- 1차 개편 영화관·경기장 접종 완료자만 취식 허용<br>
-- 식당·카페 최대 10인…사적모임 해제는 3차 개편
+                <div class="alert alert-default" role="alert">
+                    <strong>코로나19 단계적 일상회복 이행<br></strong> - 6주씩 세 차례 걸쳐 단계적 완화…11월1일 시행<br> - 식당·카페·독서실·실내체육시설 등 24시간 운영<br> - 유흥시설·실내체육시설 등 접종증명·음성확인제<br> - 1차 개편 영화관·경기장 접종 완료자만 취식 허용<br> - 식당·카페 최대 10인…사적모임 해제는 3차 개편
                 </div>
-                   
+
 
             </div>
 
@@ -1099,61 +1092,5 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
     });
 </script>
 <!-- End Channel Plugin -->
-<script>
-    function isIos() {
-        return [
-                'iPad Simulator',
-                'iPhone Simulator',
-                'iPod Simulator',
-                'iPad',
-                'iPhone',
-                'iPod'
-            ].includes(navigator.platform)
-            // iPad on iOS 13 detection
-            ||
-            (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-    }
-
-    if (isIos()) { //ios 환경이면 미지원 팝업 표시
-        javascript: $('.top-banner').show();
-
-    }
-
-    function isApp() {
-        return navigator.userAgent.indexOf('android_app') > 0;
-    }
-
-
-
-    var latest_version_name = "1.2";
-
-    function isAppLatestVersion() {
-        if (!navigator.userAgent.indexOf("android_app_") > 0) {
-            var result = false;
-        } else {
-            var result = navigator.userAgent.indexOf("android_app_" + latest_version_name) > 0;
-        }
-        return result;
-    }
-
-    if (isApp() == true) {
-        $('#android_settings_btn').show();
-        $('#notice-app-promote').hide();
-        $('#default-notice').hide();
-
-        if (isAppLatestVersion() != true) { //앱 최신버전인지 체크
-            $('#notice-app-update').show();
-        } else {
-            $('#notice-app-update').hide();
-            $('#notice-news').show();
-            $('#default-notice').hide();
-        }
-
-    } else {
-        $('#notice-app-promote').hide();
-        $('#notice-news').show();
-        $('#default-notice').hide();
-    }
-</script>
 
 </html>

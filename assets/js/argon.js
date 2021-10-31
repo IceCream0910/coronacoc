@@ -1201,14 +1201,22 @@ function resetReveal() {
 
 }
 
-setTimeout(function() {
 
-    $('.loading').fadeOut(10);
+function isApp() {
+    return navigator.userAgent.indexOf('android_app') > 0;
+}
 
-}, 200);
 
-setTimeout(function() {
+if(!isApp()) {
+    setTimeout(function() {
 
-    $('.loader').fadeOut(500);
-
-}, 800);
+        $('.loading').fadeOut(10);
+    
+    }, 200);
+    
+    setTimeout(function() {
+    
+        $('.loader').fadeOut(500);
+    
+    }, 800);
+}
