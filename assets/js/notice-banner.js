@@ -31,8 +31,7 @@ function isAppLatestVersion() {
 }
 
 if (isApp() == true) {
-    $('.loader').css( "display", "none" );
-    $('.loading').css( "display", "none" );
+    $('.loader').hide();
     $('#android_settings_btn').show();
     $('#notice-app-promote').hide();
     $('#default-notice').hide();
@@ -46,8 +45,6 @@ if (isApp() == true) {
     }
 
 } else {
-    $('.loader').css( "display", "flex" );
-    $('.loading').css( "display", "block" );
     $('#notice-app-promote').hide();
     $('#notice-news').show();
     $('#default-notice').hide();

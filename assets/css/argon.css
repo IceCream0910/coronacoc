@@ -24976,7 +24976,6 @@ button {
 .loader {
     z-index: 10002;
     background-color: #172b4d;
-    display: none;
     position: fixed;
     width: 100vw;
     height: 100vh;
