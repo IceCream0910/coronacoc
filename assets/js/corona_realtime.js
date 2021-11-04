@@ -30,11 +30,100 @@ var cityCode = {
     "17": "검역"
 };
 
+//공홈 발생현황 페이지 크롤링
+$.ajax({
+    type: "GET",
+    url: proxyServer_raw + "http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=1&brdGubun=11&ncvContSeq=&contSeq=&board_id=&gubun=",
+    success: function(result) {
+        //위중증 환지
+        var dataIndex_s = result.toString().indexOf('<strong class="ca_top">재원 위중증</strong>');
+        var dataIndexEnd_s = result.toString().indexOf('<strong class="ca_top">신규입원</strong>');
+        var resPart_s = result.toString().substring(dataIndex_s, dataIndexEnd_s).replaceAll('<strong class="ca_top">재원 위중증</strong>','').replaceAll('<ul class="ca_body">', '').replaceAll('<li>', '').replaceAll('<dl>', '').replaceAll('</li>', '').replaceAll('</ul>', '').replaceAll('</dl>', '').replaceAll('</div>', '').replaceAll('<div>', '').replaceAll('<dt class="ca_subtit">일일</dt>', '');
+        var dataIndex_s_ = resPart_s.toString().indexOf('<dd class="ca_value">');
+        var dataIndexEnd_s_ = resPart_s.toString().indexOf('<dt class="ca_subtit">인구 10만명당</dt>');
+        var severe = resPart_s.substring(dataIndex_s_, dataIndexEnd_s_).replaceAll('<dd class="ca_value">', '').replaceAll('</dd>', '').replace(")", "").replaceAll(/\s/g,'');
+        $('#severe_mb').html(severe);
+        //신규 입원 환자
+        var dataIndex_h = result.toString().indexOf('<strong class="ca_top">신규입원</strong>');
+        var dataIndexEnd_h = result.toString().indexOf('<strong class="ca_top">확진</strong>');
+        var resPart_h = result.toString().substring(dataIndex_h, dataIndexEnd_h).replaceAll('<strong class="ca_top">신규입원</strong>','').replaceAll('<ul class="ca_body">', '').replaceAll('<li>', '').replaceAll('<dl>', '').replaceAll('</li>', '').replaceAll('</ul>', '').replaceAll('</dl>', '').replaceAll('</div>', '').replaceAll('<div>', '').replaceAll('<dt class="ca_subtit">일일</dt>', '');
+        var dataIndex_h_ = resPart_h.toString().indexOf('<dd class="ca_value">');
+        var dataIndexEnd_h_ = resPart_h.toString().indexOf('<dt class="ca_subtit">인구 10만명당</dt>');
+        var hospitalized = resPart_h.substring(dataIndex_h_, dataIndexEnd_h_).replaceAll('<dd class="ca_value">', '').replaceAll('</dd>', '').replace(")", "");
+        $('#hospitalized_mb').html(hospitalized);
+        
+    }
+});
+
+//공홈 메인 페이지 크롤링
+$.ajax({
+    type: "GET",
+    url: proxyServer_raw + "http://ncov.mohw.go.kr/",
+    success: function(result) {
+        //중환자 병상
+        var dataIndex_s = result.toString().indexOf('<th scope="row"><span>중환자 병상 <br>(중증환자전담 치료병상)</span></th>');
+        var dataIndexEnd_s = result.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담병원(중등중))</span></th>');
+        var resPart_s = result.toString().substring(dataIndex_s, dataIndexEnd_s).replaceAll('<th scope="row"><span>중환자 병상 <br>(중증환자전담 치료병상)</span></th>','').replaceAll('<td><span>', '').replaceAll('</span></td>', '/').replaceAll('<tr>', '').replaceAll('</li>', '').replaceAll('</tr>', '').replaceAll(/\s/g,'').split('/');
+        $('#severe_sickbed').html(resPart_s[0]);
+        $('#severe_sickbed_detail').html(resPart_s[2]+'/'+resPart_s[1]);
+       
+
+
+        //일반 병상
+        var dataIndex_n = result.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담병원(중등중))</span></th>');
+        var dataIndexEnd_n = result.toString().indexOf('<p class="info_notice">거점전담병원 포함</p>');
+        var resPart_n = result.toString().substring(dataIndex_n, dataIndexEnd_n).replaceAll('<th scope="row"><span>일반 병상 <br>(감염병전담병원(중등중))</span></th>','').replaceAll('<td><span>', '').replaceAll('</span></td>', '/').replaceAll('<tr>', '').replaceAll('</li>', '').replaceAll('</tr>', '').replaceAll('</tbody>').replaceAll('</table>', '').replaceAll(/\s/g,'').split('/');
+        $('#normal_sickbed').html(resPart_n[0]);
+        $('#normal_sickbed_detail').html(resPart_n[2]+'/'+resPart_n[1]);
+
+        var severeColor, normalColor = '';
+
+        if(parseInt(resPart_s[0].replace('%', '')) <= 50) {
+            severeColor = ' rgba(69, 209, 90, 0.2)'; //green
+        } else if(parseInt(resPart_s[0].replace('%', '')) <= 80) {
+            severeColor = 'rgba(255, 165, 0, 0.2)'; //orange
+        } else {
+            severeColor = 'rgba(69, 209, 90, 0.2)'; //red
+        }
+
+        if(parseInt(resPart_n[0].replace('%', '')) <= 50) {
+            normalColor = ' rgba(69, 209, 90, 0.2)'; //green
+        } else if(parseInt(resPart_s[0].replace('%', '')) <= 80) {
+            normalColor = 'rgba(255, 165, 0, 0.2)'; //orange
+        } else {
+            normalColor = 'rgba(69, 209, 90, 0.2)'; //red
+        }
+
+        var styles = `.progress_severe:after {
+            content: '';
+            position: absolute;
+            background: `+severeColor+`;
+            top: 0; bottom: 0;
+            left: 0; 
+            width: `+parseInt(resPart_s[0].replace('%', ''))/2+`%;
+        }`+ `.progress_normal:after {
+            content: '';
+            position: absolute;
+            background: `+normalColor+`;
+            top: 0; bottom: 0;
+            left: 0; 
+            width: `+parseInt(resPart_n[0].replace('%', ''))+`%;
+        }`
+
+
+var styleSheet = document.createElement("style")
+styleSheet.type = "text/css"
+styleSheet.innerText = styles
+document.head.appendChild(styleSheet)
+    }
+});
+
+
 $.ajax({
     type: "GET",
     url: "https://api.corona-19.kr/korea/?serviceKey=5d4143bd958c16e18abe1acef5386c12d", // Using myjson.com to store the JSN
     success: function(result2) {
-        document.getElementById("whenUpdate").innerHTML = result2.updateTime.replace("코로나바이러스감염증-19 국내 발생현황 (", "").replace(")", "");
+        document.getElementById("whenUpdate").innerHTML = result2.updateTime.replace("코로나바이러스감염증-19 국내 발생현황 (", "");
 
         new numberCounter("confirmed", result2.TotalCase.replaceAll(",", ""));
         new numberCounter("confirmed_mb", result2.TotalCase.replaceAll(",", ""));
@@ -44,9 +133,9 @@ $.ajax({
         new numberCounter("death_mb", result2.TotalDeath.replaceAll(",", ""));
         nowcase = result2.NowCase;
         nownewcase = result2.TotalCaseBefore;
-        document.getElementById("curePM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        //document.getElementById("curePM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         document.getElementById("deathPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayDeath;
-        document.getElementById("curePM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        //document.getElementById("curePM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         document.getElementById("deathPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayDeath;
 
 
@@ -282,21 +371,7 @@ function rtTodayUpdate() {
 
         }
     });
-
 }
-
-//네이버 현황판(거리두기 단계)
-$.ajax({
-    type: "GET",
-    url: proxyServer_raw + "https://m.news.naver.com/covid19/index.nhn#infection-status",
-    success: function(result) {
-        var dataIndex = result.toString().indexOf('regionDistanceLevelData');
-        var dataIndexEnd = result.toString().indexOf('new news.RegionDistanceLevelRolling({');
-        var data = JSON.parse(result.toString().substring(dataIndex, dataIndexEnd).replace("regionDistanceLevelData = {};", "").replace("try {", "").replace("regionDistanceLevelData = ", "").replace(";", "").replaceAll(" ", ""));
-        rollingDistancingLevel(data);
-        distanceMapUpdate(data);
-    }
-});
 
 var summaryData;
 //카카오 현황판(누적 데이터)
@@ -304,7 +379,7 @@ $.ajax({
     type: "GET",
     url: proxyServer_raw + "https://news.daum.net/covid19",
     success: function(result) {
-        console.clear();
+        //console.clear();
         var dataIndex = result.toString().indexOf('window.summaryList');
         var dataIndexEnd = result.toString().indexOf('window.vaccinationList');
         var data = JSON.parse(result.toString().substring(dataIndex, dataIndexEnd).replace("window.summaryList = ", "").replace(";", ""));
@@ -621,136 +696,6 @@ $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/week.json", fun
     } catch (error) {
         console.log(error);
     }
-});
-
-//검사현황(7일) 가져오기
-$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/rates/week.json", function(rates_data) {
-    $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests-done/week.json", function(test_data) {
-        try {
-            var ctx = document.getElementById("chart-rates-test-week");
-            if (ctx) {
-                var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        datasets: [{
-                            type: 'line',
-                            label: '확진율',
-                            yAxisID: 'B',
-                            data: Object.values(rates_data)
-                        }, {
-                            type: 'bar',
-                            label: '검사완료 건수',
-                            yAxisID: 'A',
-                            data: Object.values(test_data),
-                        }],
-                        labels: Object.keys(rates_data)
-                    },
-                    options: {
-                        legend: {
-                            position: 'center',
-                            labels: {
-                                fontFamily: 'Poppins'
-                            }
-
-                        },
-                        scales: {
-                            yAxes: [{
-                                id: 'A',
-                                type: 'linear',
-                                position: 'left',
-                            }, {
-                                id: 'B',
-                                type: 'linear',
-                                position: 'right',
-                                ticks: {
-                                    display: false,
-                                    max: 40,
-                                    min: 0
-                                }
-                            }]
-                        },
-                        tooltips: {
-                            titleFontFamily: 'Open Sans',
-                            backgroundColor: 'rgba(0,0,0,0.6)',
-                            titleFontColor: 'white',
-                            caretSize: 5,
-                            cornerRadius: 15,
-                            xPadding: 10,
-                            yPadding: 10
-                        }
-                    }
-                });
-            }
-
-        } catch (error) {
-            console.log(error);
-        }
-    });
-});
-
-//검사현황(전체) 가져오기
-$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/rates/all.json", function(rates_data) {
-    $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests-done/all.json", function(test_data) {
-        try {
-            var ctx = document.getElementById("chart-rates-test");
-            if (ctx) {
-                var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        datasets: [{
-                            type: 'line',
-                            label: '확진율',
-                            yAxisID: 'B',
-                            data: Object.values(rates_data)
-                        }, {
-                            type: 'bar',
-                            label: '검사완료 건수',
-                            yAxisID: 'A',
-                            data: Object.values(test_data),
-                        }],
-                        labels: Object.keys(rates_data)
-                    },
-                    options: {
-                        legend: {
-                            position: 'center',
-                            labels: {
-                                fontFamily: 'Poppins'
-                            }
-
-                        },
-                        scales: {
-                            yAxes: [{
-                                id: 'A',
-                                type: 'linear',
-                                position: 'left',
-                            }, {
-                                id: 'B',
-                                type: 'linear',
-                                position: 'right',
-                                ticks: {
-                                    display: false,
-                                    max: 20,
-                                    min: 0
-                                }
-                            }]
-                        },
-                        tooltips: {
-                            titleFontFamily: 'Open Sans',
-                            backgroundColor: 'rgba(0,0,0,0.6)',
-                            titleFontColor: 'white',
-                            caretSize: 5,
-                            cornerRadius: 15,
-                            xPadding: 10,
-                            yPadding: 10
-                        }
-                    }
-                });
-            }
-
-        } catch (error) {
-            console.log(error);
-        }
-    });
 });
 
 /**
