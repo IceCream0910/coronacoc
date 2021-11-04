@@ -42,7 +42,7 @@ $.ajax({
         var dataIndex_s_ = resPart_s.toString().indexOf('<dd class="ca_value">');
         var dataIndexEnd_s_ = resPart_s.toString().indexOf('<dt class="ca_subtit">인구 10만명당</dt>');
         var severe = resPart_s.substring(dataIndex_s_, dataIndexEnd_s_).replaceAll('<dd class="ca_value">', '').replaceAll('</dd>', '').replace(")", "").replaceAll(/\s/g,'');
-        $('#severe_mb').html(severe);
+        new numberCounter("severe_mb",severe);
         //신규 입원 환자
         var dataIndex_h = result.toString().indexOf('<strong class="ca_top">신규입원</strong>');
         var dataIndexEnd_h = result.toString().indexOf('<strong class="ca_top">확진</strong>');
@@ -50,7 +50,8 @@ $.ajax({
         var dataIndex_h_ = resPart_h.toString().indexOf('<dd class="ca_value">');
         var dataIndexEnd_h_ = resPart_h.toString().indexOf('<dt class="ca_subtit">인구 10만명당</dt>');
         var hospitalized = resPart_h.substring(dataIndex_h_, dataIndexEnd_h_).replaceAll('<dd class="ca_value">', '').replaceAll('</dd>', '').replace(")", "");
-        $('#hospitalized_mb').html(hospitalized);
+        new numberCounter("hospitalized_mb",hospitalized);
+
         
     }
 });
