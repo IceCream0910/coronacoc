@@ -61,6 +61,7 @@ $.ajax({
     type: "GET",
     url: proxyServer_raw + "http://ncov.mohw.go.kr/",
     success: function(result) {
+        console.clear();
         //중환자 병상
         var dataIndex_s = result.toString().indexOf('<th scope="row"><span>중환자 병상 <br>(중증환자전담 치료병상)</span></th>');
         var dataIndexEnd_s = result.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담병원(중등중))</span></th>');
@@ -71,11 +72,13 @@ $.ajax({
 
 
         //일반 병상
-        var dataIndex_n = result.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담병원(중등중))</span></th>');
+        var dataIndex_n = result.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담 병원(중등중))</span></th>');
         var dataIndexEnd_n = result.toString().indexOf('<p class="info_notice">거점전담병원 포함</p>');
-        var resPart_n = result.toString().substring(dataIndex_n, dataIndexEnd_n).replaceAll('<th scope="row"><span>일반 병상 <br>(감염병전담병원(중등중))</span></th>','').replaceAll('<td><span>', '').replaceAll('</span></td>', '/').replaceAll('<tr>', '').replaceAll('</li>', '').replaceAll('</tr>', '').replaceAll('</tbody>').replaceAll('</table>', '').replaceAll(/\s/g,'').split('/');
+        var resPart_n = result.toString().substring(dataIndex_n, dataIndexEnd_n).replaceAll('<th scope="row"><span>일반 병상 <br>(감염병전담 병원(중등중))</span></th>','').replaceAll('<td><span>', '').replaceAll('</span></td>', '/').replaceAll('<tr>', '').replaceAll('</li>', '').replaceAll('</tr>', '').replaceAll('</tbody>').replaceAll('</table>', '').replaceAll(/\s/g,'').split('/');
         $('#normal_sickbed').html(resPart_n[0]);
         $('#normal_sickbed_detail').html(resPart_n[2]+'/'+resPart_n[1]);
+
+        console.log(dataIndex_n, dataIndexEnd_n, resPart_n)
 
         var severeColor, normalColor = '';
 
