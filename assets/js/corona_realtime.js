@@ -44,15 +44,6 @@ $.ajax({
         var deaths = resPart_d.substring(dataIndex_d_, dataIndexEnd_d_).replaceAll('<dd class="ca_value">', '').replaceAll('</dd>', '').replace(")", "").replaceAll(/\s/g,'');
         document.getElementById("deathPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' +deaths;
         document.getElementById("deathPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + deaths;
-
-        //위중증 환지
-        var dataIndex_s = result.toString().indexOf('<strong class="ca_top">재원 위중증</strong>');
-        var dataIndexEnd_s = result.toString().indexOf('<strong class="ca_top">신규입원</strong>');
-        var resPart_s = result.toString().substring(dataIndex_s, dataIndexEnd_s).replaceAll('<strong class="ca_top">재원 위중증</strong>','').replaceAll('<ul class="ca_body">', '').replaceAll('<li>', '').replaceAll('<dl>', '').replaceAll('</li>', '').replaceAll('</ul>', '').replaceAll('</dl>', '').replaceAll('</div>', '').replaceAll('<div>', '').replaceAll('<dt class="ca_subtit">일일</dt>', '');
-        var dataIndex_s_ = resPart_s.toString().indexOf('<dd class="ca_value">');
-        var dataIndexEnd_s_ = resPart_s.toString().indexOf('<dt class="ca_subtit">인구 10만명당</dt>');
-        var severe = resPart_s.substring(dataIndex_s_, dataIndexEnd_s_).replaceAll('<dd class="ca_value">', '').replaceAll('</dd>', '').replace(")", "").replaceAll(/\s/g,'');
-        new numberCounter("severe_mb",severe);
         //신규 입원 환자
         var dataIndex_h = result.toString().indexOf('<strong class="ca_top">신규입원</strong>');
         var dataIndexEnd_h = result.toString().indexOf('<strong class="ca_top">확진</strong>');
@@ -71,7 +62,6 @@ $.ajax({
     type: "GET",
     url: proxyServer_raw + "http://ncov.mohw.go.kr/",
     success: function(result) {
-        console.clear();
         //중환자 병상
         var dataIndex_s = result.toString().indexOf('<th scope="row"><span>중환자 병상 <br>(중증환자전담 치료병상)</span></th>');
         var dataIndexEnd_s = result.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담병원(중등중))</span></th>');
@@ -79,7 +69,6 @@ $.ajax({
         $('#severe_sickbed').html(resPart_s[0]);
         $('#severe_sickbed_detail').html(resPart_s[2]+'/'+resPart_s[1]);
        
-
 
         //일반 병상
         var dataIndex_n = result.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담 병원(중등중))</span></th>');
@@ -137,7 +126,7 @@ $.ajax({
     type: "GET",
     url: "https://api.corona-19.kr/korea/?serviceKey=5d4143bd958c16e18abe1acef5386c12d", // Using myjson.com to store the JSN
     success: function(result2) {
-        document.getElementById("whenUpdate").innerHTML = result2.updateTime.replace("코로나바이러스감염증-19 국내 발생현황 (", "");
+        document.getElementById("whenUpdate").innerHTML = result2.updateTime.replace("코로나바이러스감염증-19 국내 발생현황 (", "").replace(')', '');
 
         new numberCounter("confirmed", result2.TotalCase.replaceAll(",", ""));
         new numberCounter("confirmed_mb", result2.TotalCase.replaceAll(",", ""));
@@ -322,6 +311,12 @@ function rtTodayGet() {
                 document.getElementById('rtpmBox').style.backgroundColor = "rgba(255, 105, 97, 0.3)";
                 rtpm = "↑ " + rtpm;
             }
+            
+        //위중증 환자
+        new numberCounter("severe_mb",result.stats.patientsWithSevereSymptons[0]);
+        $('#severePM_mb').html('<i class="fa fa-arrow-up"></i> ' + + result.stats.patientsWithSevereSymptons[1]);
+        
+
             document.getElementById('rtPM').innerHTML = rtpm;
             var cityN = result.updatesPreview[0].city.toString();
             document.getElementById('realtimeSummary').innerHTML = cityCode[cityN] + " " + result.updatesPreview[0].src + "&nbsp;&nbsp;>";
@@ -592,17 +587,89 @@ $.ajax({
 
         var first_percent = result.stats.partiallyVaccinated.percentage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         var second_percent = result.stats.fullyVaccinated.percentage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        
         $('#first_vaccinePercent').html(first_percent + "%");
         $('#second_vaccinePercent').html(second_percent + "%");
+        $(".progress_vac1").css({width: parseInt(first_percent)+"%"});
+        $(".progress_vac2").css({width: parseInt(second_percent)+"%"});
 
+
+    }
+});
+//예방접종 공홈에서 추가접종 현황 크롤링
+$.ajax({
+    type: "GET",
+    url: proxyServer_raw + "https://ncv.kdca.go.kr/mainStatus.es?mid=a11702000000",
+    success: function(result) {
+        var dataIndex_v3 = result.toString().indexOf('<th scope="row">당일 누적<span class="r_txt_descript clr_1">A</span> + <span class="r_txt_descript clr_2">B</span></th>');
+        var dataIndexEnd_v3 = result.toString().indexOf('<th scope="row">당일 실적<span class="r_txt_descript clr_1">A</span></th>');
+        var resPart_v3 = result.toString().substring(dataIndex_v3, dataIndexEnd_v3).replaceAll('<th scope="row">당일 누적<span class="r_txt_descript clr_1">A</span> + <span class="r_txt_descript clr_2">B</span></th>','').replaceAll('<td class="d_num">', '').replaceAll('</td>', '/').replaceAll('</tr>', '').replaceAll('<tr>', '').replaceAll('\r\n', '').replaceAll(/\s/g,'').split('/');
+        $('#third_vaccinePercent').html(resPart_v3[2] + "건");
+        
+    }
+});
+
+
+//검사현황 가져오기
+$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/all.json", function(json_data) {
+    try {
+        var ctx = document.getElementById("chart-tests");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(json_data),
+                    datasets: [{
+                        label: "일일 검사 건수",
+                        data: Object.values(json_data),
+                        borderColor: "rgba(255, 255, 255, 0.9)",
+                        backgroundColor: "rgba(255, 255, 255, 0.5)"
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontFamily: "Poppins"
+
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontFamily: "Poppins"
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
     }
 });
 
 //검사현황 가져오기
-$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/all.json", function(json_data) {
-    console.log(json_data);
+$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/week.json", function(json_data) {
     try {
-        var ctx = document.getElementById("chart-tests");
+        var ctx = document.getElementById("chart-tests-week");
         if (ctx) {
             var myChart = new Chart(ctx, {
                 type: 'bar',
@@ -655,21 +722,76 @@ $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/all.json", func
     }
 });
 
-//검사현황 가져오기
-$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/week.json", function(json_data) {
-    console.log(json_data);
+
+//사망자 추이 가져오기
+$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/deaths/all.json", function(json_data) {
     try {
-        var ctx = document.getElementById("chart-tests-week");
+        var ctx = document.getElementById("chart-deaths");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(json_data),
+                    datasets: [{
+                        label: "사망자",
+                        data: Object.values(json_data),
+                        borderColor: "rgba(0, 0, 0, 0)",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)"
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontFamily: "Poppins"
+
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontFamily: "Poppins"
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+$.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/deaths/week.json", function(json_data) {
+    try {
+        var ctx = document.getElementById("chart-deaths-week");
         if (ctx) {
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: Object.keys(json_data),
                     datasets: [{
-                        label: "일일 검사 건수",
+                        label: "사망자",
                         data: Object.values(json_data),
-                        borderColor: "rgba(255, 255, 255, 0.9)",
-                        backgroundColor: "rgba(255, 255, 255, 0.5)"
+                        borderColor: "rgba(0, 0, 0, 0.9)",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)"
                     }]
                 },
                 options: {
@@ -1345,4 +1467,15 @@ function accumulateChart_week() {
     }
     $('#chart-confirmed').hide();
     $('#chart-confirmed-week').show();
+}
+
+function deathsChart() {
+    $('#chart-deaths').show();
+    $('#chart-deaths-week').hide();
+}
+
+
+function deathsChart_week() {
+    $('#chart-deaths').hide();
+    $('#chart-deaths-week').show();
 }
