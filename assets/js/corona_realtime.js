@@ -35,6 +35,16 @@ $.ajax({
     type: "GET",
     url: proxyServer_raw + "http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=1&brdGubun=11&ncvContSeq=&contSeq=&board_id=&gubun=",
     success: function(result) {
+        //사망
+        var dataIndex_d = result.toString().indexOf('<strong class="ca_top">사망</strong>');
+        var dataIndexEnd_d = result.toString().indexOf('<strong class="ca_top">재원 위중증</strong>');
+        var resPart_d = result.toString().substring(dataIndex_d, dataIndexEnd_d).replaceAll('<strong class="ca_top">사망</strong>','').replaceAll('<ul class="ca_body">', '').replaceAll('<li>', '').replaceAll('<dl>', '').replaceAll('</li>', '').replaceAll('</ul>', '').replaceAll('</dl>', '').replaceAll('</div>', '').replaceAll('<div>', '').replaceAll('<dt class="ca_subtit">일일</dt>', '');
+        var dataIndex_d_ = resPart_d.toString().indexOf('<dd class="ca_value">');
+        var dataIndexEnd_d_ = resPart_d.toString().indexOf('<dt class="ca_subtit">인구 10만명당</dt>');
+        var deaths = resPart_d.substring(dataIndex_d_, dataIndexEnd_d_).replaceAll('<dd class="ca_value">', '').replaceAll('</dd>', '').replace(")", "").replaceAll(/\s/g,'');
+        document.getElementById("deathPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' +deaths;
+        document.getElementById("deathPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + deaths;
+
         //위중증 환지
         var dataIndex_s = result.toString().indexOf('<strong class="ca_top">재원 위중증</strong>');
         var dataIndexEnd_s = result.toString().indexOf('<strong class="ca_top">신규입원</strong>');
@@ -138,9 +148,9 @@ $.ajax({
         nowcase = result2.NowCase;
         nownewcase = result2.TotalCaseBefore;
         //document.getElementById("curePM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        document.getElementById("deathPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayDeath;
+        //document.getElementById("deathPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayDeath;
         //document.getElementById("curePM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        document.getElementById("deathPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayDeath;
+        //document.getElementById("deathPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayDeath;
 
 
         $('#casePercent').attr("data-done", (result2.casePercentage) * 10.0);
