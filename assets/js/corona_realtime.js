@@ -53,6 +53,32 @@ $.ajax({
         var hospitalized = resPart_h.substring(dataIndex_h_, dataIndexEnd_h_).replaceAll('<dd class="ca_value">', '').replaceAll('</dd>', '').replace(")", "");
         new numberCounter("hospitalized_mb",hospitalized);
 
+
+        //재원 위중증 추이
+        var dataIndex_s_chart = result.toString().indexOf('<caption><span class="hdn">재원 위중증 현황 표 - 일주일간 일일 현황과 인구 10만명당 현황으로 구성 </span></caption>');
+        var dataIndexEnd_s_chart = result.toString().indexOf('<h5 class="s_title_in3">신규입원 현황 <span class="t_date">');
+        var resPart_s_chart = result.toString().substring(dataIndex_s_chart, dataIndexEnd_s_chart);
+        var dataIndex_s_chart_ = resPart_s_chart.toString().indexOf('<th>일일</th>');
+        var dataIndexEnd_s_chart_ = resPart_s_chart.toString().indexOf('<th>인구 10만명 당</th>');
+        var s_chart = resPart_s_chart.substring(dataIndex_s_chart_, dataIndexEnd_s_chart_).replaceAll('<caption><span class="hdn">사망현황표 - 일주일간 일일 현황과 인구 10만명당 현황으로 구성 </span></caption>','').replaceAll('<colgroup>', '').replaceAll('<col style="width:14%">', '').replace('<col style="width:10.75%">', '').replace('</colgroup>').replaceAll('<thead>', '').replaceAll('<tr>', '').replaceAll('<th>', '').replaceAll('<th>주간일평균</th>', '').replaceAll('<td>', '').replaceAll('</tr>', '').replaceAll('</td>', '/').replaceAll('\r', '').replaceAll('\n', '').replaceAll('\t', '').replaceAll('일일</', '').replace('th>', '').split('/');
+        
+        var dataIndex_s_chart_d = resPart_s_chart.toString().indexOf('<th>구분</th>');
+        var dataIndexEnd_s_chart_d = resPart_s_chart.toString().indexOf('<th>주간일평균</th>');
+        var s_chart_d = resPart_s_chart.substring(dataIndex_s_chart_d, dataIndexEnd_s_chart_d).replaceAll('<th>구분</th>','').replaceAll('<th>', '').replaceAll('</th>', '/').replaceAll('</tr>', '').replace('</thead>', '').replaceAll('</tbody>', '').replaceAll('<tbody>', '').replaceAll('\r', '').replaceAll('\n', '').replaceAll('\t', '').replaceAll('일일</', '').replace('th>', '').split('/');
+        severe_chart(s_chart, s_chart_d);
+
+         //신규 입원 추이
+         var dataIndex_b_chart = result.toString().indexOf('<caption><span class="hdn">신규입원 현황 표 - 일주일간 일일 현황과 인구 10만명당 현황으로 구성 </span></caption>');
+         var dataIndexEnd_b_chart = result.toString().indexOf('<h5 class="s_title_in3">확진 현황');
+         var resPart_b_chart = result.toString().substring(dataIndex_b_chart, dataIndexEnd_b_chart);
+         var dataIndex_b_chart_ = resPart_b_chart.toString().indexOf('<th>일일</th>');
+         var dataIndexEnd_b_chart_ = resPart_b_chart.toString().indexOf('<th>인구 10만명 당</th>');
+         var b_chart = resPart_b_chart.substring(dataIndex_b_chart_, dataIndexEnd_b_chart_).replaceAll('<caption><span class="hdn">신규입원 현황 표 - 일주일간 일일 현황과 인구 10만명당 현황으로 구성 </span></caption>','').replaceAll('<colgroup>', '').replaceAll('<col style="width:14%">', '').replace('<col style="width:10.75%">', '').replace('</colgroup>').replaceAll('<thead>', '').replaceAll('<tr>', '').replaceAll('<th>', '').replaceAll('<th>주간일평균</th>', '').replaceAll('<td>', '').replaceAll('</tr>', '').replaceAll('</td>', '/').replaceAll('\r', '').replaceAll('\n', '').replaceAll('\t', '').replaceAll('일일</', '').replace('th>', '').split('/');
+         
+         var dataIndex_b_chart_d = resPart_b_chart.toString().indexOf('<th>구분</th>');
+         var dataIndexEnd_b_chart_d= resPart_b_chart.toString().indexOf('<th>주간일평균</th>');
+         var b_chart_d = resPart_b_chart.substring(dataIndex_b_chart_d, dataIndexEnd_b_chart_d).replaceAll('<th>구분</th>','').replaceAll('<th>', '').replaceAll('</th>', '/').replaceAll('</tr>', '').replace('</thead>', '').replaceAll('</tbody>', '').replaceAll('<tbody>', '').replaceAll('\r', '').replaceAll('\n', '').replaceAll('\t', '').replaceAll('일일</', '').replace('th>', '').split('/');
+         bed_chart(b_chart, b_chart_d);
         
     }
 });
@@ -314,7 +340,9 @@ function rtTodayGet() {
             
         //위중증 환자
         new numberCounter("severe_mb",result.stats.patientsWithSevereSymptons[0]);
-        $('#severePM_mb').html('<i class="fa fa-arrow-up"></i> ' + + result.stats.patientsWithSevereSymptons[1]);
+        if(result.stats.patientsWithSevereSymptons[1] != 0) {
+$('#severePM_mb').html('<i class="fa fa-arrow-up"></i> ' + result.stats.patientsWithSevereSymptons[1]);
+        }
         
 
             document.getElementById('rtPM').innerHTML = rtpm;
@@ -1467,6 +1495,130 @@ function accumulateChart_week() {
     }
     $('#chart-confirmed').hide();
     $('#chart-confirmed-week').show();
+}
+
+
+function severe_chart(data, date) {
+    dataArr = data.slice(0, -2);
+    dateArr = date.slice(0, -1);
+
+    try {
+        // 연령별 사망자 분포
+        var ctx = document.getElementById("chart_severe");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dateArr,
+                    datasets: [{
+                        label: "재원 위중증 환자",
+                        data: dataArr,
+                        borderWidth: "0",
+                        borderColor: "rgba(137, 101, 224, 0.7)",
+                        backgroundColor: "rgba(137, 101, 224, 0.7)"
+                    }]
+                },
+                options: {
+                    visible: false,
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: false
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontFamily: "Poppins"
+                            },
+                            gridLines: {
+                                display: false
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+function bed_chart(data, date) {
+    dataArr = data.slice(0, -2);
+    dateArr = date.slice(0, -1);
+
+    try {
+        // 연령별 사망자 분포
+        var ctx = document.getElementById("chart-newBed");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dateArr,
+                    datasets: [{
+                        label: "신규 입원 환자",
+                        data: dataArr,
+                        borderWidth: "0",
+                        borderColor: "rgba(243, 164, 181, 0.7)",
+                        backgroundColor: "rgba(243, 164, 181, 0.7)"
+                    }]
+                },
+                options: {
+                    visible: false,
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: false
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontFamily: "Poppins"
+                            },
+                            gridLines: {
+                                display: false
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function deathsChart() {
