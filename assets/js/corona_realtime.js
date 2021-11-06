@@ -1507,7 +1507,7 @@ function severe_chart(data, date) {
         var ctx = document.getElementById("chart_severe");
         if (ctx) {
             var myChart = new Chart(ctx, {
-                type: 'line',
+                type: 'bar',
                 data: {
                     labels: dateArr,
                     datasets: [{
