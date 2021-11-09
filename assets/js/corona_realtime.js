@@ -93,7 +93,7 @@ $.ajax({
         var dataIndexEnd_s = result.toString().indexOf('<th scope="row"><span>일반 병상 <br>(감염병전담 병원(중등중))</span></th>');
         var resPart_s = result.toString().substring(dataIndex_s, dataIndexEnd_s).replaceAll('<th scope="row"><span>중환자 병상 <br>(중증환자전담 치료병상)</span></th>','').replaceAll('<td><span>', '').replaceAll('</span></td>', '/').replaceAll('<tr>', '').replaceAll('</li>', '').replaceAll('</tr>', '').replaceAll(/\s/g,'').split('/');
         $('#severe_sickbed').html(resPart_s[0]);
-        $('#severe_sickbed_detail').html('가용병상 '+resPart_s[2]+'개');
+        $('#severe_sickbed_detail').html('가용 '+resPart_s[2]+'개');
        
 
         //일반 병상
@@ -101,7 +101,7 @@ $.ajax({
         var dataIndexEnd_n = result.toString().indexOf('<p class="info_notice">거점전담병원 포함</p>');
         var resPart_n = result.toString().substring(dataIndex_n, dataIndexEnd_n).replaceAll('<th scope="row"><span>일반 병상 <br>(감염병전담 병원(중등중))</span></th>','').replaceAll('<td><span>', '').replaceAll('</span></td>', '/').replaceAll('<tr>', '').replaceAll('</li>', '').replaceAll('</tr>', '').replaceAll('</tbody>').replaceAll('</table>', '').replaceAll(/\s/g,'').split('/');
         $('#normal_sickbed').html(resPart_n[0]);
-        $('#normal_sickbed_detail').html('가용병상 '+resPart_n[2]+'개');
+        $('#normal_sickbed_detail').html('가용 '+resPart_n[2]+'개');
 
         console.log(dataIndex_n, dataIndexEnd_n, resPart_n)
 
