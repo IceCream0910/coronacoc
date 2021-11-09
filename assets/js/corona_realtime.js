@@ -650,7 +650,7 @@ $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/all.json", func
                     datasets: [{
                         label: "일일 검사 건수",
                         data: Object.values(json_data),
-                        borderColor: "rgba(255, 255, 255, 0.9)",
+                        borderColor: "rgba(255, 255, 255, 0)",
                         backgroundColor: "rgba(255, 255, 255, 0.5)"
                     }]
                 },
