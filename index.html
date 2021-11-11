@@ -189,7 +189,8 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                     <div class="row" style="display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;">
                                         <div class="col">
                                             <span class="h2 font-weight-bold mb-0" id="severe_mb">로딩중</span><br>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">위중증 <span class="text-danger mr-2" id="severePM_mb"></span></h5>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">위중증<button style="background:none;color:#a9a9a9;height:10px;width:10px;" type="button" data-placement="top" data-container="body" data-html="true" data-toggle="popover" data-color="default" data-content="재원 위중증 : 고유량 (high flow) 산소요법, 인공호흡기 , ECMO (체외막산소공곱), CRRT(지속적인대체요법) 등으로 격리 치료 중인 환자"><ion-icon name="information-circle-outline"></ion-icon></button>
+                                                <span class="text-danger mr-2" id="severePM_mb"></span></h5>
                                         </div>
                                     </div>
 
@@ -427,11 +428,28 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
             <div class="col-xl-4">
                 <div class="card_dash bg-default" draggable="true">
+
                     <div class="card-header bg-transparent">
+
                         <div class="row align-items-center">
                             <div class="col">
                                 <h6 class="text-light text-uppercase ls-1 mb-1">Real-time confirmed cases today</h6>
-                                <h5 class="h2 text-white mb-0">실시간 확진자</h5>
+                                <h5 class="h2 text-white mb-0">실시간 확진 현황
+
+                                    <button id="live-dot-popover" style="background:none;color:#a9a9a9;height:10px;width:10px;" type="button" data-placement="left" data-container="body" data-html="true" data-toggle="popover" data-color="default" data-content="현재 실시간 집계 진행중">
+                                    <div class="box">
+                                        <div class="circContainer">
+                                            <div class="circ"></div>
+                                            <div class="circPulse one"></div>
+                                            <div class="circPulse two"></div>
+                                        </div>
+                                        <!--.circContainer-->
+                                    </div>
+                                    </button>
+
+
+
+                                </h5>
                             </div>
                         </div>
                     </div>

@@ -25059,7 +25059,7 @@ button {
 
 .top-banner span {
     width: 50px;
-    heigth: 28px;
+    height: 28px;
     line-height: 28px;
     background-color: #a1c45a;
     border-radius: 20px;
@@ -25071,4 +25071,94 @@ button {
 
 .pattern {
     color: white;
+}
+
+.box .circContainer {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    left: 100%;
+    margin-top: -30px;
+    margin-left: 50px;
+}
+
+.box .circContainer:nth-of-type(1) {
+    top: 0px;
+    left: 75px;
+}
+
+.box .circContainer:nth-of-type(1) .circ {
+    background: Tomato;
+}
+
+.box .circContainer:nth-of-type(1) .circPulse {
+    background: rgba(255, 99, 71, 0.5);
+}
+
+#live-dot-popover:active,
+#live-dot-popover:focus {
+    border: none;
+    border-shadow: none;
+}
+
+.box .circContainer:nth-of-type(2) {
+    top: -25px;
+    left: 100px;
+}
+
+.circ {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 9;
+    left: 10px;
+    top: 10px;
+}
+
+.circPulse {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* animation */
+    -webkit-animation: pulse 1.4s ease-out;
+    -moz-animation: pulse 1.4s ease-out;
+    animation: pulse 1.4s ease-out;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
+
+.circPulse .one {
+    -webkit-animation-delay: 0ms;
+}
+
+.circPulse .two {
+    -webkit-animation-delay: 750ms;
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-transform: scale(0);
+        opacity: 0;
+    }
+    25% {
+        -webkit-transform: scale(0.3);
+        opacity: 1;
+    }
+    50% {
+        -webkit-transform: scale(0.6);
+        opacity: 0.6;
+    }
+    75% {
+        -webkit-transform: scale(0.9);
+        opacity: 0.3;
+    }
+    100% {
+        -webkit-transform: scale(1);
+        opacity: 0;
+    }
 }

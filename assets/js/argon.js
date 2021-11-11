@@ -648,7 +648,7 @@ var Popover = (function() {
 
         var options = {
             trigger: 'focus',
-            template: '<div class="popover ' + $popoverClass + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+            template: '<div class="popover ' + $popoverClass + '" role="tooltip"><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
         };
 
         $this.popover(options);
@@ -1212,3 +1212,25 @@ function resetReveal() {
         $('.loader').fadeOut(500);
     
     }, 800);
+
+
+    var now = new Date();	// 현재 날짜 및 시간
+    var hours = now.getHours();	// 시간
+    if(hours >= 23 || hours <= 8) {
+        var styles = `.box .circContainer:nth-of-type(1) .circ {
+            background: #a9a9a9;
+        }
+        
+        .box .circContainer:nth-of-type(1) .circPulse {
+            background: rgba(169, 169, 169, 0.5);
+        }`
+
+
+var styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);$('#live-dot-popover').attr('data-placement', "right");
+$('#live-dot-popover').attr('data-content', '집계 종료');
+
+
+    }
