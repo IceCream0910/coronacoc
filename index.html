@@ -429,31 +429,31 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
             <div class="col-xl-4">
                 <div class="card_dash bg-default" draggable="true">
 
+
+
                     <div class="card-header bg-transparent">
 
                         <div class="row align-items-center">
                             <div class="col">
                                 <h6 class="text-light text-uppercase ls-1 mb-1">Real-time confirmed cases today</h6>
-                                <h5 class="h2 text-white mb-0">실시간 확진 현황
-
-                                    <button id="live-dot-popover" style="background:none;color:#a9a9a9;height:10px;width:10px;" type="button" data-placement="left" data-container="body" data-html="true" data-toggle="popover" data-color="default" data-content="현재 실시간 집계 진행중">
-                                    <div class="box">
-                                        <div class="circContainer">
-                                            <div class="circ"></div>
-                                            <div class="circPulse one"></div>
-                                            <div class="circPulse two"></div>
-                                        </div>
-                                        <!--.circContainer-->
-                                    </div>
-                                    </button>
-
-
-
+                                <h5 class="h2 text-white mb-0" style="margin-left:30px;">실시간 확진 현황
                                 </h5>
                             </div>
                         </div>
                     </div>
                     <div class="card-body" style="margin-top:-30px;">
+
+                        <a class="popover_custom" data-tooltip="실시간 집계 중">
+                            <div class="box live-dot" style="position: absolute;
+                            top: 40px;left:-55px;">
+                                <div class="circContainer">
+                                    <div class="circ"></div>
+                                    <div class="circPulse one"></div>
+                                    <div class="circPulse two"></div>
+                                </div>
+                                <!--.circContainer-->
+                            </div>
+                        </a>
 
 
 
@@ -480,6 +480,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                 <h6 class="text-uppercase text-muted ls-1 mb-1">Vaccination Status</h6>
                                 <h5 class="h2 mb-0">백신 접종 현황</h5>
                                 <div class="chart" style="margin:-10px;padding:0;padding-top:20px;">
+
                                     <div class="row progress_vac1" style="padding:20px;;display:inline-block;background-color: rgba(69, 209, 90, 0.2);">
                                         <div class="col">
                                             <span class="h2 font-weight-bold mb-0" id="first_vaccinePercent">로딩중</span><br>
@@ -527,6 +528,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                     <div class="card-body">
                         <div class="chart">
+                            <div class="mesh-loader loader_confirmed">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                             <canvas id="chart-confirmed" class="chart-canvas" style="display:none;"></canvas>
                             <canvas id="chart-confirmed-week" class="chart-canvas"></canvas>
                         </div>
@@ -549,6 +560,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                     <div class="card-body">
                         <div class="chart">
+                            <div class="mesh-loader loader_deaths">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                             <canvas id="chart-deaths" class="chart-canvas" style="display:none;"></canvas>
                             <canvas id="chart-deaths-week" class="chart-canvas"></canvas>
                         </div>
@@ -573,6 +594,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                     <div class="card-body">
                         <div class="chart">
+                            <div class="mesh-loader loader_tests">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                             <canvas id="chart-tests" class="chart-canvas" style="display:none;"></canvas>
                             <canvas id="chart-tests-week" class="chart-canvas"></canvas>
                         </div>
@@ -591,6 +622,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                     <div class="card-body">
                         <div class="chart">
+                            <div class="mesh-loader loader_severe">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                             <canvas id="chart_severe" class="chart-canvas"></canvas>
                         </div>
                     </div>
@@ -608,6 +649,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                     <div class="card-body">
                         <div class="chart">
+                            <div class="mesh-loader loader_newbed">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                             <canvas id="chart-newBed" class="chart-canvas"></canvas>
                         </div>
                     </div>
@@ -626,6 +677,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                     <div class="card-body">
                         <div class="chart">
+                            <div class="mesh-loader loader_caseByAge">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                             <canvas id="singelBarChart_case" class="chart-canvas"></canvas>
                         </div>
                     </div>
@@ -643,6 +704,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                     <div class="card-body">
                         <div class="chart">
+                            <div class="mesh-loader loader_deathsByAge">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                             <canvas id="singelBarChart_death" class="chart-canvas"></canvas>
                         </div>
                     </div>
@@ -662,6 +733,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     <div class="card-body">
                         <!-- Chart -->
                         <div class="chart">
+                            <div class="mesh-loader loader_caseByGender">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                             <canvas id="doughutChart_sex" class="chart-canvas"></canvas>
                         </div>
                     </div>

@@ -640,6 +640,7 @@ $.ajax({
 
 //검사현황 가져오기
 $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/all.json", function(json_data) {
+    $('.loader_tests').hide();
     try {
         var ctx = document.getElementById("chart-tests");
         if (ctx) {
@@ -753,6 +754,7 @@ $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/tests/week.json", fun
 
 //사망자 추이 가져오기
 $.getJSON(proxyServer_raw + "https://apiv2.corona-live.com/deaths/all.json", function(json_data) {
+    $('.loader_deaths').hide();
     try {
         var ctx = document.getElementById("chart-deaths");
         if (ctx) {
@@ -1007,6 +1009,7 @@ function yesterdayData() {
 // 차트 생성
 function reloadChart(cases_byAge, death_byAge, cases_bySex) {
     try {
+        $('.loader_caseByAge').hide();
 
         // 연령별 확진자 분포
         var ctx = document.getElementById("singelBarChart_case");
@@ -1063,6 +1066,7 @@ function reloadChart(cases_byAge, death_byAge, cases_bySex) {
     }
 
     try {
+        $('.loader_deathsByAge').hide();
 
         // 연령별 사망자 분포
         var ctx = document.getElementById("singelBarChart_death");
@@ -1119,7 +1123,7 @@ function reloadChart(cases_byAge, death_byAge, cases_bySex) {
     }
 
     try {
-
+        $('.loader_caseByGender').hide();
         //성별 확진자 현황
         var ctx = document.getElementById("doughutChart_sex");
         if (ctx) {
@@ -1341,8 +1345,8 @@ function accumulateChart() {
     }
 
     console.log(data, casesArr);
-
-
+    $('.loader_confirmed').hide();
+    
 
     try {
         // 연령별 사망자 분포
@@ -1400,6 +1404,7 @@ function accumulateChart() {
     }
     $('#chart-confirmed').show();
     $('#chart-confirmed-week').hide();
+    
 }
 
 
@@ -1436,7 +1441,7 @@ function accumulateChart_week() {
 
     console.log(data, casesArr);
 
-
+    $('.loader_confirmed').hide();
 
     try {
         // 연령별 사망자 분포
@@ -1501,25 +1506,28 @@ function accumulateChart_week() {
 function severe_chart(data, date) {
     dataArr = data.slice(0, -2);
     dateArr = date.slice(0, -1);
-
+    $('.loader_severe').hide();
     try {
         // 연령별 사망자 분포
         var ctx = document.getElementById("chart_severe");
         if (ctx) {
             var myChart = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: dateArr,
                     datasets: [{
                         label: "재원 위중증 환자",
                         data: dataArr,
-                        borderWidth: "0",
+                        borderWidth: "5",
                         borderColor: "rgba(137, 101, 224, 0.7)",
-                        backgroundColor: "rgba(137, 101, 224, 0.7)"
+                        backgroundColor: "rgba(137, 101, 224, 0)"
                     }]
                 },
                 options: {
-                    visible: false,
+                        points:{
+                            visible: 'true',
+                            radius: '50%'
+                        },
                     legend: {
                         position: 'center',
                         labels: {
@@ -1529,11 +1537,11 @@ function severe_chart(data, date) {
                     },
                     scales: {
                         xAxes: [{
-                            display: false
+                            display: true
                         }],
                         yAxes: [{
                             ticks: {
-                                beginAtZero: true,
+                                beginAtZero: false,
                                 fontFamily: "Poppins"
                             },
                             gridLines: {
@@ -1563,7 +1571,7 @@ function severe_chart(data, date) {
 function bed_chart(data, date) {
     dataArr = data.slice(0, -2);
     dateArr = date.slice(0, -1);
-
+    $('.loader_newbed').hide();
     try {
         // 연령별 사망자 분포
         var ctx = document.getElementById("chart-newBed");
@@ -1591,7 +1599,7 @@ function bed_chart(data, date) {
                     },
                     scales: {
                         xAxes: [{
-                            display: false
+                            display: true
                         }],
                         yAxes: [{
                             ticks: {

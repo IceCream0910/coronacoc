@@ -1229,8 +1229,7 @@ function resetReveal() {
 var styleSheet = document.createElement("style");
 styleSheet.type = "text/css";
 styleSheet.innerText = styles;
-document.head.appendChild(styleSheet);$('#live-dot-popover').attr('data-placement', "right");
-$('#live-dot-popover').attr('data-content', '집계 종료');
+$('.popover_custom').attr('data-tooltip', '집계 종료');
 
 
     }
