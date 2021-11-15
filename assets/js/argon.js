@@ -1215,20 +1215,10 @@ function resetReveal() {
 
 
     var now = new Date();	// 현재 날짜 및 시간
-    var hours = now.getHours();	// 시간
+    var hours = now.getHours;	// 시간
     if(hours >= 23 || hours <= 8) {
-        var styles = `.box .circContainer:nth-of-type(1) .circ {
-            background: #a9a9a9;
-        }
-        
-        .box .circContainer:nth-of-type(1) .circPulse {
-            background: rgba(169, 169, 169, 0.5);
-        }`
-
-
-var styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = styles;
+        $(".circ").css("background", "#a9a9a9");
+        $(".circPulse").css("background", "rgba(169, 169, 169, 0.5)");
 $('.popover_custom').attr('data-tooltip', '집계 종료');
 
 

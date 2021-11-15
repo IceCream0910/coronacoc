@@ -154,19 +154,9 @@ $.ajax({
     success: function(result2) {
         document.getElementById("whenUpdate").innerHTML = result2.updateTime.replace("코로나바이러스감염증-19 국내 발생현황 (", "").replace(')', '');
 
-        new numberCounter("confirmed", result2.TotalCase.replaceAll(",", ""));
-        new numberCounter("confirmed_mb", result2.TotalCase.replaceAll(",", ""));
         new numberCounter("cure", result2.TotalRecovered.replaceAll(",", ""));
         new numberCounter("cure_mb", result2.TotalRecovered.replaceAll(",", ""));
-        new numberCounter("death", result2.TotalDeath.replaceAll(",", ""));
-        new numberCounter("death_mb", result2.TotalDeath.replaceAll(",", ""));
-        nowcase = result2.NowCase;
-        nownewcase = result2.TotalCaseBefore;
-        //document.getElementById("curePM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        //document.getElementById("deathPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayDeath;
-        //document.getElementById("curePM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        //document.getElementById("deathPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + result2.TodayDeath;
-
+    
 
         $('#casePercent').attr("data-done", (result2.casePercentage) * 10.0);
         $('#curePercent').attr("data-done", (result2.recoveredPercentage));
@@ -184,13 +174,6 @@ $.ajax({
                 document.getElementById("newConfirmed_mb").innerHTML = result.korea.newCase;
 
                 new numberCounter("newConfirmed_mb", result.korea.newCase.replaceAll(",", ""));
-                new numberCounter("nowcases", nowcase.replaceAll(",", ""));
-
-                if (nownewcase.toString().indexOf('-') != -1) {
-                    document.getElementById("nowPM").innerHTML = '<i class="fa fa-arrow-down"></i> ' + nownewcase;
-                } else {
-                    document.getElementById("nowPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + nownewcase;
-                }
 
                 document.getElementById("localConfirmed").innerHTML = result.korea.newCcase + "명";
                 document.getElementById("abroadConfirmed").innerHTML = result.korea.newFcase + "명";
@@ -338,10 +321,31 @@ function rtTodayGet() {
                 rtpm = "↑ " + rtpm;
             }
             
-        //위중증 환자
+        //기본 현황 get
+        new numberCounter("confirmed", result.stats.cases[0]);
+        new numberCounter("confirmed_mb", result.stats.cases[0]);
+        new numberCounter("death", result.stats.deaths[0]);
+        new numberCounter("death_mb", result.stats.deaths[0]);
+new numberCounter("severe",result.stats.patientsWithSevereSymptons[0]);
         new numberCounter("severe_mb",result.stats.patientsWithSevereSymptons[0]);
+        
+
         if(result.stats.patientsWithSevereSymptons[1] != 0) {
-$('#severePM_mb').html('<i class="fa fa-arrow-up"></i> ' + result.stats.patientsWithSevereSymptons[1]);
+            if(result.stats.patientsWithSevereSymptons[1].toString().indexOf('-') != -1) {
+                $('#severePM_mb').html('<i class="fa fa-arrow-down"></i> ' + result.stats.patientsWithSevereSymptons[1].toString().replaceAll('-', ''));
+                $('#severePM').html('<i class="fa fa-arrow-down"></i> ' + result.stats.patientsWithSevereSymptons[1].toString().replaceAll('-', ''));
+                $('#severePM').removeClass('text-danger');$('#severePM').addClass('text-success');
+                $('#severePM_mb').removeClass('text-danger');$('#severePM_mb').addClass('text-success');
+
+            } else {
+                $('#severePM_mb').html('<i class="fa fa-arrow-up"></i> ' + result.stats.patientsWithSevereSymptons[1]);
+                $('#severePM').html('<i class="fa fa-arrow-up"></i> ' + result.stats.patientsWithSevereSymptons[1].toString().replaceAll('-', ''));
+                $('#severePM').removeClass('text-sucess');$('#severePM').addClass('text-danger');
+                $('#severePM_mb').removeClass('text-sucess');$('#severePM_mb').addClass('text-danger');
+
+            }
+
+
         }
         
 
