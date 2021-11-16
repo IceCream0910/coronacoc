@@ -1215,7 +1215,7 @@ function resetReveal() {
 
 
     var now = new Date();	// 현재 날짜 및 시간
-    var hours = now.getHours;	// 시간
+    var hours = now.getHours();	// 시간
     if(hours >= 23 || hours <= 8) {
         $(".circ").css("background", "#a9a9a9");
         $(".circPulse").css("background", "rgba(169, 169, 169, 0.5)");
