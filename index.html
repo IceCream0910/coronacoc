@@ -33,8 +33,9 @@
 <body>
 
     <div class="loader">
-        <div class="loading"></div>
-        <img class="loader_img" src="assets/img/icons/splash_icon.png">
+        <div class="loading-circle">
+            <div class="loading"></div>
+        </div>
     </div>
 
     <div id="pool" class="top" style="display:none;">
@@ -110,7 +111,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
                     <h5 class="h3 text-white mb-0" id="welcome_t" style="margin-left:10px;padding-bottom:10px;font-size:18px;" onclick="javascript:welcome();"></h5>
                     <span class="text-right mr-2" id="whenUpdate" style="padding-bottom:10px;color:#a9a9a9;margin-left:10px;"></span>
-                    <button style="background:none;color:#a9a9a9;margin-left:-30px;height:10px;" type="button" data-container="body" data-html="true" data-toggle="popover" data-color="default" data-placement="right" data-content="중앙재난안전대책본부 코로나바이러스감염증-19(COVID-19) 00시 기준 발생 동향 자료를 기준으로 합니다. (2020.02.26. 데이터 부터 제공합니다.)<br><br>확진자 발생현황은 추후 역학조사 과정에서 변경될 수 있습니다.<br><br>특정 시점에 지방자치단체에서 집계, 발표한 숫자와 일치하지 않을 수 있습니다.<br><br>백신접종률은 전국 및 시도별 기준 인구 대비 접종자 비율로 제공합니다. (2020.12. 총인구수 기준)<br><br>코로나19 발생 현황 데이터 집계 수치는 굿바이코로나 API(질병관리청 공식 홈페이지의 집계 수치를 수집)를 이용하며, 중앙방역대책본부의 일일 현황 발표보다 지연이 될 수 있습니다.">
+                    <button style="background:none;color:#a9a9a9;margin-left:-30px;height:10px;" type="button" data-container="body" data-html="true" data-toggle="popover" data-color="default" data-placement="right" data-content="중앙재난안전대책본부 코로나바이러스감염증-19(COVID-19) 00시 기준 발생 동향 자료를 기준으로 합니다. (2020.02.26. 데이터 부터 제공합니다.)<br><br>확진자 발생현황은 추후 역학조사 과정에서 변경될 수 있습니다.<br><br>특정 시점에 지방자치단체에서 집계, 발표한 숫자와 일치하지 않을 수 있습니다.<br><br>백신접종률은 전국 및 시도별 기준 인구 대비 접종자 비율로 제공합니다. (2020.12. 총인구수 기준)<br><br>코로나19 발생 현황 데이터 반영은 중앙방역대책본부의 일일 현황 발표보다 지연이 될 수 있습니다.">
                         <ion-icon name="information-circle-outline"></ion-icon>
                       </button>
 
@@ -398,7 +399,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     <div class="row progress_severe" style="display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 0 0 0 10px;">
                         <div class="col">
                             <span class="h2 font-weight-bold mb-0" id="severe_sickbed">로딩중</span><br>
-                            <span class="text-muted mr-1" style="font-size:13px;" id="severe_sickbed_detail"></span>
+                            <span class="text-muted mr-1" style="font-size:13px;display:none;" id="severe_sickbed_detail"></span>
 
                             <h5 class="card-title text-uppercase text-muted mb-0">중환자 병상
                                 <button style="background:none;color:#a9a9a9;height:10px;width:10px;margin-left:-10px;" type="button" data-placement="top" data-container="body" data-html="true" data-toggle="popover" data-color="default" data-content="중환자 병상 : 집계 시점의 중환자 병상 사용(입원) 현황으로 재원 위증증 환자 수와 상이할 수 있음"><ion-icon name="information-circle-outline"></ion-icon></button>
@@ -410,7 +411,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     <div class="row progress_normal" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 0 0 10px 0;">
                         <div class="col">
                             <span class="h2 font-weight-bold mb-0" id="normal_sickbed">로딩중</span><br>
-                            <span class="text-muted mr-1" style="font-size:11px;" id="normal_sickbed_detail"></span>
+                            <span class="text-muted mr-1" style="font-size:11px;display:none;" id="normal_sickbed_detail"></span>
 
                             <h5 class="card-title text-uppercase text-muted mb-0">일반 병상</h5>
                         </div>
@@ -480,7 +481,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                             <div class="col">
                                 <h6 class="text-uppercase text-muted ls-1 mb-1">Vaccination Status</h6>
                                 <h5 class="h2 mb-0">백신 접종 현황</h5>
-                                <div class="chart" style="margin:-10px;padding:0;padding-top:20px;">
+                                <div class="chart" style="margin:-10px;padding:0;padding-top:20px;height:auto;">
 
                                     <div class="row progress_vac1" style="padding:20px;;display:inline-block;background-color: rgba(69, 209, 90, 0.2);">
                                         <div class="col">
@@ -497,13 +498,6 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                             <span class="text-muted mr-1" style="font-size:11px;" id="vacTotal2"></span>
                                             <span class="text-warning mr-1" style="font-size:11px;" id="vacPM2"></span>
                                             <h5 class="card-title text-uppercase text-muted mb-0">접종 완료</h5>
-                                        </div>
-                                    </div>
-                                    <Br>
-                                    <div class="row" style="padding:20px;width:auto;display:inline-block;background-color: rgba(255, 105, 97, 0.2);">
-                                        <div class="col">
-                                            <span class="h2 font-weight-bold mb-0" id="third_vaccinePercent">로딩중</span><br>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">추가 접종</h5>
                                         </div>
                                     </div>
 
@@ -665,92 +659,6 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                 </div>
             </div>
-
-            <div class="col-xl-4">
-                <div class="card">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h6 class="text-uppercase text-muted ls-1 mb-1">confirmed cases by age</h6>
-                                <h5 class="h2 mb-0">연령별 확진환자 현황</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart">
-                            <div class="mesh-loader loader_caseByAge">
-                                <div class="set-one">
-                                    <div class="circle"></div>
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="set-two">
-                                    <div class="circle"></div>
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <canvas id="singelBarChart_case" class="chart-canvas"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4" style="color:#000;">
-                <div class="card bg-default">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h6 class="text-light text-uppercase ls-1 mb-1">deaths by age</h6>
-                                <h5 class="h2 text-white mb-0">연령별 사망자 발생 현황</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart">
-                            <div class="mesh-loader loader_deathsByAge">
-                                <div class="set-one">
-                                    <div class="circle"></div>
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="set-two">
-                                    <div class="circle"></div>
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <canvas id="singelBarChart_death" class="chart-canvas"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4">
-                <div class="card">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h6 class="text-uppercase text-muted ls-1 mb-1">confirmed cases by gender</h6>
-                                <h5 class="h2 mb-0">성별 확진환자 현황</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <!-- Chart -->
-                        <div class="chart">
-                            <div class="mesh-loader loader_caseByGender">
-                                <div class="set-one">
-                                    <div class="circle"></div>
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="set-two">
-                                    <div class="circle"></div>
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <canvas id="doughutChart_sex" class="chart-canvas"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
 
         <div class="row">
@@ -1137,8 +1045,26 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
             </div>
         </div>
 
-        <div class="top-banner">
-            코로나콕은 iOS에서 정상적으로 동작하지 않을 수 있습니다 :(<a href="javascript:$('.top-banner').hide();">닫기</a>
+        <div id="errorModal" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header justify-content">
+                        <h4 style="color:white;">
+                            <ion-icon name="alert-circle-outline" style="font-size: 35px;margin-right:10px;margin-left: 20px;"></ion-icon>오류</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body text-lg-left">
+
+                        <p>현재 서버 상태가 원활하지 않습니다. 이용에 불편을 드려 죄송합니다.<br>
+                            <span style="color:#727272;font-size: 13px;">
+                                - 일시적으로 서버에 오류가 발생했을 수 있습니다. 별도 공지가 없는 경우 개발자에게 알려주세요.<br>
+                                - 사용자의 네트워크 상태를 확인해보세요.
+                            </span>
+                        </p>
+                        <button class="btn btn-success" onclick="javascript:location.reload();"><ion-icon name="refresh-outline"></ion-icon>&nbsp;새로고침</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Footer -->
@@ -1149,15 +1075,17 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                         <br>
                         <a href="license.html" target="_blank">오픈소스 라이선스</a>
                         <br> &copy; 2021 <a href="https://icecream0910.github.io " class="font-weight-bold ml-1 " target="_blank ">Ice Cream</a>
+                        <br> <br>
+                        <div class=note>데이터 출처 : <a href="http://www.cdc.go.kr/" target="_blank">질병관리청</a>,
+                            <a href="https://www.worldometers.info/coronavirus/" target="_blank">worldmeters</a>, <a href="https://corona-live.com/" target="_blank">코로나 라이브</a>, <a href="https://newsapi.org" target="_blank">newsapi</a></div>
 
-                        <br> <br>정보 제공 : <a href="https://api.corona-19.kr/" target="_blank">굿바이코로나API</a>, <a href="http://www.cdc.go.kr/" target="_blank">질병관리청</a>, <a href="https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15043377"
-                            target="_blank">보건복지부</a>,
-                        <a href="https://www.worldometers.info/coronavirus/" target="_blank">worldmeters</a>, <a href="https://corona-live.com/" target="_blank">코로나 라이브</a>, <a href="https://newsapi.org" target="_blank">newsapi</a>
-                        <br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br><br>
+
                     </div>
                 </div>
             </div>
-        </footer>
+    </div>
+    </footer>
     </div>
     </div>
     <!-- Argon Scripts -->

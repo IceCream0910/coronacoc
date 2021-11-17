@@ -27,27 +27,17 @@
 
 <body>
 
-    <div class="main-content" id="panel">
-        <div class="header bg-primary pb-6" style="height:100px;">
-            <div class="container-fluid">
-                <div class="header-body">
-                    <div class="row align-items-center py-4">
-                        <div class="col-lg-6 col-7">
-                            <a href="index.html">
-                                <h6 class="h2 text-white d-inline-block mb-0"><img src="assets/img/icons/coronacoc_icon_new.png" width="50px"></h6>
-                            </a>
-                        </div>
-                    </div>
-
-
-                    <h5 class="h2 text-white mb-0" id="welcome_t" style="margin-left:10px;padding-bottom:10px;font-family: 'NEXON Lv2 Gothic Bold';" onclick="javascript:welcome();"></h5>
-
-                    <span class="text-right mr-2" id="whenUpdate" style="padding-bottom:10px;color:#a9a9a9;margin-left:10px;"></span>
-
-                </div>
+    <section class="statistic statistic2">
+        <div class="container">
+            <div style=" position: fixed; top: 0;width:100%;padding-bottom:20px;background:#262B33;z-index: 99;">
+                <br>
+                <h5 class="h1 text-white mb-0"><button class="main-button" onclick="javascript:history.back()" data-transition="flip">
+                <i class="ni ni-bold-left" style="font-size:25px;margin-top:10px;"></i>
+        <div class="ripple"></div>
+        </button>확진자 방문장소</h5>
             </div>
-        </div>
-    </div>
+
+    </section>
 
     <!-- Modal -->
     <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -72,7 +62,7 @@
 
 
 
-    <div class="routes_wrap">
+    <div class="routes_wrap" style="margin-top:100px">
         <select id="regionFirst-select" onchange="updateOptions();" style="margin-right:10px;">
             <option value="hide" disabeld selected>광역시/도</option>
             <option value="서울">서울</option>
@@ -338,17 +328,6 @@
         }
     </style>
 
-    <!-- 동선 탭-->
-    <div id="pool">
-        <div class="button-wrapper">
-            <div class="layer"></div>
-            <button class="main-button" onclick="javascript:location.href='index.html';">
-                  <i class="ni ni-chart-bar-32" style="font-size:25px;"></i>
-          <div class="ripple"></div>
-          </button>
-        </div>
-    </div>
-    <!-- 동선 탭-->
 
 
     <!-- Argon Scripts -->

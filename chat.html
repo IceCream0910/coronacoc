@@ -28,51 +28,64 @@
 </head>
 
 <body>
-    <div class="header bg-primary pb-6" style="height:100px;">
-        <div class="container-fluid">
-            <div class="header-body">
-                <div class="row align-items-center py-4">
-                    <div class="col-lg-6 col-7">
-                        <a href="index.html" data-transition="flip">
-                            <h6 class="h2 text-white d-inline-block mb-0"><img src="assets/img/icons/coronacoc_icon_new.png" width="50px"></h6>
-                        </a>
 
-                    </div>
-                </div>
-            </div>
+    <div id="pool" class="top" style="display:none;">
+        <div class="button-wrapper2">
+            <button class="main-button2" onclick="javascript:$('html, body').animate({ scrollTop: 0 }, 400);">
+          <i class="fa fa-arrow-up"></i>
+  <div class="ripple"></div>
+  </button>
         </div>
     </div>
 
+    <script>
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $('.top').fadeIn();
+            } else {
+                $('.top').fadeOut();
+            }
+        });
+
+        $('.top').click(function() {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
+    </script>
 
     <section class="statistic statistic2">
         <div class="container">
-            <br><br>
-            <a href="http://coronacoc.channel.io/" target="_blank"><button type="button" class="btn btn-outline-danger" style="width:auto;height:40px;position:absolute;right:30px;">개발자와 채팅</button></a>
+            <div style=" position: fixed; top: 0;width:100%;padding-bottom:20px;background:#262B33;z-index: 999999999;">
+                <br>
+                <h5 class="h1 text-white mb-0"><button class="main-button" onclick="javascript:history.back()" data-transition="flip">
+                <i class="ni ni-bold-left" style="font-size:25px;margin-top:10px;"></i>
+        <div class="ripple"></div>
+        </button>&nbsp;&nbsp;게시판</h5>
+            </div>
+            <div class="wrapper-chat" style="height:100%;padding-top:100px;">
+                <div class="mesh-loader">
+                    <div class="set-one">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                    </div>
+                    <div class="set-two">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
 
 
             <div class="dap_ins">
                 <div style="margin-top:0px; ">
-                    <textarea name="content" class="message" type="text" id="re_content" placeholder="응원 메시지를 남겨주세요"></textarea>
+                    <input name="content" class="message" type="text" id="re_content" placeholder="응원 메시지를 남겨주세요"></input>
                     <button onClick="javascript:sendBtn();" id="rep_bt" class="re_bt ripple-effect"><i class="fas fa-paper-plane"></i></button>
                 </div>
-                <div class="wrapper-chat" style="height:100%;">
 
-
-                </div>
             </div>
     </section>
-
-
-    <!-- 동선 탭-->
-    <div id="pool">
-        <div class="button-wrapper">
-            <button class="main-button" onclick="javascript:location.href='index.html';" data-transition="flip">
-                  <i class="ni ni-chart-bar-32" style="font-size:25px;"></i>
-          <div class="ripple"></div>
-          </button>
-        </div>
-    </div>
-    <!-- 동선 탭-->
 
     <!-- Argon Scripts -->
     <!-- Core -->
@@ -93,16 +106,12 @@
 </html>
 <style>
     .dap_ins {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
         margin-top: 50px;
         color: #000;
-    }
-    
-    .re_bt {
-        position: absolute;
-        width: 100px;
-        height: 56px;
-        font-size: 16px;
-        margin-left: 10px;
     }
     
     #foot_box {
@@ -126,15 +135,7 @@
     .wrapper-chat {
         width: 100%;
         margin: 0 auto;
-        padding-bottom: 70px;
-        overflow-x: hidden;
-        word-break: break-all;
-    }
-    
-    .wrapper_spring {
-        width: 100%;
-        margin: 0 auto;
-        padding-bottom: 70px;
+        padding-bottom: 100px;
         overflow-x: hidden;
         word-break: break-all;
     }
@@ -145,55 +146,32 @@
         word-break: break-all;
     }
     
-    .wrapper_spring li {
-        padding: 10px 20px;
-        color: #34495e;
-        word-break: break-all;
-    }
-    
     .wrapper-chat li span {
         color: #e74c3c;
         font-weight: 700;
     }
     
-    .wrapper_spring li span {
-        color: #e74c3c;
-        font-weight: 700;
-    }
-    
     .message {
-        height: 80px;
-        width: 75%;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 -4px 10px 4px rgba(255, 255, 255, 0.1);
+        border: none;
+        width: 85%;
         padding: 10px 20px;
-        border-radius: 10px 0 0 10px;
-        border: 1px solid #e74c3c;
-    }
-    
-    .messageSpring {
-        margin-bottom: 30px;
-        height: 80px;
-        width: 75%;
-        background-color: #c5c7c4;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12);
-        padding: 10px 20px;
+        border-radius: 10px 0 0 0;
     }
     
     .message:focus {
         outline: none;
     }
     
-    .messageSpring:focus {
-        outline: none;
-    }
-    
     .re_bt {
-        width: 20%;
-        background: #fa4251;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        width: 15%;
+        background: var(--blue);
         color: white;
-        margin-left: 0px;
-        height: 80px;
-        border-radius: 0 10px 10px 0;
+        height: 44px;
+        border-radius: 0 10px 0 0;
     }
     
     .modal.modal-fullscreen .modal-dialog,

@@ -1201,18 +1201,6 @@ function resetReveal() {
 
 }
 
-    setTimeout(function() {
-
-        $('.loading').fadeOut(10);
-    
-    }, 200);
-    
-    setTimeout(function() {
-    
-        $('.loader').fadeOut(500);
-    
-    }, 800);
-
 
     var now = new Date();	// 현재 날짜 및 시간
     var hours = now.getHours();	// 시간

@@ -24655,8 +24655,8 @@ input.datetimepicker[data-color='yellow']+.bootstrap-datetimepicker-widget.dropd
     width: 54px;
     position: fixed;
     z-index: 9999;
-    bottom: 0;
-    right: 0;
+    top: 20px;
+    left: 20px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -24672,8 +24672,6 @@ input.datetimepicker[data-color='yellow']+.bootstrap-datetimepicker-widget.dropd
     -webkit-transform-origin: 50% 50%;
     -ms-transform-origin: 50% 50%;
     transform-origin: 50% 50%;
-    right: 20px;
-    bottom: 20px;
     transition: 1.25s all ease .9s;
 }
 
@@ -24689,7 +24687,7 @@ button {
 }
 
 .main-button {
-    background: var(--info);
+    background: var(--default);
     -webkit-align-self: flex-end;
     -ms-flex-item-align: end;
     align-self: flex-end;
@@ -24820,8 +24818,8 @@ button {
     width: 3.5em;
     height: 3.5em;
     border-radius: 50%;
-    background-color: var(--info);
-    box-shadow: 2px 2px 10px #0eaecb, -2px -2px 0px transparent;
+    background-color: var(--blue);
+    box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;
     color: hsl(0, 0%, 100%);
     text-align: center;
     line-height: 3.9;
@@ -24856,7 +24854,7 @@ button {
     top: 0;
     right: 0;
     z-index: -2;
-    background-color: #0eaecb;
+    background-color: #5061c2;
     transition: all .3s ease;
 }
 
@@ -24884,7 +24882,7 @@ button {
     border-radius: 50%;
     text-align: center;
     line-height: 3;
-    background-color: var(--info);
+    background-color: var(--blue);
     transition: transform .3s ease, background .2s ease;
 }
 
@@ -24975,26 +24973,12 @@ button {
 
 .loader {
     z-index: 10002;
-    background-color: #172b4d;
+    background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
-}
-
-.loader_img {
-    width: 70px;
-    height: 70px;
-    position: relative;
-    left: 45%;
-    top: 50%;
-    opacity: 0;
-    animation-name: loader;
-    animation-delay: 0.2s;
-    animation-duration: 0.8s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
 }
 
 @keyframes loader {
@@ -25008,18 +24992,29 @@ button {
     }
 }
 
+.loading-circle {
+    height: 0;
+    width: 0;
+    padding: 25px;
+    position: fixed;
+    left: 44%;
+    top: 50%;
+    background: white;
+    border-radius: 50%;
+}
+
 .loading {
     height: 0;
     width: 0;
-    padding: 15px;
+    padding: 10px;
     border: 6px solid #ccc;
     border-right-color: #888;
     border-radius: 22px;
     -webkit-animation: rotate 1s infinite linear;
     /* left, top and position just for the demo! */
-    position: absolute;
-    left: 45%;
-    top: 50%;
+    position: fixed;
+    left: 46.5%;
+    top: 51.1%;
 }
 
 @-webkit-keyframes rotate {
@@ -25310,4 +25305,111 @@ abbr[data-title]:focus::after {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+
+.modal-confirm {
+    color: #434e65;
+    width: 95%;
+}
+
+.modal-confirm .modal-content {
+    padding: 20px;
+    font-size: 16px;
+    border-radius: 15px;
+    border: none;
+}
+
+.modal-confirm .modal-header {
+    background: #e85e6c;
+    border-bottom: none;
+    position: relative;
+    text-align: center;
+    margin: -20px -20px 0;
+    border-radius: 15px 15px 0 0;
+    padding: 15px;
+}
+
+.modal-confirm h4 {
+    text-align: center;
+    font-size: 36px;
+    margin: 10px 0;
+}
+
+.modal-confirm .form-control,
+.modal-confirm .btn {
+    min-height: 40px;
+    border-radius: 3px;
+}
+
+.modal-confirm .close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #fff;
+    text-shadow: none;
+    opacity: 0.5;
+}
+
+.modal-confirm .close:hover {
+    opacity: 0.8;
+}
+
+.modal-confirm .icon-box {
+    color: #fff;
+    width: 95px;
+    height: 95px;
+    display: inline-block;
+    border-radius: 50%;
+    z-index: 9;
+    border: 5px solid #fff;
+    padding: 15px;
+    text-align: center;
+}
+
+.modal-confirm .icon-box i {
+    font-size: 58px;
+    margin: -2px 0 0 -2px;
+}
+
+.modal-confirm.modal-dialog {
+    margin-top: 80px;
+}
+
+.modal-confirm .btn,
+.modal-confirm .btn:active {
+    color: #fff;
+    border-radius: 4px;
+    background: var(--blue) !important;
+    text-decoration: none;
+    transition: all 0.4s;
+    line-height: normal;
+    border-radius: 30px;
+    margin-top: 10px;
+    padding: 6px 20px;
+    min-width: 150px;
+    border: none;
+}
+
+.modal-confirm .btn:hover,
+.modal-confirm .btn:focus {
+    background: #eda645 !important;
+    outline: none;
+}
+
+.trigger-btn {
+    display: inline-block;
+    margin: 100px auto;
+}
+
+.note {
+    padding: 8pt 16pt;
+    border-radius: 5px;
+    border: 1px solid #0070f3;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #0070f3
+}
+
+.note {
+    margin-top: 16px
 }
