@@ -31,7 +31,6 @@ function isAppLatestVersion() {
 }
 
 if (isApp() == true) {
-    $('.loader').hide();
     $('#android_settings_btn').show();
     $('#notice-app-promote').hide();
     $('#default-notice').hide();
