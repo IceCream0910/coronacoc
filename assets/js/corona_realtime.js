@@ -16,7 +16,8 @@ $.ajax({
 		console.log(data);
 		document.getElementById("confirmedPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newCases;
 		document.getElementById("newConfirmed_mb").innerHTML = data.newCases;
-		new numberCounter("newConfirmed_mb", data.newCases.replaceAll(",", ""));
+		new numberCounter("newConfirmed_mb", data.newCases);
+
 		document.getElementById("localConfirmed").innerHTML = data.localConfirmed + "명";
 		document.getElementById("abroadConfirmed").innerHTML = data.abroadConfirmed + "명";
 		new numberCounter("confirmed", data.cases);
@@ -29,8 +30,8 @@ $.ajax({
 		document.getElementById("deathPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newDeaths;
 		new numberCounter("hospitalized_mb", data.newHospitalization);
 		document.getElementById("whenUpdate").innerHTML = data.updateTime;
-		new numberCounter("cure", data.cure.replaceAll(",", ""));
-		new numberCounter("cure_mb", data.cure.replaceAll(",", ""));
+		new numberCounter("cure", data.cure);
+		new numberCounter("cure_mb", data.cure);
 		$('#severe_sickbed').html(data.severeBeds);
 		//$('#severe_sickbed_detail').html('가용 '+resPart_s[2]+'개');
 		$('#normal_sickbed').html(data.normalBeds);
