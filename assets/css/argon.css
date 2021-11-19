@@ -25407,9 +25407,27 @@ abbr[data-title]:focus::after {
     border: 1px solid #0070f3;
     font-size: 14px;
     line-height: 1.8;
-    color: #0070f3
+    color: #0070f3;
+    margin-top: 16px
 }
 
-.note {
-    margin-top: 16px
+.recent-noti {
+    width: 50vw;
+    display: inline-block;
+    position: absolute;
+    top: -40px;
+    right: 20px;
+    text-align: right;
+}
+
+.recent-noti .link-btn {
+    float: right;
+}
+
+.recent-noti-txt {
+    float: left;
+    max-width: 70%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
