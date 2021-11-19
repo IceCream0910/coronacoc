@@ -11,7 +11,7 @@ welcome();
 
 
 //앱 하이브리드 체크
-var latest_version_name = "1.4";
+var latest_version_name = "1.5";
 
 function isAppLatestVersion() {
     return navigator.userAgent.indexOf("android_app_" + latest_version_name) > 0;
