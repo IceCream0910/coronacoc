@@ -36,14 +36,18 @@ $.ajax({
 		$('#normal_sickbed').html(data.normalBeds);
 		//$('#normal_sickbed_detail').html('가용 '+resPart_n[2]+'개');
 		sickbedColoring(data.severeBeds, data.normalBeds);
-		var first_percent = data.first_vaccinePercent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		var second_percent = data.second_vaccinePercent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		$('#vacTotal').html(data.first_vaccineTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
-		$('#vacPM').html('↑ ' + data.first_vaccineDelta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-		$('#vacTotal2').html(data.second_vaccineTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
-		$('#vacPM2').html('↑ ' + data.second_vaccineDelta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+
+		var first_percent = data.first_vaccine[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		var second_percent = data.second_vaccine[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		$('#vacTotal').html(data.first_vaccine[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
+		$('#vacPM').html('↑ ' + data.first_vaccine[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		$('#vacTotal2').html(data.second_vaccine[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
+		$('#vacPM2').html('↑ ' + data.second_vaccine[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 		$('#first_vaccinePercent').html(first_percent + "%");
 		$('#second_vaccinePercent').html(second_percent + "%");
+
+
 		$(".progress_vac1").css({
 			width: parseInt(first_percent) + "%"
 		});
