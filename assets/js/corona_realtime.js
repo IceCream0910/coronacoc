@@ -158,6 +158,9 @@ function sickbedColoring(data1, data2) {
         background: ` + severeColor + `;
         top: 0; bottom: 0;
         left: 0; 
+		transform-origin:50% 50%;
+  transform:tr;
+  transition:0.5s;
         width: ` + parseInt(data1.replace('%', '')) / 2 + `%;
     }` + `.progress_normal:after {
         content: '';
