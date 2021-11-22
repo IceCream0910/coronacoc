@@ -11,7 +11,6 @@ $.ajax({
 	type: "GET",
 	url: "https://coronacoc-api.vercel.app/",
 	success: function(result) {
-		console.clear();
 		var data = JSON.parse(result);
 		console.log(data);
 		document.getElementById("confirmedPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newCases;
@@ -140,17 +139,17 @@ function sickbedColoring(data1, data2) {
 	var severeColor, normalColor = '';
 	if(parseInt(data1.replace('%', '')) <= 50) {
 		severeColor = ' rgba(69, 209, 90, 0.2)'; //green
-	} else if(parseInt(data1.replace('%', '')) <= 80) {
+	} else if(parseInt(data1.replace('%', '')) <= 68) {
 		severeColor = 'rgba(255, 165, 0, 0.2)'; //orange
 	} else {
-		severeColor = 'rgba(69, 209, 90, 0.2)'; //red
+		severeColor = 'rgba(220, 20, 60, 0.2)'; //red
 	}
 	if(parseInt(data2.replace('%', '')) <= 50) {
 		normalColor = ' rgba(69, 209, 90, 0.2)'; //green
-	} else if(parseInt(data2.replace('%', '')) <= 80) {
+	} else if(parseInt(data2.replace('%', '')) <= 70) {
 		normalColor = 'rgba(255, 165, 0, 0.2)'; //orange
 	} else {
-		normalColor = 'rgba(69, 209, 90, 0.2)'; //red
+		normalColor = 'rgba(220, 20, 60, 0.2)'; //red
 	}
 	var styles = `.progress_severe:after {
         content: '';
@@ -158,9 +157,6 @@ function sickbedColoring(data1, data2) {
         background: ` + severeColor + `;
         top: 0; bottom: 0;
         left: 0; 
-		transform-origin:50% 50%;
-  transform:tr;
-  transition:0.5s;
         width: ` + parseInt(data1.replace('%', '')) / 2 + `%;
     }` + `.progress_normal:after {
         content: '';
@@ -195,10 +191,6 @@ $.ajax({
     }
 });
 
-rtTodayGet();
-setInterval(function() { //1분마다 실시간 확진자 새로고침
-	rtTodayUpdate();
-}, 60000);
 var liveConfirmedCases;
 var cityCode = {
 	"0": "서울",
@@ -250,53 +242,20 @@ function rollingRealtimeByRegion(data) {
 	}, 3500);
 }
 
-function rtTodayGet() {
-	$.ajax({
-		type: "GET",
-		url: proxyServer_raw + "https://apiv2.corona-live.com/domestic-init.json", // Using myjson.com to store the JSON
-		success: function(result) {
-			liveConfirmedCases = result.statsLive.today;
-			new numberCounter("rtToday", result.statsLive.today);
-			var rtpm = String(parseInt(result.statsLive.today) - parseInt(result.statsLive.yesterday));
-			if(rtpm.includes("-")) {
-				document.getElementById('rtpmBox').style.backgroundColor = "rgba(119, 158, 203, 0.3)";
-				rtpm = "↓ " + rtpm.replace("-", "");
-			} else {
-				document.getElementById('rtpmBox').style.backgroundColor = "rgba(255, 105, 97, 0.3)";
-				rtpm = "↑ " + rtpm;
-			}
-			document.getElementById('rtPM').innerHTML = rtpm;
-			var cityN = result.updatesPreview[0].city.toString();
-			document.getElementById('realtimeSummary').innerHTML = cityCode[cityN] + " " + result.updatesPreview[0].src + "&nbsp;&nbsp;>";
-			rollingRealtimeByRegion(result.citiesLive);
-			$.ajax({
-				type: "GET",
-				url: proxyServer_raw + "https://apiv2.corona-live.com/domestic-updates.json",
-				success: function(result2) {
-					for(var i = 0; i < result2.updates.data.length; i++) {
-						var cityN_ = result2.updates.data[i].city.toString();
-						$('#realtimeList').append('<tr><td>' + result2.updates.data[i].datetime.substring(11, 16) + '</td><td>' + cityCode[cityN_] + " " + result2.updates.data[i].cases + "명 추가 확진" + '</td></tr>');
-					}
-				}
-			});
-		}
-	});
-}
+let socket = io('https://coronacoc-live-api.herokuapp.com/');
 
-function rtTodayUpdate() {
-	$.ajax({
-		type: "GET",
-		url: proxyServer_raw + "https://apiv2.corona-live.com/domestic-init.json",
-		success: function(result) {
-			if(liveConfirmedCases != result.statsLive.today) {
-				toast("실시간 확진자 + " + (parseInt(result.statsLive.today) - parseInt(liveConfirmedCases)));
-				accumulateChart_week();
-			} else {
-				console.log('실시간 확진자 변동 없음')
-			}
-			liveConfirmedCases = result.statsLive.today;
-			new numberCounter("rtToday", result.statsLive.today);
-			var rtpm = String(parseInt(result.statsLive.today) - parseInt(result.statsLive.yesterday));
+        socket.on('connect', function() {
+			console.clear();
+            console.log("실시간 확진자 서버 연결");
+        });
+
+        socket.on('live', (data) => {
+			var data_json = JSON.parse(data);
+			const result_init = data_json.init;
+			const result_updates = data_json.updates;
+			liveConfirmedCases = result_init.statsLive.today;
+			new numberCounter("rtToday", result_init.statsLive.today);
+			var rtpm = String(parseInt(result_init.statsLive.today) - parseInt(result_init.statsLive.yesterday));
 			if(rtpm.includes("-")) {
 				document.getElementById('rtpmBox').style.backgroundColor = "rgba(119, 158, 203, 0.3)";
 				rtpm = "↓ " + rtpm.replace("-", "");
@@ -305,23 +264,18 @@ function rtTodayUpdate() {
 				rtpm = "↑ " + rtpm;
 			}
 			document.getElementById('rtPM').innerHTML = rtpm;
-			var cityN = result.updatesPreview[0].city.toString();
-			document.getElementById('realtimeSummary').innerHTML = cityCode[cityN] + " " + result.updatesPreview[0].src + "&nbsp;&nbsp;>";
-			rollingRealtimeByRegion(result.citiesLive);
-			$.ajax({
-				type: "GET",
-				url: proxyServer_raw + "https://apiv2.corona-live.com/domestic-updates.json",
-				success: function(result2) {
-					$('#realtimeList').html('');
-					for(var i = 0; i < result2.updates.data.length; i++) {
-						var cityN_ = result2.updates.data[i].city.toString();
-						$('#realtimeList').append('<tr><td>' + result2.updates.data[i].datetime.substring(11, 16) + '</td><td>' + cityCode[cityN_] + " " + result2.updates.data[i].cases + "명 추가 확진" + '</td></tr>');
-					}
-				}
-			});
-		}
-	});
-}
+			var cityN = result_init.updatesPreview[0].city.toString();
+			document.getElementById('realtimeSummary').innerHTML = cityCode[cityN] + " " + result_init.updatesPreview[0].src + "&nbsp;&nbsp;>";
+			rollingRealtimeByRegion(result_init.citiesLive);
+
+			$('#realtimeList').html('');
+			for(var i = 0; i < result_updates.updates.data.length; i++) {
+				var cityN_ = result_updates.updates.data[i].city.toString();
+				$('#realtimeList').append('<tr><td>' + result_updates.updates.data[i].datetime.substring(11, 16) + '</td><td>' + cityCode[cityN_] + " " + result_updates.updates.data[i].cases + "명 추가 확진" + '</td></tr>');
+			}
+        });
+
+
 var summaryData;
 //전세계 현황
 $.ajax({
@@ -560,7 +514,6 @@ $.ajax({
 	success: function(result) {
 		var res = JSON.parse(result);
 		var length_article = res.totalResults;
-		//console.clear();
 		$('.newsfeed').html('');
 		for(var i = 0; i < length_article; i++) {
 			var description = res.articles[i].description;

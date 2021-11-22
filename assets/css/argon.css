@@ -24554,9 +24554,13 @@ input.datetimepicker[data-color='yellow']+.bootstrap-datetimepicker-widget.dropd
 @media (min-width: 992px) and (max-width: 1199px) {
     /* tablet 가로 */
     #pc-situ-card {
-        display: flex;
+        display: none;
+        margin-top: 15px;
     }
     #mb-situ-card {
+        display: block;
+    }
+    .loading-circle {
         display: none;
     }
 }
@@ -24565,6 +24569,9 @@ input.datetimepicker[data-color='yellow']+.bootstrap-datetimepicker-widget.dropd
     /* pc 가로 */
     #pc-situ-card {
         display: flex;
+    }
+    .loading-circle {
+        display: none;
     }
     #mb-situ-card {
         display: none;
