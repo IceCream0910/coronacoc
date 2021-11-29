@@ -245,7 +245,6 @@ function rollingRealtimeByRegion(data) {
 let socket = io('https://coronacoc-live-api.herokuapp.com/');
 
         socket.on('connect', function() {
-			console.clear();
             console.log("실시간 확진자 서버 연결");
         });
 
@@ -507,7 +506,7 @@ $.ajax({
 function fn_tcm_boardView(schema, blank, blank2, id, blank3, all) {
 	window.open('http://ncov.mohw.go.kr/tcmBoardView.do?brdId=' + blank + '&brdGubun=' + blank2 + '&dataGubun=&ncvContSeq=' + id + '&contSeq=' + id + '&board_id=' + blank3 + '&gubun=' + all, '_blank');
 }
-//뉴스
+/*뉴스
 $.ajax({
 	type: "GET",
 	url: proxyServer_raw + "https://coronacoc-news.herokuapp.com/covid19",
@@ -525,6 +524,7 @@ $.ajax({
 		}
 	}
 });
+*/
 
 function accumulateChart() {
 	// console.log(data);
