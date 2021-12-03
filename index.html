@@ -99,7 +99,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                         </div>
                         <li class="nav-item dropdown">
                             <div class="nav-link note recent-noti">
-                                <a href="https://coronacoc.notion.site/19-2021-11-29-8b1915ea71aa4890a0149f8ac44445e7" target="_blank" class="recent-noti-txt">[#브리핑정리] 코로나19 단계적 일상회복에 따른 의료 및 방역 후속 대응계획(2021.11.29 발표)</a>
+                                <a href="https://coronacoc.notion.site/2021-12-03-b35ebac5ecdb40ab8e426e39d6f98ca1" target="_blank" class="recent-noti-txt">21-12-03 업데이트 내역</a>
                                 <a class="link-btn" href="https://coronacoc.notion.site/11f6842414ec4b33886bfbfac06ddad8" target="_blank" role="button" aria-haspopup="true" aria-expanded="false">
                                     <i class="ni ni-bell-55" style="color:#adb5bd;margin-right:15px;"></i>
                                 </a>
@@ -172,7 +172,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                     <div class="row" style="display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block; ">
                                         <div class="col">
                                             <span class="h2 font-weight-bold mb-0" id="cure_mb">로딩중</span><br>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">격리해제</h5>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">격리해제 <span class="text-success mr-2" style="font-size:10px;" id="curePM_mb"></span></h5>
                                             <span class="text-success mr-2" id="curePM_mb"></span>
                                         </div>
                                     </div>
@@ -203,16 +203,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
                                     <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
                                         <div class="col">
-                                            <h1 class="h2 font-weight-bold mb-0 text-warning" style="display: inline-block;"><i class="fa fa-arrow-up"></i>&nbsp;
-                                                <h1 class="h2 font-weight-bold mb-0" style="display: inline-block;" id="hospitalized_mb">로딩중</h1>
-                                            </h1>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">신규 입원</h5>
+                                            <span class="h2 font-weight-bold mb-0" id="localConfirmed">로딩중</span><span class="h2 font-weight-bold mb-0" id="abroadConfirmed"></span> <br>
+                                            <h5 class="card-title text-uppercase text-muted mb-0" style="font-size:12px;">지역발생/해외유입</h5>
+
 
                                         </div>
                                     </div>
 
-
                                 </div>
+
+
 
                             </div>
                             <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
@@ -376,29 +376,11 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
         <div class="row">
 
-            <div class="col-xl-4">
-                <div class="card_dash card-stats localAndBroad" style="border-radius: 10px;">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <div class="chart-wrap">
-                                    <div style="float:left;text-align: center;width:50%;">
-                                        <h3 style="color:#4272d7; font-size:20px;" id="localConfirmed">-</h3>
-                                        <h3 style="color:#a9a9a9; font-size:15px;margin-top:-10px;">지역발생
-                                        </h3>
-                                    </div>
-                                    <div style="float:right;text-align: center;width:50%;">
-                                        <h3 style="color:#4272d7; font-size:20px;" id="abroadConfirmed">-</h3>
-                                        <h3 style="color:#a9a9a9; font-size:15px;margin-top:-10px;">해외유입
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
 
-                <div class="card_dash card-stats" style="margin-top:-35px;display:flex;border-radius: 0 0 10px 10px;margin-bottom:20px;">
+
+            <div class="col-xl-4">
+                <br>
+                <div class="card_dash card-stats" style="margin-top:-35px;display:flex;border-radius: 10px;margin-bottom:20px;">
                     <!-- Card body -->
 
                     <div class="row progress_severe" style="display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 0 0 0 10px;">
@@ -500,10 +482,18 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                             <span class="h2 font-weight-bold mb-0" id="second_vaccinePercent">로딩중</span><br>
                                             <span class="text-muted mr-1" style="font-size:11px;" id="vacTotal2"></span>
                                             <span class="text-warning mr-1" style="font-size:11px;" id="vacPM2"></span>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">접종 완료</h5>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">2차 접종</h5>
                                         </div>
                                     </div>
-
+                                    <Br>
+                                    <div class="row progress_vac3" style="padding:20px;display:inline-block;background-color: rgba(220, 20, 60, 0.2);">
+                                        <div class="col">
+                                            <span class="h2 font-weight-bold mb-0" id="third_vaccinePercent">로딩중</span><br>
+                                            <span class="text-muted mr-1" style="font-size:11px;" id="vacTotal3"></span>
+                                            <span class="text-warning mr-1" style="font-size:11px;" id="vacPM3"></span>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">3차 접종</h5>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -580,9 +570,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     <div class="card-header bg-transparent">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h5 class="h2 text-white mb-0">일일 검사건수 추이<button style="background:none;color:#a9a9a9;height:10px;" type="button" data-container="body" data-html="true" data-toggle="popover" data-color="default" data-content="그래프에 표시되는 일일 검사건수는 의심신고 검사자 수를 나타냅니다. 이 때, 검사 대상자가 아니어도 진행한 임시 선별 검사 건수는 제외됩니다.">
-                                    <ion-icon name="information-circle-outline"></ion-icon>
-                                  </button></h5>
+                                <h5 class="h2 text-white mb-0">일별 검사건수 추이</h5>
                                 <div class="col text-right">
                                     <a href="javascript:$('#chart-tests').show(100);$('#chart-tests-week').hide(100);" class="btn btn-sm btn-primary">전체</a>
                                     <a href="javascript:$('#chart-tests').hide(100);$('#chart-tests-week').show(100);" class="btn btn-sm btn-primary">7일</a>
@@ -609,12 +597,48 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                 </div>
             </div>
 
+            <div class="col-xl-4" style="color:#000;">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 mb-0">일별 확진율 추이</h5>
+                                <div class="col text-right">
+                                    <a href="javascript:$('#chart-rates').show(100);$('#chart-rates-week').hide(100);" class="btn btn-sm btn-primary">전체</a>
+                                    <a href="javascript:$('#chart-rates').hide(100);$('#chart-rates-week').show(100);" class="btn btn-sm btn-primary">7일</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="mesh-loader loader_rates">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                            <canvas id="chart-rates" class="chart-canvas" style="display:none;"></canvas>
+                            <canvas id="chart-rates-week" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-header bg-transparent">
                         <div class="row align-items-center">
                             <div class="col">
                                 <h5 class="h2 mb-0">재원 위중증 환자 추이</h5>
+                                <div class="col text-right">
+                                    <a href="javascript:$('#chart-severe').show(100);$('#chart-severe-week').hide(100);" class="btn btn-sm btn-primary">전체</a>
+                                    <a href="javascript:$('#chart-severe').hide(100);$('#chart-severe-week').show(100);" class="btn btn-sm btn-primary">7일</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -630,38 +654,14 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                     <div class="circle"></div>
                                 </div>
                             </div>
-                            <canvas id="chart_severe" class="chart-canvas"></canvas>
+                            <canvas id="chart-severe" class="chart-canvas" style="display:none;"></canvas>
+                            <canvas id="chart-severe-week" class="chart-canvas"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xl-4" style="color:#000;">
-                <div class="card bg-default">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h5 class="h2 text-white mb-0">신규 입원 환자 추이</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart">
-                            <div class="mesh-loader loader_newbed">
-                                <div class="set-one">
-                                    <div class="circle"></div>
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="set-two">
-                                    <div class="circle"></div>
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <canvas id="chart-newBed" class="chart-canvas"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
 
         <div class="row">

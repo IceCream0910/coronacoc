@@ -9,7 +9,7 @@ function randomItem(e) {
 }
 $.ajax({
 	type: "GET",
-	url: "",
+	url: "https://coronacoc-api.vercel.app/",
 	success: function(result) {
 		var data = JSON.parse(result);
 		console.log(data);
@@ -17,8 +17,8 @@ $.ajax({
 		document.getElementById("newConfirmed_mb").innerHTML = data.newCases;
 		new numberCounter("newConfirmed_mb", data.newCases);
 
-		document.getElementById("localConfirmed").innerHTML = data.localConfirmed + "명";
-		document.getElementById("abroadConfirmed").innerHTML = data.abroadConfirmed + "명";
+		document.getElementById("localConfirmed").innerHTML = data.localConfirmed;
+		document.getElementById("abroadConfirmed").innerHTML = '/'+data.abroadConfirmed;
 		new numberCounter("confirmed", data.cases);
 		new numberCounter("confirmed_mb", data.cases);
 		new numberCounter("death", data.deaths);
@@ -27,10 +27,11 @@ $.ajax({
 		new numberCounter("severe_mb", data.severe);
 		document.getElementById("deathPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newDeaths;
 		document.getElementById("deathPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newDeaths;
-		new numberCounter("hospitalized_mb", data.newHospitalization);
 		document.getElementById("whenUpdate").innerHTML = data.updateTime;
 		new numberCounter("cure", data.cure);
 		new numberCounter("cure_mb", data.cure);
+		document.getElementById("curePM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newCure;
+
 		$('#severe_sickbed').html(data.severeBeds);
 		//$('#severe_sickbed_detail').html('가용 '+resPart_s[2]+'개');
 		$('#normal_sickbed').html(data.normalBeds);
@@ -38,15 +39,19 @@ $.ajax({
 		sickbedColoring(data.severeBeds, data.normalBeds);
 
 
-		var first_percent = data.first_vaccine[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		var second_percent = data.second_vaccine[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		$('#vacTotal').html(data.first_vaccine[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
-		$('#vacPM').html('↑ ' + data.first_vaccine[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-		$('#vacTotal2').html(data.second_vaccine[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
-		$('#vacPM2').html('↑ ' + data.second_vaccine[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		var first_percent = data.first_vaccine.rates.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		var second_percent = data.second_vaccine.rates.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		var third_percent = data.third_vaccine.rates.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+		$('#vacTotal').html(data.first_vaccine.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
+		$('#vacPM').html('↑ ' + data.first_vaccine.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		$('#vacTotal2').html(data.second_vaccine.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
+		$('#vacPM2').html('↑ ' + data.second_vaccine.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		$('#vacTotal3').html(data.third_vaccine.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
+		$('#vacPM3').html('↑ ' + data.third_vaccine.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 		$('#first_vaccinePercent').html(first_percent + "%");
 		$('#second_vaccinePercent').html(second_percent + "%");
-
+		$('#third_vaccinePercent').html(third_percent + "%");
 
 		$(".progress_vac1").css({
 			width: parseInt(first_percent) + "%"
@@ -54,7 +59,9 @@ $.ajax({
 		$(".progress_vac2").css({
 			width: parseInt(second_percent) + "%"
 		});
+
 		if(data.newSevere != 0) {
+			console.log(data.newSevere);
 			if(data.newSevere.toString().indexOf('-') != -1) {
 				$('#severePM_mb').html('<i class="fa fa-arrow-down"></i> ' + data.newSevere.toString().replaceAll('-', ''));
 				$('#severePM').html('<i class="fa fa-arrow-down"></i> ' + data.newSevere.toString().replaceAll('-', ''));
@@ -174,16 +181,18 @@ function sickbedColoring(data1, data2) {
 
 $.ajax({
 	type: "GET",
-	url: "",
+	url: "https://coronacoc-api-chart.vercel.app/",
 	success: function(result) {
 		var data = JSON.parse(result);
 		console.log(data);
 		summaryData = data.casesDatasets;
 		accumulateChart_week();
-		drawTestChart(data.testsDatasets_all, data.testsDatasets_week);
-		drawDeathsChart(data.deathsDatasets_all, data.deathsDatasets_week);
-		severe_chart(data.severeChartData, data.serverChartDate);
-		bed_chart(data.newHospitChartData, data.newHospitChartDate);
+		drawTestChart(data.testsChart);
+		drawDeathsChart(data.deathsChart);
+		drawRatesChart(data.testRatesChart);
+		drawSevereChart(data.severeChartData);
+		
+        $('.loader').fadeOut(600);
 	}, error : function(error) {
         $('#errorModal').modal('show');
         $('.loader').fadeOut(600);
@@ -289,7 +298,18 @@ $.ajax({
 	}
 });
 
-function drawTestChart(all_data, week_data) {
+function drawTestChart(all_data) {
+	console.clear();
+	var keys = Object.keys(all_data);
+	var values = Object.values(all_data);
+	var length = Object.keys(all_data).length;
+	var keys_week = [];
+	var values_week = [];
+	for(var i=(keys.length); i>(keys.length-7); i--) {
+		keys_week.unshift(keys[i-1]);
+		values_week.unshift(values[i-1]);
+	}
+	
 	$('.loader_tests').hide();
 	try {
 		var ctx = document.getElementById("chart-tests");
@@ -297,10 +317,10 @@ function drawTestChart(all_data, week_data) {
 			var myChart = new Chart(ctx, {
 				type: 'line',
 				data: {
-					labels: Object.keys(all_data),
+					labels: keys,
 					datasets: [{
 						label: "일일 검사 건수",
-						data: Object.values(all_data),
+						data: values,
 						borderColor: "rgba(255, 255, 255, 0)",
 						backgroundColor: "rgba(255, 255, 255, 0.5)"
 					}]
@@ -346,10 +366,10 @@ function drawTestChart(all_data, week_data) {
 			var myChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
-					labels: Object.keys(week_data),
+					labels: keys_week,
 					datasets: [{
 						label: "일일 검사 건수",
-						data: Object.values(week_data),
+						data: values_week,
 						borderColor: "rgba(255, 255, 255, 0.9)",
 						backgroundColor: "rgba(255, 255, 255, 0.5)"
 					}]
@@ -391,7 +411,17 @@ function drawTestChart(all_data, week_data) {
 	}
 }
 //사망자 추이 가져오기
-function drawDeathsChart(all_data, week_data) {
+function drawDeathsChart(all_data) {
+	console.clear();
+	var keys = Object.keys(all_data);
+	var values = Object.values(all_data);
+	var length = Object.keys(all_data).length;
+	var keys_week = [];
+	var values_week = [];
+	for(var i=(keys.length); i>(keys.length-7); i--) {
+		keys_week.unshift(keys[i-1]);
+		values_week.unshift(values[i-1]);
+	}
 	$('.loader_deaths').hide();
 	try {
 		var ctx = document.getElementById("chart-deaths");
@@ -399,10 +429,10 @@ function drawDeathsChart(all_data, week_data) {
 			var myChart = new Chart(ctx, {
 				type: 'line',
 				data: {
-					labels: Object.keys(all_data),
+					labels: keys,
 					datasets: [{
 						label: "사망자",
-						data: Object.values(all_data),
+						data: values,
 						borderColor: "rgba(0, 0, 0, 0)",
 						backgroundColor: "rgba(0, 0, 0, 0.5)"
 					}]
@@ -448,10 +478,10 @@ function drawDeathsChart(all_data, week_data) {
 			var myChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
-					labels: Object.keys(week_data),
+					labels: keys_week,
 					datasets: [{
 						label: "사망자",
-						data: Object.values(week_data),
+						data: values_week,
 						borderColor: "rgba(0, 0, 0, 0.9)",
 						backgroundColor: "rgba(0, 0, 0, 0.5)"
 					}]
@@ -492,6 +522,231 @@ function drawDeathsChart(all_data, week_data) {
 		console.log(error);
 	}
 }
+
+function drawRatesChart(all_data) {
+	console.clear();
+	var keys = Object.keys(all_data);
+	var values = Object.values(all_data);
+	var length = Object.keys(all_data).length;
+	var keys_week = [];
+	var values_week = [];
+	for(var i=(keys.length); i>(keys.length-7); i--) {
+		keys_week.unshift(keys[i-1]);
+		values_week.unshift(values[i-1]);
+	}
+	$('.loader_rates').hide();
+	try {
+		var ctx = document.getElementById("chart-rates");
+		if(ctx) {
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: keys,
+					datasets: [{
+						label: "확진율",
+						data: values,
+						borderColor: "rgba(128, 0, 128, 0)",
+						backgroundColor: "rgba(128, 0, 128, 0.5)"
+					}]
+				},
+				options: {
+					legend: {
+						position: 'center',
+						labels: {
+							fontFamily: 'Poppins'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								fontFamily: "Poppins"
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								beginAtZero: true,
+								fontFamily: "Poppins"
+							}
+						}]
+					},
+					tooltips: {
+						titleFontFamily: 'Open Sans',
+						backgroundColor: 'rgba(0,0,0,0.6)',
+						titleFontColor: 'white',
+						caretSize: 5,
+						cornerRadius: 15,
+						xPadding: 10,
+						yPadding: 10
+					}
+				}
+			});
+		}
+	} catch(error) {
+		console.log(error);
+	}
+	try {
+		var ctx = document.getElementById("chart-rates-week");
+		if(ctx) {
+			var myChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: keys_week,
+					datasets: [{
+						label: "확진율",
+						data: values_week,
+						borderColor: "rgba(128, 0, 128, 0)",
+						backgroundColor: "rgba(128, 0, 128, 0.5)"
+					}]
+				},
+				options: {
+					legend: {
+						position: 'center',
+						labels: {
+							fontFamily: 'Poppins'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								fontFamily: "Poppins"
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								beginAtZero: true,
+								fontFamily: "Poppins"
+							}
+						}]
+					},
+					tooltips: {
+						titleFontFamily: 'Open Sans',
+						backgroundColor: 'rgba(0,0,0,0.6)',
+						titleFontColor: 'white',
+						caretSize: 5,
+						cornerRadius: 15,
+						xPadding: 10,
+						yPadding: 10
+					}
+				}
+			});
+		}
+	} catch(error) {
+		console.log(error);
+	}
+}
+
+
+function drawSevereChart(all_data) {
+	var keys = Object.keys(all_data);
+	var values = Object.values(all_data);
+	var length = Object.keys(all_data).length;
+	var keys_week = [];
+	var values_week = [];
+	for(var i=(keys.length); i>(keys.length-7); i--) {
+		keys_week.unshift(keys[i-1]);
+		values_week.unshift(values[i-1]);
+	}
+	$('.loader_severe').hide();
+	try {
+		var ctx = document.getElementById("chart-severe");
+		if(ctx) {
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: keys,
+					datasets: [{
+						label: "재원 위중증 환자",
+						data: values,
+						borderColor: "rgba(220,20,60, 0)",
+						backgroundColor: "rgba(220,20,60, 0.5)"
+					}]
+				},
+				options: {
+					legend: {
+						position: 'center',
+						labels: {
+							fontFamily: 'Poppins'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								fontFamily: "Poppins"
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								beginAtZero: true,
+								fontFamily: "Poppins"
+							}
+						}]
+					},
+					tooltips: {
+						titleFontFamily: 'Open Sans',
+						backgroundColor: 'rgba(0,0,0,0.6)',
+						titleFontColor: 'white',
+						caretSize: 5,
+						cornerRadius: 15,
+						xPadding: 10,
+						yPadding: 10
+					}
+				}
+			});
+		}
+	} catch(error) {
+		console.log(error);
+	}
+	try {
+		var ctx = document.getElementById("chart-severe-week");
+		if(ctx) {
+			var myChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: keys_week,
+					datasets: [{
+						label: "재원 위중증 환자",
+						data: values_week,
+						borderColor: "rgba(220,20,60, 0)",
+						backgroundColor: "rgba(220,20,60, 0.5)"
+					}]
+				},
+				options: {
+					legend: {
+						position: 'center',
+						labels: {
+							fontFamily: 'Poppins'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								fontFamily: "Poppins"
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								beginAtZero: true,
+								fontFamily: "Poppins"
+							}
+						}]
+					},
+					tooltips: {
+						titleFontFamily: 'Open Sans',
+						backgroundColor: 'rgba(0,0,0,0.6)',
+						titleFontColor: 'white',
+						caretSize: 5,
+						cornerRadius: 15,
+						xPadding: 10,
+						yPadding: 10
+					}
+				}
+			});
+		}
+	} catch(error) {
+		console.log(error);
+	}
+}
+
 //질병청 보도자료 크롤링
 $.ajax({
 	type: "GET",
@@ -505,7 +760,7 @@ $.ajax({
 function fn_tcm_boardView(schema, blank, blank2, id, blank3, all) {
 	window.open('http://ncov.mohw.go.kr/tcmBoardView.do?brdId=' + blank + '&brdGubun=' + blank2 + '&dataGubun=&ncvContSeq=' + id + '&contSeq=' + id + '&board_id=' + blank3 + '&gubun=' + all, '_blank');
 }
-/*뉴스
+
 $.ajax({
 	type: "GET",
 	url: proxyServer_raw + "https://coronacoc-news.herokuapp.com/covid19",
@@ -523,7 +778,6 @@ $.ajax({
 		}
 	}
 });
-*/
 
 function accumulateChart() {
 	// console.log(data);
@@ -678,127 +932,6 @@ function accumulateChart_week() {
 	}
 	$('#chart-confirmed').hide();
 	$('#chart-confirmed-week').show();
-}
-
-function severe_chart(data, date) {
-	dataArr = data.slice(0, -2);
-	dateArr = date.slice(0, -1);
-	$('.loader_severe').hide();
-	try {
-		// 연령별 사망자 분포
-		var ctx = document.getElementById("chart_severe");
-		if(ctx) {
-			var myChart = new Chart(ctx, {
-				type: 'line',
-				data: {
-					labels: dateArr,
-					datasets: [{
-						label: "재원 위중증 환자",
-						data: dataArr,
-						borderWidth: "5",
-						borderColor: "rgba(137, 101, 224, 0.7)",
-						backgroundColor: "rgba(137, 101, 224, 0)"
-					}]
-				},
-				options: {
-					points: {
-						visible: 'true',
-						radius: '50%'
-					},
-					legend: {
-						position: 'center',
-						labels: {
-							fontFamily: 'Poppins'
-						}
-					},
-					scales: {
-						xAxes: [{
-							display: true
-						}],
-						yAxes: [{
-							ticks: {
-								beginAtZero: false,
-								fontFamily: "Poppins"
-							},
-							gridLines: {
-								display: false
-							}
-						}]
-					},
-					tooltips: {
-						titleFontFamily: 'Open Sans',
-						backgroundColor: 'rgba(0,0,0,0.6)',
-						titleFontColor: 'white',
-						caretSize: 5,
-						cornerRadius: 15,
-						xPadding: 10,
-						yPadding: 10
-					}
-				}
-			});
-		}
-	} catch(error) {
-		console.log(error);
-	}
-}
-
-function bed_chart(data, date) {
-	dataArr = data.slice(0, -2);
-	dateArr = date.slice(0, -1);
-	$('.loader_newbed').hide();
-	try {
-		// 연령별 사망자 분포
-		var ctx = document.getElementById("chart-newBed");
-		if(ctx) {
-			var myChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: dateArr,
-					datasets: [{
-						label: "신규 입원 환자",
-						data: dataArr,
-						borderWidth: "0",
-						borderColor: "rgba(243, 164, 181, 0.7)",
-						backgroundColor: "rgba(243, 164, 181, 0.7)"
-					}]
-				},
-				options: {
-					visible: false,
-					legend: {
-						position: 'center',
-						labels: {
-							fontFamily: 'Poppins'
-						}
-					},
-					scales: {
-						xAxes: [{
-							display: true
-						}],
-						yAxes: [{
-							ticks: {
-								beginAtZero: true,
-								fontFamily: "Poppins"
-							},
-							gridLines: {
-								display: false
-							}
-						}]
-					},
-					tooltips: {
-						titleFontFamily: 'Open Sans',
-						backgroundColor: 'rgba(0,0,0,0.6)',
-						titleFontColor: 'white',
-						caretSize: 5,
-						cornerRadius: 15,
-						xPadding: 10,
-						yPadding: 10
-					}
-				}
-			});
-		}
-	} catch(error) {
-		console.log(error);
-	}
 }
 
 function deathsChart() {
