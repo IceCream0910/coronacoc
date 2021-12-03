@@ -869,11 +869,7 @@ function accumulateChart_week() {
 	var tommorowyear = dateArr[6].substring(0, 4);
 	var tommorowmonth = dateArr[6].substring(4, 6);
 	var tommorowday = dateArr[6].substring(6, 8);
-	console.log(dateArr[6]);
-	var tommorowDate = new Date(tommorowyear, tommorowmonth, tommorowday);
-	tommorowDate.setDate(tommorowDate.getDate() + 1);
-	tommorowDate = tommorowDate.getFullYear() + "." + tommorowDate.getMonth() + "." + tommorowDate.getDate();
-	dateArr[7] = tommorowDate + "(실시간 집계중)";
+	dateArr[7] = "실시간 집계중";
 	casesArr[7] = liveConfirmedCases;
 	console.log(data, casesArr);
 	$('.loader_confirmed').hide();
