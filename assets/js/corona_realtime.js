@@ -9,7 +9,7 @@ function randomItem(e) {
 }
 $.ajax({
 	type: "GET",
-	url: "https://coronacoc-api.vercel.app/",
+	url: "",
 	success: function(result) {
 		var data = JSON.parse(result);
 		console.log(data);
@@ -174,7 +174,7 @@ function sickbedColoring(data1, data2) {
 
 $.ajax({
 	type: "GET",
-	url: "https://coronacoc-api-chart.vercel.app/",
+	url: "",
 	success: function(result) {
 		var data = JSON.parse(result);
 		console.log(data);
@@ -184,7 +184,6 @@ $.ajax({
 		drawDeathsChart(data.deathsDatasets_all, data.deathsDatasets_week);
 		severe_chart(data.severeChartData, data.serverChartDate);
 		bed_chart(data.newHospitChartData, data.newHospitChartDate);
-        $('.loader').fadeOut(600);
 	}, error : function(error) {
         $('#errorModal').modal('show');
         $('.loader').fadeOut(600);
