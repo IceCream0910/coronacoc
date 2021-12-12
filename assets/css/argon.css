@@ -19309,7 +19309,7 @@ textarea[resize='horizontal'] {
 }
 
 .progress-label span {
-    font-size: .625rem;
+    font-size: .725rem;
     font-weight: 600;
     display: inline-block;
     padding: .25rem 1rem;
@@ -19321,6 +19321,7 @@ textarea[resize='horizontal'] {
 
 .progress-percentage {
     text-align: right;
+    font-size: 12px;
 }
 
 .progress-percentage span {

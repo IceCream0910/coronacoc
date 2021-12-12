@@ -9,16 +9,18 @@ function randomItem(e) {
 }
 $.ajax({
 	type: "GET",
-	url: "https://coronacoc-api.vercel.ap/",
+	url: "https://coronacoc-api.vercel.app/",
 	success: function(result) {
 		var data = JSON.parse(result);
 		console.log(data);
 		document.getElementById("confirmedPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newCases;
 		document.getElementById("newConfirmed_mb").innerHTML = data.newCases;
 		new numberCounter("newConfirmed_mb", data.newCases);
+		document.getElementById("omicron_mb").innerHTML = data.omicron;
+		document.getElementById("omicronPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newOmicron;
 
-		document.getElementById("localConfirmed").innerHTML = data.localConfirmed;
-		document.getElementById("abroadConfirmed").innerHTML = '/'+data.abroadConfirmed;
+		document.getElementById("localConfirmed").innerHTML = data.localConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'명';
+		document.getElementById("abroadConfirmed").innerHTML = data.abroadConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'명';
 		new numberCounter("confirmed", data.cases);
 		new numberCounter("confirmed_mb", data.cases);
 		new numberCounter("death", data.deaths);
@@ -43,21 +45,18 @@ $.ajax({
 		var second_percent = data.second_vaccine.rates.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		var third_percent = data.third_vaccine.rates.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-		$('#vacTotal').html(data.first_vaccine.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
-		$('#vacPM').html('↑ ' + data.first_vaccine.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-		$('#vacTotal2').html(data.second_vaccine.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
-		$('#vacPM2').html('↑ ' + data.second_vaccine.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-		$('#vacTotal3').html(data.third_vaccine.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건');
-		$('#vacPM3').html('↑ ' + data.third_vaccine.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-		$('#first_vaccinePercent').html(first_percent + "%");
-		$('#second_vaccinePercent').html(second_percent + "%");
-		$('#third_vaccinePercent').html(third_percent + "%");
+		$('#first_vaccinePercent').html(data.first_vaccine.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건' + '(<i class="fa fa-arrow-up"></i> ' + data.first_vaccine.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ') / ' + '<span style="font-size:15px;color:black;">'+first_percent+"%"+'</span>');
+		$('#second_vaccinePercent').html(data.second_vaccine.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건' + '(<i class="fa fa-arrow-up"></i> ' + data.second_vaccine.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ') / ' + '<span style="font-size:15px;color:black;">'+second_percent+"%"+'</span>');
+		$('#third_vaccinePercent').html(data.third_vaccine.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '건' + '(<i class="fa fa-arrow-up"></i> ' + data.third_vaccine.delta.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ') / ' + '<span style="font-size:15px;color:black;">'+third_percent+"%"+'</span>');
 
-		$(".progress_vac1").css({
+		$("#first_vaccineProg").css({
 			width: parseInt(first_percent) + "%"
 		});
-		$(".progress_vac2").css({
+		$("#second_vaccineProg").css({
 			width: parseInt(second_percent) + "%"
+		});
+		$("#third_vaccineProg").css({
+			width: parseInt(third_percent) + "%"
 		});
 
 		if(data.newSevere != 0) {
@@ -181,7 +180,7 @@ function sickbedColoring(data1, data2) {
 
 $.ajax({
 	type: "GET",
-	url: "https://coronacoc-api-chart.vercel.ap/",
+	url: "https://coronacoc-api-chart.vercel.app/",
 	success: function(result) {
 		var data = JSON.parse(result);
 		console.log(data);
@@ -226,10 +225,10 @@ function rollingRealtimeByRegion(data) {
 	$('#rtTodayByRegion').html(data[0][0] + "명");
 	if(data[0][1].toString().includes("-")) {
 		document.getElementById('rtpmBox_byRegion').style.backgroundColor = "rgba(119, 158, 203, 0.9)";
-		$('#rtPMByRegion').html("↓ " + data[0][1].toString().replace("-", ""));
+		$('#rtPMByRegion').html('<i class="fa fa-arrow-down"></i> '+ data[0][1].toString().replace("-", ""));
 	} else {
 		document.getElementById('rtpmBox_byRegion').style.backgroundColor = "rgba(255, 105, 97, 0.7)";
-		$('#rtPMByRegion').html("↑ " + data[0][1].toString());
+		$('#rtPMByRegion').html('<i class="fa fa-arrow-up"></i> '+ data[0][1].toString());
 	}
 	var cnt = 1;
 	setInterval(function() {
@@ -237,10 +236,10 @@ function rollingRealtimeByRegion(data) {
 		$('#rtTodayByRegion').html(data[cnt][0] + "명");
 		if(data[cnt][1].toString().includes("-")) {
 			document.getElementById('rtpmBox_byRegion').style.backgroundColor = "rgba(119, 158, 203, 0.9)";
-			$('#rtPMByRegion').html("↓ " + data[cnt][1].toString().replace("-", ""));
+			$('#rtPMByRegion').html('<i class="fa fa-arrow-down"></i> ' + data[cnt][1].toString().replace("-", ""));
 		} else {
 			document.getElementById('rtpmBox_byRegion').style.backgroundColor = "rgba(255, 105, 97, 0.7)";
-			$('#rtPMByRegion').html("↑ " + data[cnt][1].toString());
+			$('#rtPMByRegion').html('<i class="fa fa-arrow-up"></i> ' + data[cnt][1].toString());
 		}
 		if(cnt >= 16) {
 			cnt = 0;
@@ -265,10 +264,10 @@ let socket = io('https://coronacoc-live-api.herokuapp.com/');
 			var rtpm = String(parseInt(result_init.statsLive.today) - parseInt(result_init.statsLive.yesterday));
 			if(rtpm.includes("-")) {
 				document.getElementById('rtpmBox').style.backgroundColor = "rgba(119, 158, 203, 0.3)";
-				rtpm = "↓ " + rtpm.replace("-", "");
+				rtpm = '<i class="fa fa-arrow-down"></i> ' + rtpm.replace("-", "");
 			} else {
 				document.getElementById('rtpmBox').style.backgroundColor = "rgba(255, 105, 97, 0.3)";
-				rtpm = "↑ " + rtpm;
+				rtpm = '<i class="fa fa-arrow-up"></i> ' + rtpm;
 			}
 			document.getElementById('rtPM').innerHTML = rtpm;
 			var cityN = result_init.updatesPreview[0].city.toString();
@@ -299,7 +298,6 @@ $.ajax({
 });
 
 function drawTestChart(all_data) {
-	console.clear();
 	var keys = Object.keys(all_data);
 	var values = Object.values(all_data);
 	var length = Object.keys(all_data).length;
@@ -342,6 +340,9 @@ function drawTestChart(all_data) {
 							ticks: {
 								beginAtZero: true,
 								fontFamily: "Poppins"
+							},
+							gridLines: {
+								display: false
 							}
 						}]
 					},
@@ -391,6 +392,9 @@ function drawTestChart(all_data) {
 							ticks: {
 								beginAtZero: true,
 								fontFamily: "Poppins"
+							},
+							gridLines: {
+								display: false
 							}
 						}]
 					},
@@ -412,7 +416,6 @@ function drawTestChart(all_data) {
 }
 //사망자 추이 가져오기
 function drawDeathsChart(all_data) {
-	console.clear();
 	var keys = Object.keys(all_data);
 	var values = Object.values(all_data);
 	var length = Object.keys(all_data).length;
@@ -454,6 +457,9 @@ function drawDeathsChart(all_data) {
 							ticks: {
 								beginAtZero: true,
 								fontFamily: "Poppins"
+							},
+							gridLines: {
+								display: false
 							}
 						}]
 					},
@@ -503,6 +509,9 @@ function drawDeathsChart(all_data) {
 							ticks: {
 								beginAtZero: true,
 								fontFamily: "Poppins"
+							},
+							gridLines: {
+								display: false
 							}
 						}]
 					},
@@ -524,7 +533,6 @@ function drawDeathsChart(all_data) {
 }
 
 function drawRatesChart(all_data) {
-	console.clear();
 	var keys = Object.keys(all_data);
 	var values = Object.values(all_data);
 	var length = Object.keys(all_data).length;
@@ -566,6 +574,9 @@ function drawRatesChart(all_data) {
 							ticks: {
 								beginAtZero: true,
 								fontFamily: "Poppins"
+							},
+							gridLines: {
+								display: false
 							}
 						}]
 					},
@@ -615,6 +626,9 @@ function drawRatesChart(all_data) {
 							ticks: {
 								beginAtZero: true,
 								fontFamily: "Poppins"
+							},
+							gridLines: {
+								display: false
 							}
 						}]
 					},
@@ -678,6 +692,9 @@ function drawSevereChart(all_data) {
 							ticks: {
 								beginAtZero: true,
 								fontFamily: "Poppins"
+							},
+							gridLines: {
+								display: false
 							}
 						}]
 					},
@@ -727,6 +744,9 @@ function drawSevereChart(all_data) {
 							ticks: {
 								beginAtZero: true,
 								fontFamily: "Poppins"
+							},
+							gridLines: {
+								display: false
 							}
 						}]
 					},
@@ -795,7 +815,6 @@ function accumulateChart() {
 	console.log(data, casesArr);
 	$('.loader_confirmed').hide();
 	try {
-		// 연령별 사망자 분포
 		var ctx = document.getElementById("chart-confirmed");
 		if(ctx) {
 			var myChart = new Chart(ctx, {
@@ -827,6 +846,9 @@ function accumulateChart() {
 							ticks: {
 								beginAtZero: true,
 								fontFamily: "Poppins"
+							},
+							gridLines: {
+								display: false
 							}
 						}]
 					},
@@ -938,4 +960,303 @@ function deathsChart() {
 function deathsChart_week() {
 	$('#chart-deaths').hide(100);
 	$('#chart-deaths-week').show(100);
+}
+
+
+//연령/성별 현황
+
+/*날짜 구하기*/
+var date = new Date();
+var year = date.getFullYear();
+var month = date.getMonth() + 1
+var day = date.getDate();
+if (month < 10) {
+    month = "0" + month;
+}
+if (day < 10) {
+    day = "0" + day;
+}
+
+var today = year + "" + month + "" + day;
+
+$.ajax({
+    type: "GET",
+    url: proxyServer_json + "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?serviceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&ServiceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&pageNo=1&numOfRows=10&startCreateDt=" + today + "&endCreateDt=" + today, // Using myjson.com to store the JSON
+    success: function(result) {
+
+        var theJson = xmlToJson(result);
+
+        if (JSON.stringify(theJson.response.body.totalCount).replace("{\"#text\":", "").replace("\"", "").replace("\"}").replace("undefined", "") <= 0) {
+            console.log("오늘 데이터 없음");
+            yesterdayData();
+
+        } else {
+            var cases_byAge = new Array(9);
+            var death_byAge = new Array(9);
+            var cases_bySex = new Array(1);
+
+            for (var i = 0; i < 9; i++) {
+                var cases_age = (theJson.response.body.items.item[i].confCase);
+                var death_age = (theJson.response.body.items.item[i].death);
+                cases_byAge[i] = parseInt(JSON.stringify(cases_age).replace("{\"#text\":", "").replace("\"", "").replace("\"}").replace("undefined", ""));
+                death_byAge[i] = parseInt(JSON.stringify(death_age).replace("{\"#text\":", "").replace("\"", "").replace("\"}").replace("undefined", ""));
+            }
+
+            var case_male = (theJson.response.body.items.item[9].confCase);
+            var case_female = (theJson.response.body.items.item[10].confCase);
+            cases_bySex[0] = parseInt(JSON.stringify(case_female).replace("{\"#text\":", "").replace("\"", "").replace("\"}").replace("undefined", ""));
+            cases_bySex[1] = parseInt(JSON.stringify(case_male).replace("{\"#text\":", "").replace("\"", "").replace("\"}").replace("undefined", ""));
+
+            reloadChart(cases_byAge, death_byAge, cases_bySex);
+        }
+
+
+
+
+
+    }
+});
+
+function xmlToJson(xml) {
+    // Create the return object
+    var obj = {};
+
+    if (xml.nodeType == 1) { // element
+        // do attributes
+        if (xml.attributes.length > 0) {
+            obj["@attributes"] = {};
+            for (var j = 0; j < xml.attributes.length; j++) {
+                var attribute = xml.attributes.item(j);
+                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+            }
+        }
+    } else if (xml.nodeType == 3 ||
+        xml.nodeType == 4) { // text and cdata section
+        obj = xml.nodeValue
+    }
+
+    // do children
+    if (xml.hasChildNodes()) {
+        for (var i = 0; i < xml.childNodes.length; i++) {
+            var item = xml.childNodes.item(i);
+            var nodeName = item.nodeName;
+            if (typeof(obj[nodeName]) == "undefined") {
+                obj[nodeName] = xmlToJson(item);
+            } else {
+                if (typeof(obj[nodeName].length) == "undefined") {
+                    var old = obj[nodeName];
+                    obj[nodeName] = [];
+                    obj[nodeName].push(old);
+                }
+                if (typeof(obj[nodeName]) === 'object') {
+                    obj[nodeName].push(xmlToJson(item));
+                }
+            }
+        }
+    }
+    return obj;
+}
+
+
+////// 어제 데이터 불러오기(오늘자 데이터가 없을 때)
+function yesterdayData() {
+    var yesterday = new Date(Date.now() - 864e5);
+    $.ajax({
+        type: "GET",
+        url: proxyServer_json + "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?serviceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&ServiceKey=0Ii2OFEKp3FQwYT0kWzwDNlmKa3JyD2hY4PPXBL3yA5RbBmUD8JSCBGEkGlVzmMIDF%2B2YFli6qA74ybbeSot3Q%3D%3D&pageNo=1&numOfRows=10&startCreateDt=" + getFormatDate(yesterday) + "&endCreateDt=" + getFormatDate(yesterday), // Using myjson.com to store the JSON
+        success: function(result) {
+
+            var theJson = xmlToJson(result);
+            var cases_byAge = new Array(9);
+            var death_byAge = new Array(9);
+            var cases_bySex = new Array(1);
+
+            for (var i = 0; i < 9; i++) {
+                var cases_age = (theJson.response.body.items.item[i].confCase);
+                var death_age = (theJson.response.body.items.item[i].death);
+                cases_byAge[i] = parseInt(JSON.stringify(cases_age).replace("{\"#text\":", "").replace("\"", "").replace("\"}").replace("undefined", ""));
+                death_byAge[i] = parseInt(JSON.stringify(death_age).replace("{\"#text\":", "").replace("\"", "").replace("\"}").replace("undefined", ""));
+            }
+
+            var case_male = (theJson.response.body.items.item[9].confCase);
+            var case_female = (theJson.response.body.items.item[10].confCase);
+            cases_bySex[0] = parseInt(JSON.stringify(case_female).replace("{\"#text\":", "").replace("\"", "").replace("\"}").replace("undefined", ""));
+            cases_bySex[1] = parseInt(JSON.stringify(case_male).replace("{\"#text\":", "").replace("\"", "").replace("\"}").replace("undefined", ""));
+
+
+            reloadChart(cases_byAge, death_byAge, cases_bySex);
+
+
+        }
+    });
+}
+
+
+
+// 차트 생성
+function reloadChart(cases_byAge, death_byAge, cases_bySex) {
+	$('.loader_byage').hide();
+    try {
+
+        // 연령별 확진자 분포
+        var ctx = document.getElementById("singelBarChart_case");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["0~9세", "10대", "20대", "30대", "40대", "50대", "60대", "70대", "80대이상"],
+                    datasets: [{
+                        label: "확진자 수",
+                        data: cases_byAge,
+                        borderColor: "rgba(251, 99, 64, 0.1)",
+                        borderWidth: "0",
+                        backgroundColor: "rgba(251, 99, 64, 0.7)"
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontFamily: "Poppins"
+
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: false,
+                                fontFamily: "Poppins"
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+    try {
+
+        // 연령별 사망자 분포
+        var ctx = document.getElementById("singelBarChart_death");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["0~9세", "10대", "20대", "30대", "40대", "50대", "60대", "70대", "80대이상"],
+                    datasets: [{
+                        label: "사망자수",
+                        data: death_byAge,
+                        borderColor: "rgba(255, 255, 255, 0.9)",
+                        borderWidth: "0",
+                        backgroundColor: "rgba(255, 255, 255, 0.5)"
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontFamily: "Poppins"
+
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontFamily: "Poppins"
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+    try {
+
+        //성별 확진자 현황
+        var ctx = document.getElementById("doughutChart_sex");
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: cases_bySex,
+                        backgroundColor: [
+                            '#00b5e9',
+                            '#fa4251',
+                        ],
+                        hoverBackgroundColor: [
+                            '#00b5e9',
+                            '#fa4251',
+                        ]
+
+                    }],
+                    labels: [
+                        "남성",
+                        "여성"
+                    ]
+                },
+                options: {
+                    legend: {
+                        position: 'center',
+                        labels: {
+                            fontFamily: 'Poppins'
+                        }
+
+                    },
+                    tooltips: {
+                        titleFontFamily: 'Open Sans',
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        titleFontColor: 'white',
+                        caretSize: 5,
+                        cornerRadius: 15,
+                        xPadding: 10,
+                        yPadding: 10
+                    },
+                    responsive: true
+                }
+            });
+        }
+
+
+    } catch (error) {
+        console.log(error);
+    }
 }

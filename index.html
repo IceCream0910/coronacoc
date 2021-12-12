@@ -203,8 +203,8 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
                                     <div class="row" style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
                                         <div class="col">
-                                            <span class="h2 font-weight-bold mb-0" id="localConfirmed">로딩중</span><span class="h2 font-weight-bold mb-0" id="abroadConfirmed"></span> <br>
-                                            <h5 class="card-title text-uppercase text-muted mb-0" style="font-size:10px;">지역발생/해외유입</h5>
+                                            <span class="h2 font-weight-bold mb-0" id="omicron_mb">로딩중</span> <br>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">오미크론&nbsp;<span class="text-danger mr-2" id="omicronPM_mb"></span></h5>
 
 
                                         </div>
@@ -376,10 +376,27 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
 
         <div class="row">
 
-
-
             <div class="col-xl-4">
-                <br>
+                <div class="card_dash card-stats localAndBroad" style="border-radius: 10px;height:85px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrap">
+                                    <div style="float:left;text-align: center;width:50%;">
+                                        <h3 style="color:#4272d7; font-size:20px;" id="localConfirmed">-</h3>
+                                        <h3 style="color:#a9a9a9; font-size:15px;margin-top:-10px;">지역발생
+                                        </h3>
+                                    </div>
+                                    <div style="float:right;text-align: center;width:50%;">
+                                        <h3 style="color:#4272d7; font-size:20px;" id="abroadConfirmed">-</h3>
+                                        <h3 style="color:#a9a9a9; font-size:15px;margin-top:-10px;">해외유입
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
                 <div class="card_dash card-stats" style="margin-top:-35px;display:flex;border-radius: 10px;margin-bottom:20px;">
                     <!-- Card body -->
 
@@ -468,30 +485,45 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                 <h5 class="h2 mb-0">백신 접종 현황</h5>
                                 <div class="chart" style="margin:-10px;padding:0;padding-top:20px;height:auto;">
 
-                                    <div class="row progress_vac1" style="padding:20px;;display:inline-block;background-color: rgba(69, 209, 90, 0.2);">
-                                        <div class="col">
-                                            <span class="h2 font-weight-bold mb-0" id="first_vaccinePercent">로딩중</span><br>
-                                            <span class="text-muted mr-1" style="font-size:11px;" id="vacTotal"></span>
-                                            <span class="text-warning mr-1" style="font-size:11px;" id="vacPM"></span>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">1차 접종</h5>
+                                    <div class="progress-wrapper">
+                                        <div class="progress-info">
+                                            <div class="progress-label">
+                                                <span>1차 접종</span>
+                                            </div>
+                                            <div class="progress-percentage">
+                                                <span id="first_vaccinePercent"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-gradient-green" id="first_vaccineProg" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <Br>
-                                    <div class="row progress_vac2" style="padding:20px;display:inline-block;background-color: rgba(255, 165, 0, 0.2);">
-                                        <div class="col">
-                                            <span class="h2 font-weight-bold mb-0" id="second_vaccinePercent">로딩중</span><br>
-                                            <span class="text-muted mr-1" style="font-size:11px;" id="vacTotal2"></span>
-                                            <span class="text-warning mr-1" style="font-size:11px;" id="vacPM2"></span>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">2차 접종</h5>
+
+                                    <div class="progress-wrapper">
+                                        <div class="progress-info">
+                                            <div class="progress-label">
+                                                <span>2차 접종</span>
+                                            </div>
+                                            <div class="progress-percentage">
+                                                <span id="second_vaccinePercent"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-gradient-primary" id="second_vaccineProg" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <Br>
-                                    <div class="row progress_vac3" style="padding:20px;display:inline-block;background-color: rgba(220, 20, 60, 0.2);">
-                                        <div class="col">
-                                            <span class="h2 font-weight-bold mb-0" id="third_vaccinePercent">로딩중</span><br>
-                                            <span class="text-muted mr-1" style="font-size:11px;" id="vacTotal3"></span>
-                                            <span class="text-warning mr-1" style="font-size:11px;" id="vacPM3"></span>
-                                            <h5 class="card-title text-uppercase text-muted mb-0">3차 접종</h5>
+
+                                    <div class="progress-wrapper">
+                                        <div class="progress-info">
+                                            <div class="progress-label">
+                                                <span>3차 접종</span>
+                                            </div>
+                                            <div class="progress-percentage">
+                                                <span id="third_vaccinePercent"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-gradient-orange" id="third_vaccineProg" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -661,8 +693,42 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                 </div>
             </div>
 
+            <div class="col-xl-4" style="color:#000;">
+                <div class="card bg-default">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 text-white mb-0">연령대 별 현황</h5>
+                                <div class="col text-right">
+                                    <a href="javascript:$('#singelBarChart_case').show(100);$('#singelBarChart_death').hide(100);" class="btn btn-sm btn-primary">확진자</a>
+                                    <a href="javascript:$('#singelBarChart_case').hide(100);$('#singelBarChart_death').show(100);" class="btn btn-sm btn-primary">사망자</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="mesh-loader loader_byage">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                            <canvas id="singelBarChart_case" class="chart-canvas"></canvas>
+                            <canvas id="singelBarChart_death" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
+
+
 
         <div class="row">
 
@@ -1053,12 +1119,11 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                 <div class="modal-content">
                     <div class="modal-header justify-content">
                         <h4 style="color:white;">
-                            <ion-icon name="alert-circle-outline" style="font-size: 35px;margin-right:10px;margin-left: 20px;"></ion-icon>점검중</h4>
+                            <ion-icon name="alert-circle-outline" style="font-size: 35px;margin-right:10px;margin-left: 20px;"></ion-icon>오류</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body text-lg-left">
 
-                        <!--
                         <p>현재 서버 상태가 원활하지 않습니다. 이용에 불편을 드려 죄송합니다.<br>
                             <span style="color:#727272;font-size: 13px;">
                                 - 서버에 오류가 발생했을 수 있습니다. 별도 공지가 없는 경우 개발자에게 알려주세요.<br>
@@ -1066,14 +1131,14 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                 - 일시적인 오류일 수 있으니 새로고침 해보세요.
                             </span>
                         </p>
--->
 
+                        <!--
                         <p>더 나은 서비스 제공을 위해 점검중입니다.<br>
                             <span style="color:#727272;font-size: 13px;">
-                                2021-12-12 오후 07:00 ~ (미정, 2시간 미만 예상)<Br>이용에 불편을 드린 점 양해 바랍니다.
+                                2021-12-03 오후 10:00 ~ (미정, 2시간 미만 예상)<Br>이용에 불편을 드린 점 양해 바랍니다.
                             </span>
                         </p>
-
+                        -->
                         <button class="btn btn-success" onclick="javascript:location.reload();"><ion-icon name="refresh-outline"></ion-icon>&nbsp;새로고침</button>
                     </div>
                 </div>
