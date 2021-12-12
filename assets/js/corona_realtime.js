@@ -9,7 +9,7 @@ function randomItem(e) {
 }
 $.ajax({
 	type: "GET",
-	url: "https://coronacoc-api.vercel.app/",
+	url: "https://coronacoc-api.vercel.ap/",
 	success: function(result) {
 		var data = JSON.parse(result);
 		console.log(data);
@@ -181,7 +181,7 @@ function sickbedColoring(data1, data2) {
 
 $.ajax({
 	type: "GET",
-	url: "https://coronacoc-api-chart.vercel.app/",
+	url: "https://coronacoc-api-chart.vercel.ap/",
 	success: function(result) {
 		var data = JSON.parse(result);
 		console.log(data);
