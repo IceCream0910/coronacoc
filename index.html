@@ -129,7 +129,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                         var once = new Date(now.getFullYear() + 1, 0, 1);
                         var time = once.getTime() / 1000 - now.getTime() / 1000;
                         clock = $('.clock').FlipClock(time, {
-                            clockFace: 'DailyCounter',
+                            clockFace: 'HourlyCounter',
                             countdown: true,
                             showSeconds: true,
                             callbacks: {
@@ -160,7 +160,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                         }
                         
                         .flip-clock-divider .flip-clock-label {
-                            display: none;
+                            color:white;
                         }
                         
                         .flip-clock-dot {
