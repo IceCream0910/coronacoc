@@ -16,8 +16,6 @@ $.ajax({
 		document.getElementById("confirmedPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newCases;
 		document.getElementById("newConfirmed_mb").innerHTML = data.newCases;
 		new numberCounter("newConfirmed_mb", data.newCases);
-		document.getElementById("omicron_mb").innerHTML = data.omicron;
-		document.getElementById("omicronPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newOmicron;
 
 		document.getElementById("localConfirmed").innerHTML = data.localConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'명';
 		document.getElementById("abroadConfirmed").innerHTML = data.abroadConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'명';
