@@ -144,7 +144,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                             background: #fff;
                                             box-shadow: 2px 2px 10px #a9a9a9, -2px -2px 0px transparent;">
                                         <div class="col">
-                                            <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;"><i class="fa fa-arrow-up"></i>&nbsp;
+                                            <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;">
                                                 <h1 class="h1 font-weight-bold mb-0 text-warning" style="display: inline-block;font-size:19px;" id="newConfirmed_mb">로딩중</h1>
                                             </h1>
                                             <h5 class="card-title text-uppercase text-muted mb-0">전일 신규 확진</h5>
@@ -406,7 +406,16 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                     </div>
                 </div>
 
-                <a href="https://0yak.vercel.app" target="_blank"><img src="assets/img/vote_ad.svg" width="100%"></a>
+                <a><img src="assets/img/ukraine_ad.png" alt="" data-animated="assets/img/ukraine_ad.gif" data-static="assets/img/ukraine_ad.png" class="hov-anim" width="100%">
+                </a>
+                <script>
+                    $(".hov-anim").mouseover(function() {
+                            $(this).attr("src", $(this).data("animated"))
+                        }),
+                        $(".hov-anim").mouseout(function() {
+                            $(this).attr("src", $(this).data("static"))
+                        });
+                </script>
 
                 <!--
                 <div class="alert alert-danger" role="alert" onclick="javascript:window.open('http://ncov.mohw.go.kr/tcmBoardView.do?brdId=3&brdGubun=31&dataGubun=&ncvContSeq=6337&contSeq=6337&board_id=312&gubun=ALL', '_blank');">
