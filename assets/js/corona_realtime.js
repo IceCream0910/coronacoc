@@ -1,3 +1,6 @@
+var ismaintainance = false;
+
+if(!ismaintainance) { //점검중인 경우 서버 부하 최소화를 위해 api 요청 중단
 //프록시 서버 분산
 //var e = new Array("https://cors-coronacoc-v2.herokuapp.com/", "https://cors-coronacoc-v3.herokuapp.com/", "https://cors-coronacoc-v4.herokuapp.com/"),
 var e = new Array("https://api.codetabs.com/v1/proxy/?quest="),
@@ -1257,4 +1260,7 @@ function reloadChart(cases_byAge, death_byAge, cases_bySex) {
     } catch (error) {
         console.log(error);
     }
+}
+} else { //점검중 체크 if
+	$('.loader').fadeOut(600);
 }
