@@ -1,4 +1,4 @@
-var ismaintainance = false;
+var ismaintainance = true;
 
 if(!ismaintainance) { //점검중인 경우 서버 부하 최소화를 위해 api 요청 중단
 //프록시 서버 분산
