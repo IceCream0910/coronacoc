@@ -24726,8 +24726,41 @@ button {
     transition: 1.25s all ease .9s;
 }
 
+.button-wrapper2-refresh {
+    position: relative;
+    z-index: 9999;
+    left: -20px;
+    top: -192px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    transition: 1.25s all ease .9s;
+}
+
 .main-button2 {
     background: var(--gray-dark);
+    -webkit-align-self: flex-end;
+    -ms-flex-item-align: end;
+    align-self: flex-end;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.main-button2-refresh {
+    width: 25px;
+    height: 25px;
+    background: #fff;
     -webkit-align-self: flex-end;
     -ms-flex-item-align: end;
     align-self: flex-end;
