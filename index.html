@@ -415,10 +415,9 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                         <div class="row align-items-center">
 
                             <div class="col">
-                                <h5 class="h5 mb-0" style="color:#666666;">제 20대 대통령선거 <span class="h6 font-weight-bold mb-0" style="color:#fff;background:#5061c2;border-radius:30px;padding:5px 10px;width:auto;">방송3사 출구조사 결과</span>
-                                </h5> <span class="h6 font-weight-bold mb-0" style="position:relative;top:-23px;left:85%;color:#fff;background:#a9a9a9;border-radius:30px;padding:5px 10px;width:auto;">자체배너</span>
-
-
+                                <h5 class="h5 mb-0" style="color:#666666;">제 20대 대통령선거
+                                </h5>
+                                <span class="h6 font-weight-bold mb-0" style="color:#fff;background:#5061c2;border-radius:30px;padding:5px 10px;width:auto;"><span id="complete_vote"></span></span>
 
                                 <div class="card_dash card-stats" style="margin-top:15px;display:flex;background:transparent;border:none;">
 
@@ -427,7 +426,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                             <h5 class="card-title text-uppercase text-muted mb-0"><img src="https://i.imgur.com/bh2dv87.png" width="50%"></h5>
                                             <span style="color:rgb(27, 27, 27);">이재명</span>
                                             <br>
-                                            <h1 class="h1 mb-0" style="font-weight: 1000;color:#4272d7"> <strong><span id="lee_percent_vote_n">47</span>.<span id="lee_percent_vote_a">8</span>%</strong>
+                                            <h1 class="h1 mb-0" style="font-weight: 1000;color:#4272d7"> <strong><span id="lee_percent_vote_n"></span>.<span id="lee_percent_vote_a"></span>%</strong>
                                             </h1>
                                         </div>
                                     </div>
@@ -436,7 +435,7 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                                             <h5 class="card-title text-uppercase text-muted mb-0"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4cz9SX3rljRy98dQUfFRXGECcAFWXAbIGhvoxicH91ZIzifqS8gJnbP20JMZPpuWKGoM&usqp=CAU" width="50%" style="margin-top:-5px;"></h5>
                                             <span style="color:rgb(27, 27, 27);">윤석열</span>
                                             <br>
-                                            <h1 class="h1 mb-0" style="font-weight: 1000;color:#d02e4e"> <strong><span id="yoon_percent_vote_n">48</span>.<span id="yoon_percent_vote_a">4</span>%</strong>
+                                            <h1 class="h1 mb-0" style="font-weight: 1000;color:#d02e4e"> <strong><span id="yoon_percent_vote_n"></span>.<span id="yoon_percent_vote_a"></span>%</strong>
                                             </h1>
                                         </div>
                                     </div>
@@ -452,38 +451,61 @@ box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;" oncli
                 <br>
 
                 <script>
-                    // getVote();
+                    getVote();
 
                     playAlert = setInterval(function() {
-                        //  getVote();
+                        getVote();
                     }, 30000);
 
                     function getVote() {
                         $.ajax({
                             type: "GET",
-                            url: "https://cors-coronacoc-v2.herokuapp.com/https://open-kb.naver.com/presElection22/nexearch?where=nexearch&pkid=7001&query=%EA%B0%9C%ED%91%9C%ED%98%84%ED%99%A9",
+                            url: "https://cors-coronacoc-v2.herokuapp.com/https://open-kb.naver.com/presElection22/nexearch?where=m&pkid=7001&query=%EA%B0%9C%ED%91%9C%ED%98%84%ED%99%A9",
                             cache: false,
                             success: function(result) {
                                 //console.log(result);
-                                var s_l = result.indexOf('<strong class="percent">');
+                                var s_l = result.indexOf('<span class="all"> 전국 개표율');
                                 var e_l = result.indexOf('<div class="count_box">');
-                                var r_l = result.slice(s_l, e_l).replaceAll('<strong class="percent">', '').replaceAll('<em>', '').replaceAll('</em>', '').replaceAll('</strong>', '').replaceAll('</div>', '').replaceAll(' ', '').replace('%', '');
+                                var r_l = result.slice(s_l, e_l).replaceAll('<span class="all"> 전국 개표율', '').replaceAll('<em>', '').replaceAll('</em>', '').replaceAll('</strong>', '').replaceAll('</div>', '').replaceAll(' ', '').replace('%', '');
+                                var r_l2 = r_l.indexOf('<strongclass="percent">');
+                                var r_l3 = r_l.slice(r_l2, r_l.length).replace('<strongclass="percent">', '');
 
-                                new numberCounter("lee_percent_vote_n", Math.floor(r_l));
-                                new numberCounter("lee_percent_vote_a", Number((r_l + "").split(".")[1]));
 
-                                var s_y = result.indexOf('<strong class="percent">');
-                                var e_y = result.indexOf('<div class="count_box">');
-                                var r_y = result.slice(s_y, e_y).replaceAll('<strong class="percent">', '').replaceAll('<em>', '').replaceAll('</em>', '').replaceAll('</strong>', '').replaceAll('</div>', '').replaceAll(' ', '').replace('%', '');
+                                var s_l = result.indexOf('<span class="title">개표수</span>');
+                                var e_l = result.indexOf('<span class="title">선거인수');
+                                var r_c = result.slice(s_l, e_l).replaceAll('<span class="title">개표수</span>', '').replaceAll('</em> </span> <span class="count">', '').replaceAll('<em class="num">', '').replaceAll(' ', '');
+                                $('#complete_vote').text('개표율: ' + r_l3 + '% ' + r_c + '표 개표');
 
-                                new numberCounter("yoon_percent_vote_n", Math.floor(r_l));
-                                new numberCounter("yoon_percent_vote_a", Number((r_l + "").split(".")[1]));
+
+                                var s_lee = result.indexOf('<div class="candidate party1">');
+                                var e_lee = result.indexOf('<div class="candidate party2">');
+                                var r_lee = result.slice(s_lee, e_lee);
+                                var r_lee2 = r_lee.indexOf('<strong class="percent">');
+                                var r_lee3 = r_lee.indexOf('<span class="vote">');
+                                var r_lee4 = r_lee.slice(r_lee2, r_lee3).replaceAll('<strong class="percent">', '').replaceAll('<em>%</em></strong>', '').replaceAll(' ', '');
+
+                                new numberCounter("lee_percent_vote_n", Math.floor(r_lee4));
+                                new numberCounter("lee_percent_vote_a", Number((r_lee4 + "").split(".")[1]));
+
+
+                                var s_yoon = result.indexOf('<div class="candidate party2">');
+                                var e_yoon = result.indexOf('<div class="bg_box">');
+                                var r_yoon = result.slice(s_yoon, e_yoon);
+                                var r_yoon2 = r_yoon.indexOf('<strong class="percent">');
+                                var r_yoon3 = r_yoon.indexOf('<span class="vote">');
+                                var r_yoon4 = r_yoon.slice(r_yoon2, r_yoon3).replaceAll('<strong class="percent">', '').replaceAll('<em>%</em></strong>', '').replaceAll(' ', '');
+
+                                new numberCounter("yoon_percent_vote_n", Math.floor(r_yoon4));
+                                new numberCounter("yoon_percent_vote_a", Number((r_yoon4 + "").split(".")[1]));
+
+                                /*
 
                                 var s_time = result.indexOf('<em class="time">');
                                 var e_time = result.indexOf('<strong class="percent">');
                                 var r_time = result.slice(s_time, e_time).replaceAll('<strong class="percent">', '').replaceAll('<em class="time">', '').replaceAll('</em>', '').replaceAll('</span>', '').replaceAll(' ', '').replace('시기준', '시 기준');
                                 $('#time_vote').text(r_time);
-                                console.log(r_time);
+                                */
+
                             }
                         })
                     }
