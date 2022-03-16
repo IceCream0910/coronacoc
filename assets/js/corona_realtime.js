@@ -31,9 +31,9 @@ $.ajax({
 		document.getElementById("deathPM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newDeaths;
 		document.getElementById("deathPM").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newDeaths;
 		document.getElementById("whenUpdate").innerHTML = data.updateTime;
-		new numberCounter("cure", data.cure);
-		new numberCounter("cure_mb", data.cure);
-		document.getElementById("curePM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newCure;
+		new numberCounter("cure", data.hospitalised);
+		new numberCounter("cure_mb", data.hospitalised);
+		document.getElementById("curePM_mb").innerHTML = '<i class="fa fa-arrow-up"></i> ' + data.newHospitalised;
 
 		$('#severe_sickbed').html(data.severeBeds);
 		//$('#severe_sickbed_detail').html('가용 '+resPart_s[2]+'개');
