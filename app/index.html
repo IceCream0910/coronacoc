@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="코로나19 국내 발생현황 및 관련정보를 한눈에 알아보세요!">
+    <meta name="author" content="Ice Cream">
+    <meta name="keywords" content="코로나19">
+    <title>코로나콕</title>
+    <!-- Favicon -->
+    <!-- Fonts -->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <!-- Icons -->
+    <link rel="stylesheet" href="assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+    <!-- Page plugins -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.css" rel="stylesheet" type="text/css">
+    <!-- Argon CSS -->
+    <link rel="stylesheet" href="assets/css/argon.css?v=1.2.0" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal@4.0.0-beta.6"></script>
+
+
+
+</head>
+
+<body>
+
+    <div class="loader">
+        <div class="loading-circle"></div>
+        <div class="loading"></div>
+
+    </div>
+
+    <div id="pool" class="top" style="display:none;">
+        <div class="button-wrapper2">
+            <button class="main-button2" onclick="javascript:$('html, body').animate({ scrollTop: 0 }, 400);">
+                <i class="fa fa-arrow-up"></i>
+                <div class="ripple"></div>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 200) {
+                $('.top').fadeIn();
+            } else {
+                $('.top').fadeOut();
+            }
+        });
+
+        $('.top').click(function () {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
+    </script>
+
+
+    <div id="default-notice" class="alert alert-primary" role="alert" style="margin:0;position:fixed;bottom:20px;left:15px;right:15px;padding:15px;width:70%;display:inline-block;z-index:9998;
+box-shadow: 2px 2px 10px #5061c2, -2px -2px 0px transparent;">
+        <i class="ni ni-bell-55 mb-0" style="margin-right:10px;color:#fff;"></i>
+        <span id="notice-news"
+            onclick="javascript:window.open('https://coronacoc.notion.site/29db40bbcf3741188d3d8a99a8776d62', '_blank');"></span>
+        <span id="notice-app-promote" type="button" style="display:none;" data-toggle="modal"
+            data-target="#appPromoteModal">안드로이드 앱을 다운로드해보세요</span>
+    </div>
+
+    <div id="notice-app-update" class="alert alert-danger" role="alert" style="margin:0;position:fixed;bottom:20px;left:15px;right:15px;padding:15px;width:70%;display:inline-block;z-index:9998;
+box-shadow: 2px 2px 10px #d02e4e, -2px -2px 0px transparent;display:none;"
+        onclick="javascript:window.open('https://onesto.re/0000756996', '_blank');">
+        <i class="ni ni-bell-55 mb-0" style="margin-right:10px;color:#fff;"></i>
+        <span type="button">여기를 눌러 앱 업데이트</span>
+
+    </div>
+
+
+
+
+    <!-- Main content -->
+    <div class="main-content" id="panel">
+        <div class="header bg-primary pb-6">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <div class="row align-items-center py-4">
+                        <div class="col-lg-6 col-7">
+                            <h6 class="h2 text-white d-inline-block mb-0"> <img
+                                    src="assets/img/icons/coronacoc_icon_new.png" style="margin-left:10px;"
+                                    width="40px"></h6>
+
+                        </div>
+                        <div class="col text-right">
+
+                        </div>
+                        <li class="nav-item dropdown">
+                            <a class="link-btn" href="https://coronacoc.notion.site/11f6842414ec4b33886bfbfac06ddad8"
+                                target="_blank" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="ni ni-bell-55" style="color:#adb5bd;margin-right:15px;"></i>
+                            </a>
+                        </li>
+                        <br>
+                        <a class="nav-link" href="javascript:BRIDGE.openSettings();" role="button"
+                            id="android_settings_btn" style="display: none;">
+                            <i class="ni ni-ui-04" style="color:#adb5bd;margin-right:15px;"></i>
+                        </a>
+                    </div>
+
+                    <h5 class="h3 text-white mb-0" id="welcome_t"
+                        style="padding-top:10px;margin-left:10px;padding-bottom:10px;font-size:18px;"
+                        onclick="javascript:welcome();"></h5>
+
+
+                    <span class="text-right mr-2" id="whenUpdate"
+                        style="padding-bottom:10px;color:#a9a9a9;margin-left:10px;"> 서비스가 종료되었습니다.</span>
+
+
+
+
+
+
+                    <!-- 모바일 현황 카드 -->
+                    <div class="row" id="mb-situ-card">
+
+                        <div class="nav-wrapper"
+                            style="padding-left:15px; padding-right:15px;margin-bottom:-40px;margin-top:15px;">
+                            <ul class="nav nav-pills nav-fill" id="tabs-icons-text" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab"
+                                        data-toggle="tab" href="#tabs-icons-text-1" role="tab"
+                                        aria-controls="tabs-icons-text-1" aria-selected="true"
+                                        style="margin-right:5px;">국내</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
+                                        href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2"
+                                        aria-selected="false" onclick="javascript:resetReveal()">세계</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content" id="myTabContent" style="background:transparent;">
+                            <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+                                aria-labelledby="tabs-icons-text-1-tab">
+                                <div class="card_dash card-stats"
+                                    style="margin:15px;display:flex;border-radius: 10px 10px 0 0;border:none;">
+                                    <!-- Card body -->
+
+                                    <div class="row" style="z-index:9998;display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 10px;
+                                            background: #fff;
+                                            box-shadow: 2px 2px 10px #a9a9a9, -2px -2px 0px transparent;">
+                                        <div class="col">
+                                            <h1 class="h1 font-weight-bold mb-0 text-warning"
+                                                style="display: inline-block;">
+                                                <h1 class="h1 font-weight-bold mb-0 text-warning"
+                                                    style="display: inline-block;font-size:19px;" id="newConfirmed_mb">
+                                                    그동안</h1>
+                                            </h1>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">전일 신규 확진</h5>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row"
+                                        style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
+                                        <div class="col">
+
+                                            <span class="h2 font-weight-bold mb-0" style="display: inline-block;"
+                                                id="confirmed_mb">모두</span>
+
+                                            <h5 class="card-title text-uppercase text-muted mb-0">누적 확진환자</h5>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card_dash card-stats"
+                                    style="margin:15px;margin-top:-20px;display:flex;height:90px;">
+                                    <!-- Card body -->
+
+                                    <div class="row"
+                                        style="display:float;float:left;margin:0px;padding:20px;width:40%;display:inline-block; ">
+                                        <div class="col">
+                                            <span class="h4 font-weight-bold mb-0" id="cure_mb">수고</span><br>
+                                            <h5 class="card-title text-uppercase text-muted mb-0"
+                                                style="font-size:10px;">입원환자
+                                                <br><span class="text-warning mr-2" id="curePM_mb"></span>
+                                            </h5>
+                                            <span class="text-success mr-2" id="curePM_mb"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row"
+                                        style="position:absolute;left:33%;margin:0px;padding:20px;width:40%;display:inline-block;">
+                                        <div class="col">
+                                            <span class="h3 font-weight-bold mb-0" id="death_mb">했어요</span><br>
+                                            <h6 class="card-title text-uppercase text-muted mb-0">사망자 <br><span
+                                                    class="text-danger mr-2" id="deathPM_mb"></span></h6>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row"
+                                        style="position:absolute;right:0;margin:0px;padding:20px;width:40%;display:inline-block;">
+                                        <div class="col">
+                                            <span class="h3 font-weight-bold mb-0" id="severe_mb">👏</span><br>
+                                            <h6 class="card-title text-uppercase text-muted mb-0">위중증<br>
+                                                <span class="text-danger mr-2" id="severePM_mb"></span>
+                                            </h6>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+                            <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
+                                aria-labelledby="tabs-icons-text-2-tab">
+                                <div class="card_dash card-stats"
+                                    style="margin:15px;display:flex;border-radius: 10px 10px 0 0;border:none;">
+                                    <!-- Card body -->
+
+                                    <div class="row" style="z-index:9998;display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 10px;
+                                            background: #fff;
+                                            box-shadow: 2px 2px 10px #a9a9a9, -2px -2px 0px transparent;">
+                                        <div class="col">
+                                            <h2 class="h4 font-weight-bold mb-0 text-warning"
+                                                style="display: inline-block;"><i class="fa fa-arrow-up"></i>
+                                                <h2 class="h4 font-weight-bold mb-0 text-warning"
+                                                    style="display: inline-block;" id="newConfirmedWorld_mb"> 여러분의</h1>
+                                                    </h1>
+                                                    <h5 class="card-title text-uppercase text-muted mb-0">신규 확진</h5>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row"
+                                        style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
+                                        <div class="col">
+
+                                            <span class="h4 font-weight-bold mb-0" style="display: inline-block;"
+                                                id="confirmedWorld_mb">노력 덕분에</span>
+
+                                            <h5 class="card-title text-uppercase text-muted mb-0">누적 확진환자</h5>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card_dash card-stats"
+                                    style="margin:15px;margin-top:-17px;display:flex;border-radius: 0 0 10px 10px;">
+                                    <!-- Card body -->
+
+                                    <div class="row"
+                                        style="display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 0 10px 10px 10px; ">
+                                        <div class="col">
+                                            <span class="h2 font-weight-bold mb-0" id="permilWorld_mb">이겨낼 수</span><br>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">100만 명당<br>확진자</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="row"
+                                        style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;">
+                                        <div class="col">
+                                            <span class="h4 font-weight-bold mb-0" id="deathWorld_mb">있었어요</span><br>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">사망자</h5>
+                                            <span class="text-danger mr-2" id="deathPMWorld_mb"></span>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- 모바일 현황 카드 -->
+
+                <!-- Card stats -->
+                <div class="row" id="pc-situ-card">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card_dash card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">누적 확진환자</h5>
+                                        <span class="h2 font-weight-bold mb-0" id="confirmed">그동안</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                            <i class="ni ni-single-02"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-danger mr-2" id="confirmedPM"><i
+                                            class="fa fa-arrow-up"></i></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card_dash card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">격리해제</h5>
+                                        <span class="h2 font-weight-bold mb-0" id="cure">모두</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                            <i class="ni ni-user-run"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-success mr-2"></span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card_dash card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">위중증</h5>
+                                        <span class="h2 font-weight-bold mb-0" id="severe">수고했어요</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div
+                                            class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                            <i class="ni ni-ambulance"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class=" mr-2" id="severePM"></span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card_dash card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">사망자</h5>
+                                        <span class="h2 font-weight-bold mb-0" id="death">👏</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div
+                                            class="icon icon-shape bg-gradient-primary text-white rounded-circle shadow">
+                                            <i class="ni ni-circle-08"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-warning mr-2" id="deathPM"></span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Page content -->
+    <br>
+    <div class="container-fluid mt--6 container-fluid-main">
+
+        <div class="row">
+
+            <div class="col-xl-4">
+                <div class="card_dash card-stats localAndBroad" style="border-radius: 10px;height:85px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrap">
+                                    <div style="float:left;text-align: center;width:50%;">
+                                        <h3 style="color:#4272d7; font-size:20px;" id="localConfirmed">-</h3>
+                                        <h3 style="color:#a9a9a9; font-size:15px;margin-top:-10px;">지역발생
+                                        </h3>
+                                    </div>
+                                    <div style="float:right;text-align: center;width:50%;">
+                                        <h3 style="color:#4272d7; font-size:20px;" id="abroadConfirmed">-</h3>
+                                        <h3 style="color:#a9a9a9; font-size:15px;margin-top:-10px;">해외유입
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div class="card_dash card-stats"
+                    style="margin-top:-35px;display:flex;border-radius: 10px;margin-bottom:20px;">
+                    <!-- Card body -->
+
+                    <div class="row progress_severe"
+                        style="display:float;float:left;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 0 0 0 10px;">
+                        <div class="col">
+                            <span class="h4 font-weight-bold mb-0" id="severe_sickbed">사망자 및<br>유가족분들께</span><br>
+                            <span class="text-muted mr-1" style="font-size:13px;display:none;"
+                                id="severe_sickbed_detail"></span>
+
+                            <h5 class="card-title text-uppercase text-muted mb-0">중환자 병상
+                                <button style="background:none;color:#a9a9a9;height:10px;width:10px;margin-left:-10px;"
+                                    type="button" data-placement="top" data-container="body" data-html="true"
+                                    data-toggle="popover" data-color="default"
+                                    data-content="중환자 병상 : 집계 시점의 중환자 병상 사용(입원) 현황으로 재원 위증증 환자 수와 상이할 수 있음">
+                                    <ion-icon name="information-circle-outline"></ion-icon>
+                                </button>
+
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div class="row progress_normal"
+                        style="position:absolute;right:0;margin:0px;padding:20px;width:50%;display:inline-block;border-radius: 0 0 10px 0;">
+                        <div class="col">
+                            <span class="h4 font-weight-bold mb-0" id="normal_sickbed">
+                                삼가 조의를 표합니다</span><br>
+                            <span class="text-muted mr-1" style="font-size:11px;display:none;"
+                                id="normal_sickbed_detail"></span>
+
+                            <h5 class="card-title text-uppercase text-muted mb-0">일반 병상</h5>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="alert alert-primary" role="alert">
+                    <b>코로나콕 서비스 종료 안내</b><br>
+                    코로나19 확산 초기부터 지금까지 다양한 정보와 통계를 제공해드렸던 코로나콕이 2022년 5월 29일 부로 서비스를 종료하게 되었습니다.<br>
+                    오랜 시간 동안 모두가 함께한 위기 극복 속에 코로나콕이 작게나마 한 페이지를 장식할 수 있어 기쁩니다.<br>지금까지 부족한 서비스를 이용해주시고 아낌 없는 관심과 응원을
+                    보내주신 모든 분들께 감사드립니다.
+                </div>
+            </div>
+
+
+
+            <div class="col-xl-4">
+                <div class="card_dash bg-default" draggable="true">
+
+
+
+                    <div class="card-header bg-transparent">
+
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-light text-uppercase ls-1 mb-1">Real-time confirmed cases today</h6>
+                                <h5 class="h2 text-white mb-0" style="margin-left:30px;">실시간 확진 현황
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="margin-top:-30px;">
+
+                        <a class="popover_custom">
+                            <div class="box live-dot" style="position: absolute;
+                            top: 40px;left:-55px;">
+                                <div class="circContainer">
+                                    <div class="circ"></div>
+                                    <div class="circPulse one"></div>
+                                    <div class="circPulse two"></div>
+                                </div>
+                                <!--.circContainer-->
+                            </div>
+                        </a>
+
+
+
+                        <h1 class="text-light text-uppercase ls-1 mb-1" style="display:inline-block;">
+                            <h1 class="text-light text-uppercase ls-1 mb-1" id="rtToday" style="display:inline-block;">-
+                            </h1>명
+                        </h1>
+
+                        <div id="rtpmBox"
+                            style="padding:5px 10px; border-radius:10px; background:rgba(255, 105, 97, 0.3); display:inline-block; margin-left:10px;font-size:13px;">
+                            전일대비 -<span id="rtPM"></span></div>
+                        </h3><br>
+
+                        <h6 class="text-light text-uppercase ls-1 mb-1" style="margin-top:5px;opacity: 0.5;">민간이 취합한
+                            집계이므로 공식적인 근거 자료로 활용될 수 없습니다.</h6>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-uppercase text-muted ls-1 mb-1">Vaccination Status</h6>
+                                <h5 class="h2 mb-0">백신 접종 현황</h5>
+                                <div class="chart" style="margin:-10px;padding:0;padding-top:20px;height:auto;">
+
+                                    <div class="progress-wrapper">
+                                        <div class="progress-info">
+                                            <div class="progress-label">
+                                                <span>1차 접종</span>
+                                            </div>
+                                            <div class="progress-percentage">
+                                                <span id="first_vaccinePercent"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-gradient-green" id="first_vaccineProg"
+                                                role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress-wrapper">
+                                        <div class="progress-info">
+                                            <div class="progress-label">
+                                                <span>2차 접종</span>
+                                            </div>
+                                            <div class="progress-percentage">
+                                                <span id="second_vaccinePercent"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-gradient-primary" id="second_vaccineProg"
+                                                role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress-wrapper">
+                                        <div class="progress-info">
+                                            <div class="progress-label">
+                                                <span>3차 접종</span>
+                                            </div>
+                                            <div class="progress-percentage">
+                                                <span id="third_vaccinePercent"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-gradient-orange" id="third_vaccineProg"
+                                                role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4" style="color:#000;">
+                <div class="card bg-default">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 text-white mb-0">신규 확진환자 추이</h5>
+                                <div class="col text-right">
+                                    <a href="javascript:accumulateChart();" class="btn btn-sm btn-primary">전체</a>
+                                    <a href="javascript:accumulateChart_week();" class="btn btn-sm btn-primary">7일</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="mesh-loader loader_confirmed">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                            <canvas id="chart-confirmed" class="chart-canvas" style="display:none;"></canvas>
+                            <canvas id="chart-confirmed-week" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 mb-0">일별 사망자 추이</h5>
+                                <div class="col text-right">
+                                    <a href="javascript:deathsChart();" class="btn btn-sm btn-primary">전체</a>
+                                    <a href="javascript:deathsChart_week();" class="btn btn-sm btn-primary">7일</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="mesh-loader loader_deaths">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                            <canvas id="chart-deaths" class="chart-canvas" style="display:none;"></canvas>
+                            <canvas id="chart-deaths-week" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4" style="color:#000;">
+                <div class="card bg-default">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 text-white mb-0">일별 검사건수 추이</h5>
+                                <div class="col text-right">
+                                    <a href="javascript:$('#chart-tests').show(100);$('#chart-tests-week').hide(100);"
+                                        class="btn btn-sm btn-primary">전체</a>
+                                    <a href="javascript:$('#chart-tests').hide(100);$('#chart-tests-week').show(100);"
+                                        class="btn btn-sm btn-primary">7일</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="mesh-loader loader_tests">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                            <canvas id="chart-tests" class="chart-canvas" style="display:none;"></canvas>
+                            <canvas id="chart-tests-week" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4" style="color:#000;">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 mb-0">일별 확진율 추이</h5>
+                                <div class="col text-right">
+                                    <a href="javascript:$('#chart-rates').show(100);$('#chart-rates-week').hide(100);"
+                                        class="btn btn-sm btn-primary">전체</a>
+                                    <a href="javascript:$('#chart-rates').hide(100);$('#chart-rates-week').show(100);"
+                                        class="btn btn-sm btn-primary">7일</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="mesh-loader loader_rates">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                            <canvas id="chart-rates" class="chart-canvas" style="display:none;"></canvas>
+                            <canvas id="chart-rates-week" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 mb-0">재원 위중증 환자 추이</h5>
+                                <div class="col text-right">
+                                    <a href="javascript:$('#chart-severe').show(100);$('#chart-severe-week').hide(100);"
+                                        class="btn btn-sm btn-primary">전체</a>
+                                    <a href="javascript:$('#chart-severe').hide(100);$('#chart-severe-week').show(100);"
+                                        class="btn btn-sm btn-primary">7일</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="mesh-loader loader_severe">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                            <canvas id="chart-severe" class="chart-canvas" style="display:none;"></canvas>
+                            <canvas id="chart-severe-week" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4" style="color:#000;">
+                <div class="card bg-default">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="h2 text-white mb-0">연령대 별 현황</h5>
+                                <div class="col text-right">
+                                    <a href="javascript:$('#singelBarChart_case').show(100);$('#singelBarChart_death').hide(100);"
+                                        class="btn btn-sm btn-primary">확진자</a>
+                                    <a href="javascript:$('#singelBarChart_case').hide(100);$('#singelBarChart_death').show(100);"
+                                        class="btn btn-sm btn-primary">사망자</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="mesh-loader loader_byage">
+                                <div class="set-one">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="set-two">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                            <canvas id="singelBarChart_case" class="chart-canvas"></canvas>
+                            <canvas id="singelBarChart_death" class="chart-canvas" style="display:none"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+        <div class="row">
+
+
+
+
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">지역별 현황</h3>
+                            </div>
+                            <div class="col text-right">
+                                <a href="http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=1&brdGubun=13&ncvContSeq=&contSeq=&board_id=&gubun="
+                                    target="_blank" class="btn btn-sm btn-primary">지도로 보기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">확진자</th>
+                                    <th scope="col">격리해제</th>
+                                    <th scope="col">사망자</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr onClick="javascript:window.open('http://www.seoul.go.kr/coronaV/coronaStatus.do');">
+                                    <td>서울</td>
+                                    <td id="seoulCases">-</td>
+                                    <td id="seoulCure">-</td>
+                                    <td id="seoulDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('http://www.busan.go.kr/corona19/index');">
+                                    <td>부산</td>
+                                    <td id="busanCases">-</td>
+                                    <td id="busanCure">-</td>
+                                    <td id="busanDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('http://www.daegu.go.kr/');">
+                                    <td>대구</td>
+                                    <td id="daeguCases">-</td>
+                                    <td id="daeguCure">-</td>
+                                    <td id="daeguDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('https://www.incheon.go.kr/corona19/IC010001');">
+                                    <td>인천</td>
+                                    <td id="incheonCases">-</td>
+                                    <td id="incheonCure">-</td>
+                                    <td id="incheonDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('https://www.gwangju.go.kr/');">
+                                    <td>광주</td>
+                                    <td id="gwangjuCases">-</td>
+                                    <td id="gwangjuCure">-</td>
+                                    <td id="gwangjuDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('https://www.daejeon.go.kr/corona19/index.do');">
+                                    <td>대전</td>
+                                    <td id="daejeonCases">-</td>
+                                    <td id="daejeonCure">-</td>
+                                    <td id="daejeonDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('http://www.ulsan.go.kr/corona.jsp');">
+                                    <td>울산</td>
+                                    <td id="ulsanCases">-</td>
+                                    <td id="ulsanCure">-</td>
+                                    <td id="ulsanDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('https://www.sejong.go.kr/life/sub05_0704.do');">
+                                    <td>세종</td>
+                                    <td id="sejongCases">-</td>
+                                    <td id="sejongCure">-</td>
+                                    <td id="sejongDeath">-</td>
+                                </tr>
+                                <tr
+                                    onClick="javascript:window.open('https://www.gg.go.kr/bbs/boardView.do?bsIdx=464&bIdx=2296956&menuId=1535');">
+                                    <td>경기</td>
+                                    <td id="ggCases">-</td>
+                                    <td id="ggCure">-</td>
+                                    <td id="ggDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('http://www.provin.gangwon.kr/covid-19.html');">
+                                    <td>강원</td>
+                                    <td id="gangwonCases">-</td>
+                                    <td id="gangwonCure">-</td>
+                                    <td id="gangwonDeath">-</td>
+                                </tr>
+                                <tr
+                                    onClick="javascript:window.open('http://www.chungbuk.go.kr/www/covid-19/index.html');">
+                                    <td>충북</td>
+                                    <td id="cbCases">-</td>
+                                    <td id="cbCure">-</td>
+                                    <td id="cbDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('http://www.chungnam.go.kr/coronaStatus.do');">
+                                    <td>충남</td>
+                                    <td id="cnCases">-</td>
+                                    <td id="cnCure">-</td>
+                                    <td id="cnDeath">-</td>
+                                </tr>
+                                <tr
+                                    onClick="javascript:window.open('http://www.jeonbuk.go.kr/board/list.jeonbuk?boardId=BBS_0000105&menuCd=DOM_000000105010004000&contentsSid=1189&cpath=');">
+                                    <td>전북</td>
+                                    <td id="jbCases">-</td>
+                                    <td id="jbCure">-</td>
+                                    <td id="jbDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('https://www.jeonnam.go.kr/coronaMainPage.do');">
+                                    <td>전남</td>
+                                    <td id="jnCases">-</td>
+                                    <td id="jnCure">-</td>
+                                    <td id="jnDeath">-</td>
+                                </tr>
+                                <tr
+                                    onClick="javascript:window.open('http://www.gb.go.kr/Main/open_contents/section/wel/page.do?mnu_uid=5760&LARGE_CODE=360&MEDIUM_CODE=10&SMALL_CODE=50&SMALL_CODE2=60mnu_order=2');">
+                                    <td>경북</td>
+                                    <td id="gbCases">-</td>
+                                    <td id="gbCure">-</td>
+                                    <td id="gbDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('http://www.gyeongnam.go.kr/corona.html');">
+                                    <td>경남</td>
+                                    <td id="gnCases">-</td>
+                                    <td id="gnCure">-</td>
+                                    <td id="gnDeath">-</td>
+                                </tr>
+                                <tr onClick="javascript:window.open('https://jeju.go.kr/covid19.jsp');">
+                                    <td>제주</td>
+                                    <td id="jejuCases">-</td>
+                                    <td id="jejuCure">-</td>
+                                    <td id="jejuDeath">-</td>
+                                </tr>
+                                <tr>
+                                    <td>검역</td>
+                                    <td id="gumCases">-</td>
+                                    <td id="gumCure">-</td>
+                                    <td id="gumDeath">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-uppercase text-muted ls-1 mb-1">광고</h6>
+                                <h6 class="text-uppercase text-muted ls-1 mb-1">안정적인 서비스 운영을 위한 광고입니다. 불편을 드려 죄송합니다. 양해
+                                    바랍니다.</h6>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-vLJpC8H8ZejxstBA"
+                            data-ad-width="300" data-ad-height="250"></ins>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-xl-4" style="display:none;">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">주요 지표</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="margin-left:20px;width:90%;">
+                        <!-- Projects table -->
+                        <span style="color:#a9a9a9; font-size:13px; margin-bottom:15px;">확진율</span>
+                        <div class="progress">
+                            <div class="progress-done case" id="casePercent" data-done="0">
+                                0%
+                            </div>
+                        </div>
+
+                        <span style="color:#a9a9a9; font-size:13px; margin-bottom:15px;">완치율</span>
+                        <div class="progress">
+                            <div class="progress-done2 cure" id="curePercent" data-done="0">
+                                0%
+                            </div>
+                        </div>
+                        <span style="color:#a9a9a9; font-size:13px; margin-bottom:15px;">사망률</span>
+                        <div class="progress">
+                            <div class="progress-done3 death" id="deathPercent" data-done="0">
+                                0%
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4" style="color:#fff;">
+                <div class="card bg-default">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-light text-uppercase ls-1 mb-1">Recent Press Releases</h6>
+                                <h5 class="h2 text-white mb-0">방역당국 보도자료</h5>
+                            </div>
+                            <div class="col text-right">
+                                <a href="http://ncov.mohw.go.kr/tcmBoardList.do?brdId=3" target="_blank"
+                                    class="btn btn-sm btn-primary">전체 보기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="newsrelease"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4" style="color:#fff;">
+                <div class="card_news bg-default">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-light text-uppercase ls-1 mb-1">latest news</h6>
+                                <h5 class="h2 text-white mb-0">최근 뉴스</h5>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="newsfeed"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="card" style="margin-top:20px;">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-uppercase text-muted ls-1 mb-1">광고</h6>
+                                <h6 class="text-uppercase text-muted ls-1 mb-1">안정적인 서비스 운영을 위한 광고입니다. 불편을 드려 죄송합니다. 양해
+                                    바랍니다.</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-soko4owaqkx1"
+                            data-ad-width="320" data-ad-height="100"></ins>
+
+                        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-1B6yYjQFBd4dEhF5"
+                            data-ad-width="320" data-ad-height="100"></ins>
+
+                        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-XMWyxjehZ1CcPyJ8"
+                            data-ad-width="320" data-ad-height="100"></ins>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="circularMenu" class="circular-menu">
+
+            <a class="floating-btn" onclick="document.getElementById('circularMenu').classList.toggle('active');">
+                <i class="fa fa-plus"></i>
+            </a>
+
+            <menu class="items-wrapper">
+                <a href="map.html" class="menu-item ni ni-pin-3" data-toggle="tooltip" data-placement="top"
+                    title="확진자 방문장소"></a>
+
+                <a href="chat.html" class="menu-item" style="padding-top:3px;" data-toggle="tooltip"
+                    data-placement="top" title="게시판">
+                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                </a>
+                <a class="menu-item" type="button" data-toggle="modal" data-target="#congestionModal"
+                    style="padding-top:3px;">
+                    <ion-icon name="walk-outline"></ion-icon>
+                </a>
+            </menu>
+
+        </div>
+
+        <div id="toast"></div>
+
+        <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+        <script src="assets/js/mapchart-kr-all.js"></script>
+
+        <!-- 실시간 확진자 Modal -->
+        <div class="modal fade" id="realtimeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" style="z-index: 9999999999999999999999999999999999999;;">
+            <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">실시간 확진자</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body" style="height:40vh; overflow:scroll;">
+                        <div class="card_dash card-stats" style="display:flex;border-radius: 10px;margin-top:10px;">
+                            <!-- Card body -->
+
+                            <div class="row" style="z-index:9998;display:float;float:left;margin:0px;padding:10px;width:40%;display:inline-block;border-radius: 10px;
+                                    background: rgb(11, 31, 70);
+                                    box-shadow: 2px 2px 10px #091a3c, -2px -2px 0px transparent;">
+                                <div class="col">
+                                    <h2 class="h3 font-weight-bold mb-0 text-white"
+                                        style="display: inline-block;font-size:2fr" id="rtRegionName">00</h2>
+
+                                </div>
+                            </div>
+                            <div class="row"
+                                style="position:absolute;right:0;margin:0px;padding:10px;width:60%;display:inline-block;text-align: left;">
+                                <div class="col">
+                                    <h3 class="text-uppercase ls-1 mb-1" id="rtTodayByRegion"
+                                        style="display:inline-block;">000명</h3>
+                                    </span>
+                                    </h1>
+                                    <div id="rtpmBox_byRegion"
+                                        style="position:absolute;right:0;top:-5px;font-size:15px;padding:5px 10px; border-radius:10px; background:rgba(255, 105, 97, 0.8); display:inline-block;">
+                                        <span id="rtPMByRegion">↑ 00</span>
+                                    </div><br>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+
+                                <tbody id="realtimeList" style="color:white;">
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                    </div>
+                    <div class="modal-footer" style="text-align:left;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            style="width:auto;">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 앱 홍보 Modal -->
+        <div class="modal fade" id="appPromoteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" style="z-index: 9999999999999999999999999999999999999;;">
+            <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">안드로이드 앱 다운로드</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body" style="height:40vh; overflow:scroll;text-align: center;">
+                        <h5 class="h5 text-white mb-0">스마트폰의 QR코드를 스캔해 앱을 다운로드하세요.</h5><br>
+                        <img src="assets/img/onestore_qr.png" style="width:70%;"><br><br>
+                        <div class="alert alert-default" role="alert" style="text-align: left;">
+                            <span class="alert-text"><strong>Play 스토어에서는 다운로드 할 수 없나요? | </strong>Play 스토어에서는 구글 정책에 따라
+                                정부나 인증된 기관의 앱을 제외한 코로나19 관련 앱을 삭제 조치하고 있습니다.</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align:left;">
+                        <a href="https://onesto.re/0000756996" target="_blank"><button type="button"
+                                class="btn btn-primary" style="width:auto;height:40px;">원스토어에서 설치</button></a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            style="width:auto;height:40px;">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 혼잡도 Modal -->
+        <div class="modal fade" id="congestionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" style="z-index: 9999999999999999999999999999999999999;;">
+            <div class="modal-dialog modal-dialog-centered modal-dark" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">선별진료소 혼잡 현황</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <a href="https://map.seoul.go.kr/smgis2/short/6NjT7" target="_blank"><button type="button"
+                                class="btn btn-primary" style="width:45%;margin-right:10px">서울시</button></a>
+                        <a href="https://icloud.incheon.go.kr/arcgis/apps/webappviewer/index.html?id=c4c6e4b040ec460b9ad4879fcb63f20f"
+                            target="_blank"><button type="button" class="btn btn-primary"
+                                style="width:45%;">인천시</button></a>
+
+
+                    </div>
+                    <div class="modal-footer" style="text-align:left;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            style="width:auto;height:40px;">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="errorModal" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header justify-content">
+                        <h4 style="color:white;">
+                            <ion-icon name="alert-circle-outline"
+                                style="font-size: 35px;margin-right:10px;margin-left: 20px;"></ion-icon>오류
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body text-lg-left">
+
+                        <p>현재 서버 상태가 원활하지 않습니다. 이용에 불편을 드려 죄송합니다.<br>
+                            <span style="color:#727272;font-size: 13px;">
+                                - 서버에 오류가 발생했을 수 있습니다. 별도 공지가 없는 경우 개발자에게 알려주세요.<br>
+                                - 사용자의 네트워크 상태를 확인해보세요.
+                                - 일시적인 오류일 수 있으니 새로고침 해보세요.
+                            </span>
+                        </p>
+
+                        <!--
+                        <p>더 나은 서비스 제공을 위해 점검중입니다.<br>
+                            <span style="color:#727272;font-size: 13px;">
+                                2021-12-03 오후 10:00 ~ (미정, 2시간 미만 예상)<Br>이용에 불편을 드린 점 양해 바랍니다.
+                            </span>
+                        </p>
+                        -->
+                        <button class="btn btn-success" onclick="javascript:location.reload();">
+                            <ion-icon name="refresh-outline"></ion-icon>&nbsp;새로고침
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class=" pt-0">
+            <div class=" row align-items-center justify-content-lg-between ">
+                <div class="col-lg-6 ">
+                    <div class="copyright text-center text-lg-left text-muted ">
+                        <br>
+                        <a href="license.html" target="_blank">오픈소스 라이선스</a>
+                        <br> &copy; 2021 <a href="https://icecream0910.github.io " class="font-weight-bold ml-1 "
+                            target="_blank ">Ice Cream</a>
+                        <br> <br>
+                        <div class=note>데이터 출처 : <a href="http://www.cdc.go.kr/" target="_blank">질병관리청</a>,
+                            <a href="https://www.worldometers.info/coronavirus/" target="_blank">worldmeters</a>, <a
+                                href="https://corona-live.com/" target="_blank">코로나 라이브</a>, <a
+                                href="https://newsapi.org" target="_blank">newsapi</a>
+                        </div>
+
+                        <br><br><br><br><br><br><br><br><br>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+    </footer>
+    </div>
+    </div>
+    <!-- Argon Scripts -->
+    <!-- Core -->
+    <script src="assets/vendor/jquery/dist/jquery.min.js "></script>
+    <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js "></script>
+    <script src="assets/vendor/js-cookie/js.cookie.js "></script>
+    <script src="assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js "></script>
+    <script src="assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js "></script>
+    <!-- Optional JS -->
+    <script src="assets/vendor/chart.js/dist/Chart.min.js "></script>
+    <script src="assets/vendor/chart.js/dist/Chart.extension.js "></script>
+    <!-- Argon JS -->
+    <script src="assets/js/argon.js?v=1.2.0 "></script>
+    <!--코로나 현황-->
+    <script src="assets/js/corona_realtime.js "></script>
+    <script src="assets/js/notice-banner.js "></script>
+    <script type="text/javascript" src="https://t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
+</body>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-159921858-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js ', new Date());
+
+    gtag('config ', 'UA-159921858-1 ');
+</script>
+<!-- Channel Plugin Scripts -->
+<script>
+    (function () {
+        var w = window;
+        if (w.ChannelIO) {
+            return (window.console.error || window.console.log || function () { })('ChannelIO script included twice.');
+        }
+        var ch = function () {
+            ch.c(arguments);
+        };
+        ch.q = [];
+        ch.c = function (args) {
+            ch.q.push(args);
+        };
+        w.ChannelIO = ch;
+
+        function l() {
+            if (w.ChannelIOInitialized) {
+                return;
+            }
+            w.ChannelIOInitialized = true;
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+            s.charset = 'UTF-8';
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+        }
+        if (document.readyState === 'complete') {
+            l();
+        } else if (window.attachEvent) {
+            window.attachEvent('onload', l);
+        } else {
+            window.addEventListener('DOMContentLoaded', l, false);
+            window.addEventListener('load', l, false);
+        }
+    })();
+    ChannelIO('boot', {
+        "pluginKey": "beb36d32-60ab-4b35-b9b0-62cd05b9d24d"
+    });
+</script>
+<!-- End Channel Plugin -->
+
+</html>
